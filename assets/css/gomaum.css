@@ -1199,3 +1199,36 @@ body.gm-menu-open { overflow: hidden; }
 }
 .gm-menu-kakao { display: flex; align-items: center; justify-content: center; height: 50px; background: #fae100; color: #191919; font-weight: 700; font-size: 1rem; border-radius: 6px; text-decoration: none; }
 .gm-menu-kakao[hidden] { display: none; }
+
+/* ---------- 앱식 하단 탭 (폰) ---------- */
+.gm-tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 150; display: grid; grid-template-columns: repeat(5, 1fr); background: rgba(250,251,248,0.96); backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding: 6px 0 calc(6px + env(safe-area-inset-bottom)); }
+.gm-tabbar a, .gm-tabbar button { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 0; border: 0; background: transparent; font: inherit; font-size: 11px; font-weight: 600; color: var(--ink-3); text-decoration: none; cursor: pointer; min-height: 48px; justify-content: center; }
+.gm-tabbar svg { width: 24px; height: 24px; stroke: currentColor; }
+.gm-tabbar .on { color: var(--orange-deep); }
+.gm-tabbar .call { color: var(--orange-deep); }
+body.has-tabbar { padding-bottom: 72px; }
+body.has-tabbar .gm-menu { padding-bottom: 72px; }
+@media (min-width: 760px) { .gm-tabbar { display: none; } body.has-tabbar { padding-bottom: 0; } }
+
+/* ---------- 앱식 카드 (홈 아래, 속 페이지 머리) ---------- */
+.card { display: grid; grid-template-columns: 1fr 120px; gap: 14px; align-items: center; padding: 20px 18px; border-radius: 18px; text-decoration: none; color: var(--ink); background: var(--surface); }
+.card .lab { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: var(--orange-deep); margin: 0 0 6px; }
+.card h3 { font-family: var(--f-display); font-size: 19px; line-height: 1.32; margin: 0 0 6px; letter-spacing: -0.01em; }
+.card h3 b { color: var(--orange-deep); }
+.card p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-2); }
+.card .pic { width: 120px; height: 120px; border-radius: 14px; overflow: hidden; background: rgba(0,0,0,0.05); }
+.card .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card .pic.round { border-radius: 60px 60px 14px 14px; }
+.card.mint { background: #e6f1ec; }
+.card.cream { background: #f6ecdf; }
+.card.grey { background: #ebeeeb; }
+.card.forest { background: var(--accent-deep); color: #fff; }
+.card.forest .lab { color: #e9a488; } .card.forest p { color: #d9e6df; }
+.card.wide { grid-template-columns: 1fr; }
+.card.wide .pic { width: 100%; height: 150px; border-radius: 14px; }
+.card:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+.feed { display: flex; flex-direction: column; gap: 12px; }
+.feed-title { display: flex; align-items: baseline; justify-content: space-between; margin: 26px 0 10px; }
+.feed-title h2 { font-family: var(--f-display); font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+.feed-title a { font-size: 13px; font-weight: 700; color: var(--orange-deep); text-decoration: underline; text-underline-offset: 4px; }
+@media (min-width: 760px) { .feed { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } .card { padding: 26px 24px; grid-template-columns: 1fr 150px; } .card .pic { width: 150px; height: 150px; } .card h3 { font-size: 22px; } .card.wide { grid-column: 1 / -1; grid-template-columns: 1fr 300px; } .card.wide .pic { width: 300px; height: 190px; } }

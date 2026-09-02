@@ -50,9 +50,25 @@
     '<a class="gm-menu-kakao" data-kakao href="#" hidden target="_blank" rel="noopener">카카오톡으로 문의</a>' +
     '<span>미리 받지 않습니다 · 쓰신 만큼만 · 해마다 곁에</span></div></div>';
 
+  // 하단 탭 (폰): 홈 · 지금 할 일 · 부고장 · 찾기 · 전화. 메뉴는 오른쪽 위 단추가 맡는다.
+  var I = {
+    home: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>',
+    now: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+    bugo: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 4v5"/></svg>',
+    map: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    call: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg>'
+  };
+  var TABS = [["./", "홈", I.home, "index.html"], ["jeolcha.html", "지금 할 일", I.now, "jeolcha.html"], ["bugojang.html", "부고장", I.bugo, "bugojang.html"], ["sikjang.html", "찾기", I.map, "sikjang.html"]];
+  var tab = '<nav class="gm-tabbar" aria-label="하단 메뉴">';
+  for (var t = 0; t < TABS.length; t++) tab += '<a href="' + TABS[t][0] + '" class="' + (TABS[t][3] === here ? "on" : "") + '">' + TABS[t][2] + TABS[t][1] + '</a>';
+  tab += '<a class="call" data-phone href="#">' + I.call + '전화</a></nav>';
+
   function ready(fn) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn); else fn(); }
   ready(function () {
-    document.body.insertAdjacentHTML("beforeend", html);
+    document.body.insertAdjacentHTML("beforeend", html + tab);
+    document.body.classList.add("has-tabbar");
+    var tc = document.querySelector(".gm-tabbar .call");
+    if (tc) { var r2 = (window.PHONE || "").replace(/[^\d+]/g, ""); if (r2) tc.href = "tel:" + r2; else { tc.removeAttribute("href"); tc.textContent = ""; tc.innerHTML = I.call + "준비 중"; } }
     var menu = document.getElementById("gmMenu"), lastFocus = null;
     // 전화 단추 채우기 (gm-chrome.js가 먼저 돌았을 수 있으므로 여기서도 한 번)
     var raw = (window.PHONE || "").replace(/[^\d+]/g, "");
