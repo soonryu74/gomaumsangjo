@@ -1245,3 +1245,11 @@ body.has-tabbar .gm-menu { padding-bottom: 72px; }
 .pillar h3 { margin: 0 0 4px; font-family: var(--f-display); font-size: 17px; letter-spacing: -0.01em; }
 .pillar p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-2); word-break: keep-all; }
 @media (min-width: 760px) { .pillars { grid-template-columns: repeat(3, 1fr); gap: 14px; } .pillar { grid-template-columns: 1fr; gap: 6px; padding: 22px 22px 20px; } .pillar .num { font-size: 26px; } }
+
+/* 선불·후불 비교표: 폰에서도 세 칸이 한 화면에 */
+.tw.cmp { overflow: visible; }
+.tw.cmp table { width: 100%; min-width: 0; table-layout: fixed; }
+.tw.cmp th, .tw.cmp td { white-space: normal; word-break: keep-all; padding: 10px 8px; font-size: 0.84rem; line-height: 1.45; vertical-align: top; }
+.tw.cmp th:first-child, .tw.cmp td:first-child { width: 27%; }
+.tw.cmp td:last-child { background: var(--orange-soft); font-weight: 600; }
+.tw.cmp th:last-child { color: var(--orange-deep); font-weight: 700; }
