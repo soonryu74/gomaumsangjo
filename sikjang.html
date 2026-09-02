@@ -18,9 +18,25 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="assets/css/gomaum.css">
 <style>
-.sj-map { height: 380px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); margin: 18px 0 10px; }
+.sj-map { scroll-margin-top: 76px; height: 380px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); margin: 18px 0 10px; }
 .sj-map[hidden] { display: none; }
 .sj-status { font-size: 0.9rem; color: var(--ink-3); margin: 0 0 18px; }
+.sj-list li { cursor: pointer; }
+.sj-list li.on { border-color: var(--orange); box-shadow: 0 0 0 2px var(--orange-soft); }
+/* 지도 위 말풍선 */
+.sj-pop { position: relative; width: 250px; background: #fff; border: 1px solid var(--line-strong); border-radius: 14px; box-shadow: 0 10px 30px rgba(23,28,25,0.18); padding: 12px 14px 12px; font-family: var(--f-body); }
+.sj-pop:after { content: ""; position: absolute; left: 50%; bottom: -8px; width: 14px; height: 14px; background: #fff; border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); transform: translateX(-50%) rotate(45deg); }
+.sj-pop .n { display: inline-block; min-width: 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 10px; background: var(--orange); color: #fff; font-size: 11px; font-weight: 700; margin-right: 6px; vertical-align: 2px; }
+.sj-pop b { font-size: 0.98rem; line-height: 1.3; color: var(--ink); }
+.sj-pop .cat { font-size: 0.74rem; color: var(--ink-3); margin: 4px 0 0; }
+.sj-pop .addr { font-size: 0.82rem; color: var(--ink-2); margin: 6px 0 0; line-height: 1.45; }
+.sj-pop .tel { font-family: var(--f-mono); font-size: 0.82rem; color: var(--ink-2); margin: 4px 0 0; letter-spacing: 0.02em; }
+.sj-pop .dist { font-family: var(--f-mono); font-size: 0.74rem; color: var(--orange-deep); margin-left: 6px; }
+.sj-pop .acts { display: flex; gap: 6px; margin-top: 10px; }
+.sj-pop .acts a { flex: 1; text-align: center; font-size: 0.8rem; font-weight: 700; padding: 7px 0; border-radius: 8px; border: 1px solid var(--line-strong); color: var(--ink); text-decoration: none; }
+.sj-pop .acts a.main { background: var(--orange); border-color: var(--orange); color: #fff; }
+.sj-pop .x { position: absolute; top: 6px; right: 8px; border: 0; background: transparent; font-size: 18px; line-height: 1; color: var(--ink-3); cursor: pointer; padding: 2px 4px; }
+.sj-pop .hint { font-size: 0.7rem; color: var(--ink-3); margin: 8px 0 0; }
 .sj-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .sj-list li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
 .sj-list b { font-size: 1.02rem; flex: 1 1 100%; }
@@ -286,16 +302,57 @@
       });
   }
 
-  var map = null, markers = [], last = null;
+  var map = null, markers = [], last = null, pop = null;
+  // 번호가 적힌 핀 (주황), 지금 계신 곳은 녹색 점
+  function pinImage(n, color) {
+    var maps = window.kakao.maps;
+    var svg = n === null
+      ? '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="' + color + '" stroke="#fff" stroke-width="3"/></svg>'
+      : '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="40" viewBox="0 0 32 40"><path d="M16 39C16 39 3 24.5 3 14.5a13 13 0 0 1 26 0C29 24.5 16 39 16 39z" fill="' + color + '" stroke="#fff" stroke-width="2"/><text x="16" y="19.5" text-anchor="middle" font-family="Pretendard,Arial,sans-serif" font-size="13" font-weight="700" fill="#fff">' + n + '</text></svg>';
+    var w = n === null ? 22 : 32, h = n === null ? 22 : 40;
+    return new maps.MarkerImage("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg), new maps.Size(w, h), { offset: new maps.Point(w / 2, n === null ? h / 2 : h - 1) });
+  }
+  function closePop() {
+    if (pop) { pop.setMap(null); pop = null; }
+    var on = list.querySelector("li.on"); if (on) on.classList.remove("on");
+  }
+  // 핀이나 목록을 누르면 지도 위에 말풍선. 카카오는 사진을 주지 않으므로 '사진·후기'는 카카오 상세로 잇는다.
+  function openPop(p, i, pos) {
+    var maps = window.kakao.maps;
+    closePop();
+    var tel = (p.phone || "").replace(/[^\d]/g, "");
+    var cat = (p.category_name || "").split(">").pop().trim();
+    var el = document.createElement("div");
+    el.className = "sj-pop";
+    el.innerHTML = '<button type="button" class="x" aria-label="닫기">×</button>' +
+      '<span class="n">' + (i + 1) + '</span><b>' + esc(p.place_name) + '</b>' +
+      (cat ? '<p class="cat">' + esc(cat) + (p.distance ? '<span class="dist">' + km(+p.distance) + '</span>' : '') + '</p>' : '') +
+      '<p class="addr">' + esc(p.road_address_name || p.address_name || "") + '</p>' +
+      (p.phone ? '<p class="tel">' + esc(p.phone) + '</p>' : '') +
+      '<div class="acts">' + (tel ? '<a class="main" href="tel:' + tel + '">전화</a>' : '') +
+      '<a href="https://map.kakao.com/link/to/' + encodeURIComponent(p.place_name) + ',' + p.y + ',' + p.x + '" target="_blank" rel="noopener">길찾기</a>' +
+      '<a href="' + esc(p.place_url) + '" target="_blank" rel="noopener">사진·후기</a></div>' +
+      '<p class="hint">요금과 빈소 여유는 전화로 확인하세요.</p>';
+    el.querySelector(".x").addEventListener("click", function (e) { e.stopPropagation(); closePop(); });
+    pop = new maps.CustomOverlay({ position: pos, content: el, yAnchor: 1.28, zIndex: 5 });
+    pop.setMap(map);
+    map.panTo(pos);
+    var li = list.children[i]; if (li) { li.classList.add("on"); }
+  }
   function show(items, here) {
     var maps = window.kakao.maps;
     box.hidden = false;
     var center = here || (items[0] && new maps.LatLng(+items[0].y, +items[0].x));
-    if (!map) map = new maps.Map(box, { center: center, level: 6 });
+    if (!map) {
+      map = new maps.Map(box, { center: center, level: 6 });
+      map.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
+      maps.event.addListener(map, "click", closePop);
+    }
+    closePop();
     for (var m = 0; m < markers.length; m++) markers[m].setMap(null);
     markers = [];
     var bounds = new maps.LatLngBounds();
-    if (here) { markers.push(new maps.Marker({ map: map, position: here, title: "지금 계신 곳" })); bounds.extend(here); }
+    if (here) { markers.push(new maps.Marker({ map: map, position: here, title: "지금 계신 곳", image: pinImage(null, "#2e5a4e"), zIndex: 2 })); bounds.extend(here); }
     list.innerHTML = "";
     if (!items.length) {
       status.textContent = "이 조건으로는 " + kind.label + "을(를) 찾지 못했습니다. 종류를 바꾸거나 아래 지도 앱에서 넓게 찾아보세요.";
@@ -304,11 +361,13 @@
     }
     items.slice(0, 12).forEach(function (p, i) {
       var pos = new maps.LatLng(+p.y, +p.x);
-      markers.push(new maps.Marker({ map: map, position: pos, title: p.place_name }));
+      var mk = new maps.Marker({ map: map, position: pos, title: p.place_name, image: pinImage(i + 1, "#d97757") });
+      maps.event.addListener(mk, "click", function () { openPop(p, i, pos); });
+      markers.push(mk);
       bounds.extend(pos);
       var tel = (p.phone || "").replace(/[^\d]/g, "");
       list.insertAdjacentHTML("beforeend",
-        '<li><b>' + (i + 1) + '. ' + esc(p.place_name) + '</b>' +
+        '<li data-i="' + i + '"><b>' + (i + 1) + '. ' + esc(p.place_name) + '</b>' +
         '<span class="addr">' + esc(p.road_address_name || p.address_name || "") + '</span>' +
         (p.distance ? '<span class="dist">' + km(+p.distance) + '</span>' : '<span class="dist"></span>') +
         '<span class="acts">' + (tel ? '<a href="tel:' + tel + '">전화</a>' : '') +
@@ -316,7 +375,17 @@
         '<a href="' + esc(p.place_url) + '" target="_blank" rel="noopener">상세</a></span></li>');
     });
     map.setBounds(bounds);
-    status.textContent = here ? "가까운 순서입니다. 요금과 빈소 여유는 전화로 확인하세요." : "카카오에 등록된 곳입니다. 요금과 빈자리는 전화로 확인하세요.";
+    if (!list.dataset.bound) {
+      list.dataset.bound = "1";
+      list.addEventListener("click", function (e) {
+        if (e.target.closest("a")) return;
+        var li = e.target.closest("li[data-i]"); if (!li) return;
+        var j = +li.dataset.i, q = list._items && list._items[j];
+        if (q) { openPop(q, j, new maps.LatLng(+q.y, +q.x)); box.scrollIntoView({ behavior: "smooth", block: "start" }); }
+      });
+    }
+    list._items = items.slice(0, 12);
+    status.textContent = (here ? "가까운 순서입니다. " : "카카오에 등록된 곳입니다. ") + "핀이나 목록을 누르면 전화·길찾기·사진이 나옵니다.";
     noKey.hidden = true;
   }
 
