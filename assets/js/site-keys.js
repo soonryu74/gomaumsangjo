@@ -29,3 +29,9 @@ window.MUSIC_SRC = "assets/audio/gomaum.mp3";
    빈소 이름이 ?place= 로 따라갑니다. 비어 있으면 단추가 나타나지 않습니다.
    예: window.WREATH_URL = "https://example.com/order?ref=gomaum"; */
 window.WREATH_URL = "";
+
+/* ── 카카오톡 상담 채널 ──────────────────────────────────
+   카카오톡 채널을 만들고(business.kakao.com) 채팅 주소를 적으면
+   홈과 전체 메뉴에 '카카오톡으로 문의' 단추가 생깁니다. 비어 있으면 안 보입니다.
+   예: window.KAKAO_CHANNEL_URL = "https://pf.kakao.com/_xxxxx/chat"; */
+window.KAKAO_CHANNEL_URL = "";

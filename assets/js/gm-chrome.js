@@ -2,6 +2,9 @@
    site-keys.js의 PHONE이 있으면 tel: 링크가 되고, 없으면 '준비 중'으로 보입니다. */
 (function () {
   var raw = (window.PHONE || "").replace(/[^\d+]/g, "");
+  var ch = (window.KAKAO_CHANNEL_URL || "").trim();
+  var ks = document.querySelectorAll("[data-kakao]");
+  for (var j = 0; j < ks.length; j++) { if (ch) { ks[j].href = ch; ks[j].hidden = false; } else { ks[j].hidden = true; } }
   var els = document.querySelectorAll("[data-phone]");
   for (var i = 0; i < els.length; i++) {
     var a = els[i];

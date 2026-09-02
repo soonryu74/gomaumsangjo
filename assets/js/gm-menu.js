@@ -10,6 +10,7 @@
     ]},
     { t: "후불제 장례", items: [
       ["hubul.html", "어떻게 진행되나", "접수부터 정산까지 다섯 단계"],
+      ["mubinso.html", "무빈소 장례", "빈소 없이 가족끼리, 비용은 절반 아래"],
       ["danga.html", "품목별 단가표", "먼저 드리고, 없는 항목은 청구 안 함"]
     ]},
     { t: "장례가 끝난 뒤", items: [
@@ -46,6 +47,7 @@
     html += '</ul></section>';
   }
   html += '</div><div class="gm-menu-foot"><a class="gm-menu-call" data-phone href="#">전화</a>' +
+    '<a class="gm-menu-kakao" data-kakao href="#" hidden target="_blank" rel="noopener">카카오톡으로 문의</a>' +
     '<span>미리 받지 않습니다 · 쓰신 만큼만 · 해마다 곁에</span></div></div>';
 
   function ready(fn) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn); else fn(); }
@@ -54,6 +56,9 @@
     var menu = document.getElementById("gmMenu"), lastFocus = null;
     // 전화 단추 채우기 (gm-chrome.js가 먼저 돌았을 수 있으므로 여기서도 한 번)
     var raw = (window.PHONE || "").replace(/[^\d+]/g, "");
+    var ch = (window.KAKAO_CHANNEL_URL || "").trim();
+    var kk = menu.querySelector(".gm-menu-kakao");
+    if (ch) { kk.href = ch; kk.hidden = false; }
     var call = menu.querySelector(".gm-menu-call");
     if (raw) { call.href = "tel:" + raw; call.textContent = "전화 " + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3"); }
     else { call.removeAttribute("href"); call.textContent = "전화 접수 준비 중"; call.classList.add("soon"); }

@@ -1197,3 +1197,5 @@ body.gm-menu-open { overflow: hidden; }
   .gm-menu-foot { flex-direction: row; align-items: center; justify-content: space-between; }
   .gm-menu-call { min-width: 220px; }
 }
+.gm-menu-kakao { display: flex; align-items: center; justify-content: center; height: 50px; background: #fae100; color: #191919; font-weight: 700; font-size: 1rem; border-radius: 6px; text-decoration: none; }
+.gm-menu-kakao[hidden] { display: none; }
