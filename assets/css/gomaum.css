@@ -1232,3 +1232,16 @@ body.has-tabbar .gm-menu { padding-bottom: 72px; }
 .feed-title h2 { font-family: var(--f-display); font-size: 20px; margin: 0; letter-spacing: -0.01em; }
 .feed-title a { font-size: 13px; font-weight: 700; color: var(--orange-deep); text-decoration: underline; text-underline-offset: 4px; }
 @media (min-width: 760px) { .feed { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } .card { padding: 26px 24px; grid-template-columns: 1fr 150px; } .card .pic { width: 150px; height: 150px; } .card h3 { font-size: 22px; } .card.wide { grid-column: 1 / -1; grid-template-columns: 1fr 300px; } .card.wide .pic { width: 300px; height: 190px; } }
+
+/* 약속 상자: 부당 금품 요구 시 저희 몫 0원 */
+.vow { margin: 24px 0; padding: 18px 20px; border: 2px solid var(--orange); border-radius: 14px; background: var(--orange-soft); }
+.vow .lbl { margin: 0 0 6px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; color: var(--orange-deep); }
+.vow p { margin: 0; font-size: 0.98rem; line-height: 1.6; }
+.vow strong { color: var(--orange-deep); }
+/* 홈 '우리의 기준' 세 기둥 */
+.pillars { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0 0 6px; }
+.pillar { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: 18px; }
+.pillar .num { font-family: var(--f-mono); font-size: 22px; font-weight: 600; color: var(--orange); line-height: 1.1; letter-spacing: -0.02em; }
+.pillar h3 { margin: 0 0 4px; font-family: var(--f-display); font-size: 17px; letter-spacing: -0.01em; }
+.pillar p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-2); word-break: keep-all; }
+@media (min-width: 760px) { .pillars { grid-template-columns: repeat(3, 1fr); gap: 14px; } .pillar { grid-template-columns: 1fr; gap: 6px; padding: 22px 22px 20px; } .pillar .num { font-size: 26px; } }
