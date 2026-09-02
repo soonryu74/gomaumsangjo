@@ -1253,3 +1253,12 @@ body.has-tabbar .gm-menu { padding-bottom: 72px; }
 .tw.cmp th:first-child, .tw.cmp td:first-child { width: 27%; }
 .tw.cmp td:last-child { background: var(--orange-soft); font-weight: 600; }
 .tw.cmp th:last-child { color: var(--orange-deep); font-weight: 700; }
+
+/* 광고 작은 글씨 읽기: 인용 → 뜻 → 해당 문항 */
+.fine { list-style: none; margin: 18px 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.fine li { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 14px; }
+.fine .quote { display: block; font-size: 0.86rem; line-height: 1.5; color: var(--ink-3); padding-right: 64px; }
+.fine .quote::before { content: "\201C"; color: var(--orange); font-weight: 700; margin-right: 2px; }
+.fine .quote::after { content: "\201D"; color: var(--orange); font-weight: 700; margin-left: 2px; }
+.fine .chip { position: absolute; top: 12px; right: 12px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; color: var(--orange-deep); background: var(--orange-soft); border-radius: 999px; padding: 4px 9px; white-space: nowrap; }
+.fine p { margin: 8px 0 0; font-size: 0.96rem; line-height: 1.55; color: var(--ink); word-break: keep-all; }
