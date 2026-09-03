@@ -211,6 +211,27 @@
   };
   var kind = KINDS["장례식장"];
 
+  // 검색어 '화장'에 화장품 가게가, '추모'에 카페가 딸려 온다. 종류마다 이름·분류로 엄격히 거른다.
+  var HARD_BAD = /미용|화장품|메이크업|뷰티|네일|피부|헤어|코스메틱|cosmetic|올리브영|세탁|모텔|호텔|학원|카페|식당/i;
+  var SOFT_BAD = /병원|의원|약국|꽃집|플라워|상조|보험|부동산/;
+  var BAD_CAT  = /미용|뷰티|화장품|패션|쇼핑|음식점|카페|숙박|의료|교육|부동산|금융/;
+  var GOOD_CAT = /장례|장묘|화장장|납골|봉안|묘지|묘원/;
+  var GOOD_NAME = {
+    "장례식장": /장례/,
+    "봉안당":   /봉안|납골|추모|안식|영락|하늘|공원묘|묘원|묘지|수목장|자연장|가족공원|승화원/,
+    "화장장":   /화장장|화장시설|화장터|승화원|연화장|장사시설|장사문화|추모공원|추모원|하늘공원|영락공원|가족공원|목련공원|시립.*(공원|승화|화장)/,
+    "추모공원": /추모|수목장|자연장|묘원|묘지|메모리얼|공원묘|하늘공원|영락공원|가족공원|안식|승화원/
+  };
+  function accept(k, p) {
+    var n = p.place_name || "", c = p.category_name || "";
+    var key = Object.keys(KINDS).filter(function (x) { return KINDS[x] === k; })[0];
+    if (HARD_BAD.test(n)) return false;
+    if (BAD_CAT.test(c) && !GOOD_CAT.test(c)) return false;
+    if (GOOD_CAT.test(c)) return true;
+    if (!GOOD_NAME[key].test(n)) return false;
+    return key === "장례식장" || !SOFT_BAD.test(n);
+  }
+
   // 시·도와 시·군·구 (2026년 기준)
   var REGIONS = {
     "서울": ["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"],
@@ -293,11 +314,7 @@
         var seen = {}, out = [];
         lists.forEach(function (l) { l.forEach(function (p) { if (!seen[p.id]) { seen[p.id] = 1; out.push(p); } }); });
         // 장례식장은 이름에 '장례'가 든 곳만, 납골당류는 병원·상조·꽃집처럼 엉뚱한 곳을 걸러낸다
-        out = out.filter(function (p) {
-          var n = p.place_name, c = p.category_name || "";
-          if (kind === KINDS["장례식장"]) return /장례/.test(n) || /장례/.test(c);
-          return !/병원|의원|약국|꽃|화원|상조|보험|부동산|식당|카페/.test(n);
-        });
+        out = out.filter(function (p) { return accept(kind, p); });
         if (loc) out.sort(function (a, b) { return (+a.distance || 0) - (+b.distance || 0); });
         return out;
       });
