@@ -53,6 +53,7 @@
 .sj-locate { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 18px; background: var(--accent); color: #fff; border: 0; border-radius: var(--radius); font: inherit; font-weight: 700; cursor: pointer; }
 .sj-locate:hover { background: var(--accent-deep); }
 .sj-locate[disabled] { opacity: 0.6; cursor: default; }
+.sj-kinds-note { margin: 8px 0 14px; font-size: 0.82rem; line-height: 1.5; color: var(--ink-3); }
 .sj-how { display: flex; flex-direction: column; gap: 12px; margin: 0 0 6px; }
 .sj-or { font-size: 0.82rem; color: var(--ink-3); }
 .sj-region { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -98,8 +99,9 @@
       <button type="button" class="sj-kind on" data-q="장례식장" data-label="장례식장">장례식장</button>
       <button type="button" class="sj-kind" data-q="봉안당" data-label="납골당·봉안당">납골당</button>
       <button type="button" class="sj-kind" data-q="화장장" data-label="화장시설">화장시설</button>
-      <button type="button" class="sj-kind" data-q="추모공원" data-label="추모공원">추모공원</button>
+      <button type="button" class="sj-kind" data-q="묘지" data-label="자연장·묘지">자연장·묘지</button>
     </div>
+    <p class="sj-kinds-note">추모공원·메모리얼파크는 시설 종류가 아니라 이름입니다. 화장·봉안·자연장이 한곳에 있는 경우가 많아 두 종류에 다 나올 수 있습니다. 말풍선과 목록의 분류를 보세요.</p>
     <p id="mapIntro">지금 계신 곳 주변을 가까운 순서로 보거나, 아래에서 지역을 골라 찾으실 수 있습니다. 위치는 이 화면에서만 쓰고 저장하지 않습니다.</p>
     <div class="sj-how">
       <button type="button" class="sj-locate" id="locate">내 주변에서 찾기</button>
@@ -134,6 +136,18 @@
   <section class="gm-sec">
     <h2>납골당은 발인 전에 정해 두세요</h2>
     <p>화장이 끝나면 유골함을 들고 바로 가야 할 곳이 있어야 합니다. 그 자리에서 정하면 가장 비싼 곳으로 가기 쉽습니다. 발인 전날까지는 정해 두시는 편이 좋습니다.</p>
+    <div class="tw wrap">
+      <table>
+        <thead><tr><th>종류</th><th>하는 일</th><th>가족이 정할 것</th></tr></thead>
+        <tbody>
+          <tr><td class="k">장례식장</td><td>사흘 동안 빈소·안치·염습·입관. 대개 병원 부설이거나 전문 장례식장.</td><td>빈소 크기, 무빈소 여부</td></tr>
+          <tr><td class="k">화장시설</td><td>발인 뒤 화장. 공설이 대부분이고 e하늘에서 예약합니다. 관내·관외 요금 차이가 큽니다.</td><td>날짜·시간 예약</td></tr>
+          <tr><td class="k">납골당·봉안당</td><td>유골함을 실내 단에 모십니다. 봉안묘·봉안담은 야외형. 공설은 주민 조건, 사설은 자리별 가격.</td><td>공설·사설, 층과 자리</td></tr>
+          <tr><td class="k">자연장·묘지</td><td>수목장·잔디장은 유골을 나무나 잔디 아래에 묻습니다. 묘지는 관째 매장. 관리비가 없는 곳도 있습니다.</td><td>자연장인지 매장인지, 선산 여부</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin:0 0 20px"><span class="asof">장사 등에 관한 법률의 시설 구분(장례식장·화장시설·봉안시설·자연장지·묘지)을 쉬운 말로 옮겼습니다.</span></p>
     <p>공설 봉안당은 사용료가 낮은 대신 그 지역 주민이어야 하는 곳이 많고, 사설 추모공원은 자리와 층에 따라 값이 크게 다릅니다. 같은 건물 안에서도 눈높이 자리와 맨 아래 자리는 몇 배 차이가 납니다. 자연장(수목장·잔디장)은 봉안당보다 대체로 싸고 관리비가 없는 곳도 있습니다.</p>
     <p>전화로 물어볼 것은 셋입니다. 지금 들어갈 자리가 있는지, 사용 기간과 연장 조건, 그리고 관리비를 해마다 내는지 한 번에 내는지. 저희에게 맡기신 분은 장례지도사가 이 세 가지를 대신 묻고 값을 나란히 적어 드립니다.</p>
   </section>
@@ -205,9 +219,9 @@
   // 종류별 검색어. 앞의 것부터 찾고 전부 합친다.
   var KINDS = {
     "장례식장": { label: "장례식장", words: ["장례식장"] },
-    "봉안당":   { label: "납골당·봉안당", words: ["봉안당", "납골당", "추모관", "추모공원"] },
+    "봉안당":   { label: "납골당·봉안당", words: ["봉안당", "납골당", "추모관"] },
     "화장장":   { label: "화장시설", words: ["화장장", "화장시설", "승화원"] },
-    "추모공원": { label: "추모공원·자연장", words: ["추모공원", "수목장", "자연장지", "메모리얼파크"] }
+    "묘지":     { label: "자연장·묘지", words: ["수목장", "자연장지", "공원묘지", "묘원"] }
   };
   var kind = KINDS["장례식장"];
 
@@ -218,9 +232,9 @@
   var GOOD_CAT = /장례|장묘|화장장|납골|봉안|묘지|묘원/;
   var GOOD_NAME = {
     "장례식장": /장례/,
-    "봉안당":   /봉안|납골|추모|안식|영락|하늘|공원묘|묘원|묘지|수목장|자연장|가족공원|승화원/,
+    "봉안당":   /봉안|납골|추모관|추모원|추모공원|안식|영락|하늘공원|메모리얼|승화원/,
     "화장장":   /화장장|화장시설|화장터|승화원|연화장|장사시설|장사문화|추모공원|추모원|하늘공원|영락공원|가족공원|목련공원|시립.*(공원|승화|화장)/,
-    "추모공원": /추모|수목장|자연장|묘원|묘지|메모리얼|공원묘|하늘공원|영락공원|가족공원|안식|승화원/
+    "묘지":     /수목장|자연장|잔디장|묘원|묘지|공원묘|메모리얼|추모공원|하늘공원|영락공원|가족공원|안식/
   };
   function accept(k, p) {
     var n = p.place_name || "", c = p.category_name || "";

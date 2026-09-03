@@ -1262,3 +1262,9 @@ body.has-tabbar .gm-menu { padding-bottom: 72px; }
 .fine .quote::after { content: "\201D"; color: var(--orange); font-weight: 700; margin-left: 2px; }
 .fine .chip { position: absolute; top: 12px; right: 12px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; color: var(--orange-deep); background: var(--orange-soft); border-radius: 999px; padding: 4px 9px; white-space: nowrap; }
 .fine p { margin: 8px 0 0; font-size: 0.96rem; line-height: 1.55; color: var(--ink); word-break: keep-all; }
+
+/* 폰에서 줄바꿈되는 일반 표 (강조 열 없음) */
+.tw.wrap { overflow: visible; }
+.tw.wrap table { width: 100%; min-width: 0; table-layout: fixed; }
+.tw.wrap th, .tw.wrap td { white-space: normal; word-break: keep-all; padding: 10px 8px; font-size: 0.84rem; line-height: 1.45; vertical-align: top; }
+.tw.wrap th:first-child, .tw.wrap td:first-child { width: 24%; }
