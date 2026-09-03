@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="고마움 상조 — 사랑하는 이와 이별하는 순간, 함께하겠습니다">
 <meta property="og:description" content="미리 받지 않습니다. 쓰신 만큼만. 해마다 곁에.">
-<meta property="og:image" content="https://gomaumsangjo.com/assets/img/cover-cross-color.jpg">
+<meta property="og:image" content="https://gomaumsangjo.com/assets/img/cover-lily-color.jpg">
 <meta property="og:url" content="https://gomaumsangjo.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@ a { color: inherit; }
 }
 /* 사진이 첫 화면을 꽉 채운다. 여백 없음. 글은 아래쪽 어둠 위에 얹힌다. */
 .a-photo { position: absolute; inset: 0; z-index: 0; }
-.a-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
+.a-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
 .a-photo .bloom { opacity: 0; animation: bloom 9s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards; }
 @keyframes bloom { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .a-photo .bloom { animation: none; opacity: 1; } }
@@ -149,8 +149,8 @@ a { color: inherit; }
   .a-top .hours { display: inline; }
   .a-brand svg { width: 28px; height: 28px; }
   .a-brand b { font-size: 20px; }
-  /* 넓은 화면: 십자가를 왼쪽에 두고, 글은 오른쪽 아래에 */
-  .a-photo img { width: 124%; left: -24%; object-position: 50% 40%; }
+  /* 넓은 화면: 꽃을 왼쪽에 두고(사진을 좌우 반전), 글은 오른쪽 아래에 */
+  .a-photo img { width: 100%; left: 0; object-position: 50% 50%; transform: scaleX(-1); }
   .a-photo::after {
     background:
       linear-gradient(90deg, rgba(22,26,24,0) 42%, rgba(22,26,24,0.72) 70%, rgba(22,26,24,0.9) 100%),
@@ -200,8 +200,8 @@ a { color: inherit; }
 
 <section class="a-screen">
   <div class="a-photo" aria-hidden="true">
-    <img src="assets/img/cover-cross-grey.jpg" width="880" height="880" alt="">
-    <img class="bloom" src="assets/img/cover-cross-color.jpg" width="880" height="880" alt="">
+    <picture><source media="(max-width: 759px)" srcset="assets/img/cover-lily-portrait-grey.jpg"><img src="assets/img/cover-lily-grey.jpg" width="1672" height="941" alt=""></picture>
+    <picture><source media="(max-width: 759px)" srcset="assets/img/cover-lily-portrait-color.jpg"><img class="bloom" src="assets/img/cover-lily-color.jpg" width="1672" height="941" alt=""></picture>
   </div>
   <div class="a-top">
     <a class="a-brand" href="./" aria-label="고마움 상조 홈"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="26" r="12.4" stroke="#fff" stroke-width="3.4"/><path d="M6 36c0 10.5 8.5 19 19 19" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><path d="M58 36c0 10.5-8.5 19-19 19" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><path d="M25 55h14" stroke="#D9B76A" stroke-width="3.4" stroke-linecap="round"/></svg><b>고마움 상조</b></a>
@@ -260,7 +260,7 @@ a { color: inherit; }
     <div class="feed">
       <a class="card mint" href="jeolcha.html">
         <div><p class="lab">지금</p><h3>무엇부터 해야 하나</h3><p>임종 직후 여섯 시간. 전화 한 통이면 이 여섯 시간을 저희가 대신 뜁니다.</p></div>
-        <div class="pic round"><img src="assets/img/card-cross.jpg" alt="" loading="lazy"></div>
+        <div class="pic round"><img src="assets/img/card-bouquet.jpg" alt="" loading="lazy" style="object-position:60% 40%"></div>
       </a>
       <a class="card cream" href="bugojang.html">
         <div><p class="lab">오늘 안에</p><h3>부고장 만들기</h3><p>링크 하나에 빈소 지도와 전화까지. 카카오톡으로 보내면 끝입니다.</p></div>
@@ -268,7 +268,7 @@ a { color: inherit; }
       </a>
       <a class="card grey" href="sikjang.html">
         <div><p class="lab">지금 계신 곳에서</p><h3>장례식장·납골당 찾기</h3><p>가까운 순서로, 전화와 길찾기까지. 지역을 골라 찾을 수도 있습니다.</p></div>
-        <div class="pic round"><img src="assets/img/card-flowers.jpg" alt="" loading="lazy"></div>
+        <div class="pic round"><img src="assets/img/card-lily2.jpg" alt="" loading="lazy"></div>
       </a>
       <a class="card mint" href="hubul.html">
         <div><p class="lab">사흘</p><h3>후불제 장례, <b>미리 받지 않습니다</b></h3><p>단가표를 먼저 드리고, 장례가 끝난 뒤 쓰신 만큼만 한 번 정산합니다.</p></div>
@@ -276,7 +276,7 @@ a { color: inherit; }
       </a>
       <a class="card cream" href="mubinso.html">
         <div><p class="lab">NEW</p><h3>무빈소 장례</h3><p>빈소 없이 가족끼리 조용히. 빠지는 것과 남는 것, 비용은 절반 아래.</p></div>
-        <div class="pic round"><img src="assets/img/card-flowers.jpg" alt="" loading="lazy" style="object-position:50% 80%"></div>
+        <div class="pic round"><img src="assets/img/card-mum.jpg" alt="" loading="lazy"></div>
       </a>
     </div>
 
@@ -288,7 +288,7 @@ a { color: inherit; }
       </a>
       <a class="card grey" href="hyeopryeok.html">
         <div><p class="lab">함께하는 곳</p><h3>화환·답례품·영정사진</h3><p>저희가 직접 하지 않는 일은 소개의 원칙과 함께. 소개료가 있으면 있다고 적습니다.</p></div>
-        <div class="pic"><img src="assets/img/card-flowers.jpg" alt="" loading="lazy" style="object-position:20% 50%"></div>
+        <div class="pic"><img src="assets/img/card-bouquet.jpg" alt="" loading="lazy" style="object-position:30% 50%"></div>
       </a>
     </div>
 
@@ -296,7 +296,7 @@ a { color: inherit; }
     <div class="feed">
       <a class="card grey" href="gaeum.html">
         <div><p class="lab">계산기</p><h3>장례비는 대체로 얼마나 드나</h3><p>조건을 넣으면 대략의 액수가 나옵니다.</p></div>
-        <div class="pic"><img src="assets/img/card-cross.jpg" alt="" loading="lazy" style="object-position:50% 20%"></div>
+        <div class="pic"><img src="assets/img/card-mum.jpg" alt="" loading="lazy" style="object-position:50% 40%"></div>
       </a>
       <a class="card cream" href="jeoul.html">
         <div><p class="lab">점검</p><h3>지금 붓는 상조, 괜찮은가</h3><p>해약환급금을 계산해 보면 대략 드러납니다. 결합상품 판별도 여기서.</p></div>
@@ -308,7 +308,7 @@ a { color: inherit; }
       </a>
       <a class="card cream" href="faq.html">
         <div><p class="lab">자주 묻는 질문</p><h3>가입 없이 지금 바로 되나요?</h3><p>추가 비용은, 장례식장 비용은, 몇 시간 안에 오나. 열 가지 답.</p></div>
-        <div class="pic"><img src="assets/img/card-flowers.jpg" alt="" loading="lazy" style="object-position:50% 55%"></div>
+        <div class="pic"><img src="assets/img/card-lily2.jpg" alt="" loading="lazy" style="object-position:50% 55%"></div>
       </a>
       <a class="card grey" href="christian.html">
         <div><p class="lab">기독교</p><h3>네 번의 예배로 흐르는 장례</h3><p>임종·입관·발인·하관 예배. 교회와 상조가 나누는 일.</p></div>
@@ -357,11 +357,10 @@ if (window.Petals) Petals.mount(document.querySelector(".a-photo"), { z: 1, fade
   label.textContent = shown;
 })();
 
-/* 조용한 음악 — 들어오면 바로 시작을 시도한다.
+/* 조용한 음악 — 재생 단추를 누르기 전에는 소리를 내지 않는다.
+   빈소나 병원에서 여는 분이 많아서다(assets/audio/README.md의 원칙).
    site-keys.js에 MUSIC_SRC(파일)가 있으면 그 파일을, 없으면 나팔 합성(quiet-horn.js)을 튼다.
-   브라우저가 사용자 동작 전의 소리를 막으면(대부분의 폰이 그렇다)
-   화면 어디든 처음 손대는 순간 이어서 시작한다.
-   한 번 끈 사람에게는 다시 자동으로 틀지 않는다. */
+   탭을 떠나면 멈추고, 돌아왔을 때 듣고 있던 사람에게만 다시 튼다. */
 (function () {
   var btn = document.getElementById("play"), bar = document.getElementById("bar");
   var tCur = document.getElementById("tCur"), tDur = document.getElementById("tDur"), hint = document.getElementById("hint");
@@ -434,11 +433,12 @@ if (window.Petals) Petals.mount(document.querySelector(".a-photo"), { z: 1, fade
     paint();
   });
 
-  if (pref() !== "off") autoStart(); else paint();
+  paint();
+  var wasPlaying = false;
   document.addEventListener("visibilitychange", function () {
-    // 탭을 떠나면 멈추고, 돌아오면 자동 시작 조건이 그대로일 때만 다시 튼다
-    if (document.hidden) { if (player.playing) { player.stop(); paint(); } }
-    else if (pref() !== "off" && !player.playing) autoStart();
+    // 탭을 떠나면 멈추고, 돌아오면 듣고 있던 사람에게만 다시 튼다
+    if (document.hidden) { wasPlaying = player.playing; if (player.playing) { player.stop(); paint(); } }
+    else if (wasPlaying && !player.playing) autoStart();
   });
 })();
 </script>
