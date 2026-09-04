@@ -4,7 +4,7 @@
    ── 카카오 지도 (부고장의 빈소 지도) ──────────────────────
    1. https://developers.kakao.com 로그인 → 내 애플리케이션 → 애플리케이션 추가
    2. 만든 앱 → 플랫폼 → Web 플랫폼 등록 → 사이트 도메인에
-      https://gomaumsangjo.com 을 추가 (예전 주소 https://soonryu74.github.io 도 함께)
+      https://gomaumsangjo.com 을 추가
    3. 앱 키 중 "JavaScript 키"를 복사해 아래 따옴표 안에 붙여넣기
    4. 카카오맵 사용 설정: 앱 → 카카오맵 → 활성화
 
