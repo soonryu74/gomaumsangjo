@@ -81,7 +81,8 @@
     var q = '<nav class="gm-quick" aria-label="바로가기">' + (raw ? '<a class="call" href="tel:' + raw + '">' + PHONE_ICON + '지금 전화</a>' : "");
     sib.slice(0, 4).forEach(function (x) { q += '<a href="' + x[0] + '">' + esc(x[1]) + '</a>'; });
     q += '</nav>';
-    head.insertAdjacentHTML("afterend", q);
+    var n3 = head.nextElementSibling && head.nextElementSibling.classList.contains("now3") ? head.nextElementSibling : head;
+    n3.insertAdjacentHTML("afterend", q);
     document.querySelectorAll(".tier-call").forEach(function (a) { if (raw) a.href = "tel:" + raw; else { a.textContent = "상담 준비 중"; a.removeAttribute("href"); } });
     // 표 안내
     document.querySelectorAll(".tw").forEach(function (t) {

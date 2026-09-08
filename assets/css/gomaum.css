@@ -1389,3 +1389,10 @@ section.gm-sec h2 { margin-top: 8px; }
 section.gm-sec > h3 { margin-top: 34px; }
 .gm-wrap { font-size: 1rem; }
 @media (max-width: 759px) { body { font-size: 17.5px; line-height: 1.85; } section.gm-sec { margin: 48px 0; } }
+
+/* 지금 이것만: 페이지 맨 위 세 줄 */
+.now3 { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 0 14px 14px 0; padding: 14px 18px 12px; margin: 0 0 26px; }
+.now3 .t { margin: 0 0 6px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em; color: var(--orange-deep); }
+.now3 ol { margin: 0; padding: 0; list-style: none; counter-reset: n3; }
+.now3 li { counter-increment: n3; display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 5px 0; font-size: 1.02rem; line-height: 1.55; font-weight: 500; }
+.now3 li::before { content: counter(n3); font-family: var(--f-mono); font-weight: 600; color: var(--orange-deep); }
