@@ -31,7 +31,7 @@
   --river-far: 214, 222, 214;
 
   --f-display: "Noto Serif KR", "Apple Myungjo", "Nanum Myeongjo", serif;
-  --f-body: "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 
   --maxw: 1000px;
@@ -48,13 +48,13 @@ body {
   font-family: var(--f-body);
   font-size: 17px;
   line-height: 1.82;
-  letter-spacing: 0.005em;
+  letter-spacing: -0.005em;
   word-break: keep-all;
   overflow-wrap: anywhere;
   text-wrap: pretty;
   -webkit-font-smoothing: antialiased;
 }
-strong, b { font-weight: 650; }
+strong, b { font-weight: 700; }
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
