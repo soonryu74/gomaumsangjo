@@ -102,7 +102,7 @@
       <button type="button" class="sj-kind" data-q="화장장" data-label="화장시설">화장시설</button>
       <button type="button" class="sj-kind" data-q="묘지" data-label="자연장·묘지">자연장·묘지</button>
     </div>
-    <p class="sj-kinds-note">추모공원·메모리얼파크는 시설 종류가 아니라 이름입니다. 화장·봉안·자연장이 한곳에 있는 경우가 많아 두 종류에 다 나올 수 있습니다. 말풍선과 목록의 분류를 보세요.</p>
+    <p class="sj-kinds-note">추모공원·메모리얼파크는 시설 종류가 아니라 이름입니다. 화장·봉안·자연장이 한곳에 있는 경우가 많아 두 종류에 다 나올 수 있습니다. 말풍선과 목록의 분류를 보세요.<br>납골당·화장시설·묘지는 도심 상담 사무실이 시설처럼 검색되는 일이 있어, 서울과 광역시 안에서는 공공·종교 시설만 보여 드립니다. 아는 곳이 안 보이면 전화 주세요.</p>
     <p id="mapIntro">지금 계신 곳 주변을 가까운 순서로 보거나, 아래에서 지역을 골라 찾으실 수 있습니다. 위치는 이 화면에서만 쓰고 저장하지 않습니다.</p>
     <div class="sj-how">
       <button type="button" class="sj-locate" id="locate">내 주변에서 찾기</button>
@@ -232,6 +232,12 @@
   var SOFT_BAD = /병원|의원|약국|꽃집|플라워|상조|보험|부동산/;
   var BAD_CAT  = /미용|뷰티|화장품|패션|쇼핑|음식점|카페|숙박|의료|교육|부동산|금융/;
   var GOOD_CAT = /장례|장묘|화장장|납골|봉안|묘지|묘원/;
+  // 도심 상업건물의 '납골당 상담·분양 사무실'이 시설로 잡힌다.
+  // 봉안·화장·묘지 시설은 장사법상 도심 상업지에 둘 수 없으므로,
+  // 특별시·광역시 자치구 안에서는 공공·종교 시설 이름만 인정한다.
+  var OFFICE_BAD  = /상담|분양|컨설팅|사무소|사무실|영업|홍보관|전시관|대리점|지사|본사|에이전시|중개/;
+  var CITY_ADDR   = /^(서울|부산|대구|인천|광주|대전|울산)\s\S*구\s/;
+  var INSTITUTION = /시립|도립|군립|구립|공설|공원|묘원|승화원|영락|연화장|명복|선원|성당|교회|수도원|사(?=$|\s)|암(?=$|\s)/;
   var GOOD_NAME = {
     "장례식장": /장례/,
     "봉안당":   /봉안|납골|추모관|추모원|추모공원|안식|영락|하늘공원|메모리얼|승화원/,
@@ -240,13 +246,21 @@
   };
   function accept(k, p) {
     var n = p.place_name || "", c = p.category_name || "";
+    var a = p.road_address_name || p.address_name || "";
     var key = Object.keys(KINDS).filter(function (x) { return KINDS[x] === k; })[0];
     if (HARD_BAD.test(n)) return false;
+    // 병원 장례식장은 분류가 '의료'로 잡히는 경우가 있다. 이름이 분명하면 받는다.
+    if (key === "장례식장" && /장례식장/.test(n)) return true;
     if (BAD_CAT.test(c) && !GOOD_CAT.test(c)) return false;
+    if (key !== "장례식장") {
+      if (OFFICE_BAD.test(n)) return false;
+      if (CITY_ADDR.test(a) && !INSTITUTION.test(n)) return false;
+    }
     if (GOOD_CAT.test(c)) return true;
     if (!GOOD_NAME[key].test(n)) return false;
     return key === "장례식장" || !SOFT_BAD.test(n);
   }
+  window.__sjAccept = accept; window.__sjKinds = KINDS;
 
   // 시·도와 시·군·구 (2026년 기준)
   var REGIONS = {
