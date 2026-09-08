@@ -1430,3 +1430,8 @@ section.gm-sec > h3 { margin-top: 34px; }
   .tw.cmp.tier-cmp th:first-child, .tw.cmp.tier-cmp td:first-child { width: 48%; }
   .tw.cmp.tier-cmp th, .tw.cmp.tier-cmp td { font-size: 0.82rem; padding: 9px 8px; }
 }
+.tw.cmp.tier-cmp tr.base td { background: var(--surface); font-weight: 700; border-bottom: 1px solid var(--line-strong); }
+.tw.cmp.tier-cmp tr.base td.g, .tw.cmp.tier-cmp tr.sum td.g { background: var(--orange-soft); }
+.tw.cmp.tier-cmp .sm { display: block; font-weight: 400; font-size: 0.76rem; color: var(--ink-3); margin-top: 2px; letter-spacing: 0; }
+.tw.cmp.tier-cmp td.a.sep { color: var(--orange-deep); font-weight: 600; }
+.tw.cmp.tier-cmp tr.dif td.g { font-weight: 400; font-size: 0.8rem; color: var(--ink-3); text-align: right; }
