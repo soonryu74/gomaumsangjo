@@ -1435,3 +1435,10 @@ section.gm-sec > h3 { margin-top: 34px; }
 .tw.cmp.tier-cmp .sm { display: block; font-weight: 400; font-size: 0.76rem; color: var(--ink-3); margin-top: 2px; letter-spacing: 0; }
 .tw.cmp.tier-cmp td.a.sep { color: var(--orange-deep); font-weight: 600; }
 .tw.cmp.tier-cmp tr.dif td.g { font-weight: 400; font-size: 0.8rem; color: var(--ink-3); text-align: right; }
+
+/* 머리글 붓글씨 로고 */
+.gm-brand-cal { height: 30px; width: auto; display: block; flex: 0 0 auto; }
+.gm-brand .gm-brand-text { font-size: 1.12rem; letter-spacing: 0.01em; }
+.gm-brand { gap: 9px; }
+.gm-top .gm-brand-cal { height: 30px; }
+@media (min-width: 760px) { .gm-brand-cal { height: 36px; } .gm-top .gm-brand-cal { height: 36px; } }
