@@ -66,10 +66,56 @@
   for (var t = 0; t < TABS.length; t++) tab += '<a href="' + TABS[t][0] + '" class="' + (TABS[t][3] === here ? "on" : "") + '">' + TABS[t][2] + TABS[t][1] + '</a>';
   tab += '<a class="call" data-phone href="#">' + I.call + '전화</a></nav>';
 
+  var PHONE_ICON = '<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>';
+  // 안쪽 페이지 공통: 바로가기 · 차례 · 표 안내 · 다음으로
+  function enrich() {
+    var head = document.querySelector(".gm-page-head"), wrap = document.querySelector(".gm-wrap");
+    if (!head || !wrap) return;
+    var raw = (window.PHONE || "").replace(/[^\d+]/g, "");
+    // 같은 묶음의 다른 페이지들
+    var group = null, idx = -1, flat = [];
+    for (var g = 0; g < GROUPS.length; g++) { var it = GROUPS[g].items; for (var i = 0; i < it.length; i++) { if (it[i][0] !== "./") flat.push(it[i]); if (it[i][0] === here) { group = GROUPS[g]; idx = i; } } }
+    var sib = group ? group.items.filter(function (x) { return x[0] !== here && x[0] !== "./"; }) : [];
+    if (!sib.length) sib = flat.slice(0, 3);
+    // 바로가기
+    var q = '<nav class="gm-quick" aria-label="바로가기">' + (raw ? '<a class="call" href="tel:' + raw + '">' + PHONE_ICON + '지금 전화</a>' : "");
+    sib.slice(0, 4).forEach(function (x) { q += '<a href="' + x[0] + '">' + esc(x[1]) + '</a>'; });
+    q += '</nav>';
+    head.insertAdjacentHTML("afterend", q);
+    document.querySelectorAll(".tier-call").forEach(function (a) { if (raw) a.href = "tel:" + raw; else { a.textContent = "상담 준비 중"; a.removeAttribute("href"); } });
+    // 표 안내
+    document.querySelectorAll(".tw").forEach(function (t) {
+      if (t.scrollWidth > t.clientWidth + 4) { t.classList.add("can-scroll"); t.insertAdjacentHTML("afterend", '<p class="tw-hint">표가 넓습니다. 옆으로 밀어 보세요.</p>'); }
+    });
+    // 차례 (데스크톱)
+    var hs = wrap.querySelectorAll("section.gm-sec > h2");
+    if (hs.length >= 2) {
+      var toc = '<aside class="gm-aside"><p class="toc-t">이 페이지</p><ul class="toc">';
+      hs.forEach(function (h, n) { if (!h.id) h.id = "s" + (n + 1); toc += '<li><a href="#' + h.id + '">' + esc(h.textContent.trim()) + '</a></li>'; });
+      toc += '</ul>' + (raw ? '<div class="callcard"><p>상을 당하셨다면 전화가 가장 빠릅니다. 가입 없이, 미리 내는 돈 없이.</p><a href="tel:' + raw + '">' + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3") + '</a><small>24시간 접수</small></div>' : "") + '</aside>';
+      wrap.insertAdjacentHTML("beforeend", toc);
+      var links = wrap.querySelectorAll(".gm-aside .toc a");
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id); }); } }); }, { rootMargin: "-20% 0px -70% 0px" });
+        hs.forEach(function (h) { io.observe(h); });
+      }
+    }
+    // 다음으로
+    var nxt = sib.slice(0, 2);
+    if (nxt.length) {
+      var nb = '<section class="gm-next" aria-label="다음으로"><h2>다음으로 보실 것</h2><div class="row">';
+      nxt.forEach(function (x) { nb += '<a href="' + x[0] + '"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></a>'; });
+      nb += '</div></section>';
+      var sig = wrap.querySelector(".gm-signature");
+      if (sig) sig.insertAdjacentHTML("beforebegin", nb); else wrap.insertAdjacentHTML("beforeend", nb);
+    }
+  }
   function ready(fn) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn); else fn(); }
   ready(function () {
     document.body.insertAdjacentHTML("beforeend", html + tab);
     document.body.classList.add("has-tabbar");
+    document.body.classList.add("p-" + here.replace(/\.html$/, "").replace(/[^a-z0-9]/g, "") || "p-index");
+    enrich();
     var tc = document.querySelector(".gm-tabbar .call");
     if (tc) { var r2 = (window.PHONE || "").replace(/[^\d+]/g, ""); if (r2) tc.href = "tel:" + r2; else { tc.removeAttribute("href"); tc.textContent = ""; tc.innerHTML = I.call + "준비 중"; } }
     var menu = document.getElementById("gmMenu"), lastFocus = null;
