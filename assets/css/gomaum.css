@@ -47,10 +47,14 @@ body {
   color: var(--ink);
   font-family: var(--f-body);
   font-size: 17px;
-  line-height: 1.7;
+  line-height: 1.82;
+  letter-spacing: 0.005em;
   word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
   -webkit-font-smoothing: antialiased;
 }
+strong, b { font-weight: 650; }
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -256,7 +260,7 @@ section.gm-sec > p, section.gm-sec > ul, section.gm-sec > ol { max-width: 70ch; 
 }
 .gm-page-head .lead { color: rgba(255,255,255,0.92); margin: 0; max-width: 60ch; font-size: 1.08em; text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
 
-section.gm-sec { margin: 44px 0; }
+section.gm-sec { margin: 56px 0; }
 section.gm-sec > h2 {
   font-family: var(--f-display);
   font-weight: 700;
@@ -268,10 +272,10 @@ section.gm-sec > h2 {
   line-height: 1.3;
 }
 section.gm-sec > .sec-lead { color: var(--ink-2); margin: 0 0 20px; max-width: 64ch; }
-h3 { font-weight: 600; font-size: 1.05rem; margin: 26px 0 8px; }
-p { margin: 0 0 15px; }
-ul, ol { margin: 0 0 15px; padding-left: 1.15em; }
-li { margin-bottom: 6px; }
+h3 { font-weight: 700; font-size: 1.08rem; margin: 30px 0 10px; }
+p { margin: 0 0 1.15em; }
+ul, ol { margin: 0 0 1.15em; padding-left: 1.15em; }
+li { margin-bottom: 9px; }
 li::marker { color: var(--ink-3); }
 
 /* ---------- 카드 그리드 ---------- */
@@ -451,9 +455,10 @@ tr.sum td { border-top: 1px solid var(--line-strong); font-weight: 600; backgrou
   border: 1px solid var(--line-strong);
   border-left: 3px solid var(--gold);
   background: var(--gold-soft);
-  padding: 16px 20px;
-  margin: 20px 0;
-  font-size: 0.92rem;
+  padding: 18px 20px;
+  margin: 26px 0;
+  font-size: 0.98rem;
+  line-height: 1.75;
 }
 .note.warn { border-left-color: var(--risk); background: var(--risk-soft); }
 .note.calm { border-left-color: var(--accent); background: var(--accent-soft); }
@@ -488,7 +493,7 @@ tr.sum td { border-top: 1px solid var(--line-strong); font-weight: 600; backgrou
 }
 .step .when span { display: block; font-weight: 400; color: var(--ink-3); margin-top: 3px; }
 .step h3 { margin: 0 0 6px; font-size: 1.02rem; }
-.step p { margin: 0 0 8px; font-size: 0.94rem; color: var(--ink-2); }
+.step p { margin: 0 0 10px; font-size: 1rem; color: var(--ink-2); }
 .step p:last-child { margin-bottom: 0; }
 
 /* ---------- 문답(판별기) ---------- */
@@ -664,7 +669,7 @@ tr.sum td { border-top: 1px solid var(--line-strong); font-weight: 600; backgrou
   flex: 0 0 auto;
 }
 .faq details[open] summary::before { content: "－"; }
-.faq details > div { padding: 0 0 18px 26px; color: var(--ink-2); font-size: 0.94rem; }
+.faq details > div { padding: 0 0 20px 26px; color: var(--ink-2); font-size: 1rem; }
 .faq details > div p:last-child { margin-bottom: 0; }
 
 /* ---------- 준비 중 배지 ---------- */
@@ -1377,3 +1382,10 @@ ul.plain li { margin: 6px 0; line-height: 1.6; }
 .tier-key span { font-family: var(--f-mono); color: var(--ink-3); font-size: 0.74rem; }
 .tier-call { display: block; margin-top: 14px; text-align: center; background: var(--accent-deep); color: #fff; font-weight: 700; padding: 12px; border-radius: 10px; text-decoration: none; }
 .tier-call:hover { background: var(--accent); text-decoration: none; }
+
+/* 숨 쉴 자리: 문단 사이, 제목 위 */
+section.gm-sec > p + p { margin-top: 0; }
+section.gm-sec h2 { margin-top: 8px; }
+section.gm-sec > h3 { margin-top: 34px; }
+.gm-wrap { font-size: 1rem; }
+@media (max-width: 759px) { body { font-size: 17.5px; line-height: 1.85; } section.gm-sec { margin: 48px 0; } }
