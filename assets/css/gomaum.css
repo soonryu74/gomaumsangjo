@@ -1456,6 +1456,8 @@ section.gm-sec > h3 { margin-top: 34px; }
 .gc-panel { color-scheme: light; color: var(--ink); width: min(92vw, 372px); max-height: min(74dvh, 74vh, 560px); display: flex; flex-direction: column;
   background: var(--surface); border: 1px solid var(--line-strong); border-radius: 14px; overflow: hidden;
   box-shadow: 0 14px 40px rgba(23,28,25,0.22); }
+/* hidden 속성이 display:flex에 밀리지 않도록. 이게 없으면 창이 처음부터 떠 있다. */
+.gc-panel[hidden] { display: none; }
 .gc-head { display: flex; align-items: center; justify-content: space-between; gap: 10px;
   padding: 12px 14px; background: var(--accent-deep); color: #fff; flex: 0 0 auto; }
 .gc-head strong { font-family: var(--f-display); font-size: 0.98rem; font-weight: 700; }
