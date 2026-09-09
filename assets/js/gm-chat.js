@@ -355,15 +355,32 @@
     document.body.appendChild(root);
   }
 
+  // 무슨 일이 있어도 빈 창을 보여주지 않는다. 안내가 깨지면 전화번호라도 나와야 한다.
+  function fallback() {
+    body.innerHTML = "";
+    bot(["안내를 불러오지 못했습니다. 전화 주시면 바로 도와드리겠습니다."]);
+    var wrap = el("div", "gc-callbox");
+    var a = el("a", "gc-callbtn", TEL);
+    a.href = TEL_HREF;
+    wrap.appendChild(a);
+    body.appendChild(wrap);
+  }
+
   function toggle() {
     open = !open;
     panel.hidden = !open;
     root.classList.toggle("gc-open", open);
     launcher.setAttribute("aria-expanded", open ? "true" : "false");
     if (open) {
-      screenStart();
+      try {
+        screenStart();
+        if (!body.children.length) fallback();
+      } catch (e) {
+        try { fallback(); } catch (e2) {}
+      }
       track("open");
-      panel.querySelector(".gc-x").focus();
+      var x = panel.querySelector(".gc-x");
+      if (x) x.focus();
     } else {
       launcher.focus();
     }
