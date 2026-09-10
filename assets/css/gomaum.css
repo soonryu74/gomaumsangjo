@@ -31,7 +31,7 @@
   --river-far: 214, 222, 214;
 
   --f-display: "Noto Serif KR", "Apple Myungjo", "Nanum Myeongjo", serif;
-  --f-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-body: "Pretendard", "Pretendard Variable", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 
   --maxw: 1000px;
@@ -1721,4 +1721,26 @@ section.gm-sec > h3 + ol { margin-top: 0; }
   .tw.tw-stack td.num, .tw.tw-stack td.num::before { text-align: left; }
   .tw.tw-stack td.num { font-family: var(--f-body); }
   .tw.tw-stack td > .num, .tw.tw-stack td .tbd { white-space: normal; }
+}
+
+/* 바닥글 법적 고지 — 공공기관 홈페이지가 쓰는 차례를 따른다.
+   가는 선으로 본문과 끊고, 저작권 안내 한 줄, 그 아래 © 한 줄. */
+.gm-footer-inner .flegal {
+  margin: 18px 0 0;
+  padding-top: 15px;
+  border-top: 1px solid var(--line);
+}
+.gm-footer-inner .fright {
+  margin: 0 0 9px;
+  max-width: 76ch;
+  font-size: 0.8rem;
+  line-height: 1.78;
+  color: var(--ink-3);
+}
+.gm-footer-inner .fcopy {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 0.71rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
 }
