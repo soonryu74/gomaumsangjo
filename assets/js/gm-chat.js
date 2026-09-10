@@ -386,6 +386,14 @@
     }
   }
 
+  // 사이드바 전화 카드 안의 단추로도 열린다. 여는 곳은 화면마다 하나만 보인다.
+  document.addEventListener("click", function (e) {
+    var t = e.target && e.target.closest ? e.target.closest("[data-gc-open]") : null;
+    if (!t) return;
+    e.preventDefault();
+    if (!open) toggle();
+  });
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && open) toggle();
   });

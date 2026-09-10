@@ -1540,3 +1540,17 @@ section.gm-sec > h3 { margin-top: 34px; }
 .pic-note { margin: 4px 0 16px; font-size: 0.8rem; line-height: 1.55; color: var(--ink-3);
   display: flex; align-items: flex-start; gap: 6px; }
 .pic-note::before { content: "※"; flex: 0 0 auto; color: var(--orange-deep); font-size: 0.86em; line-height: 1.75; }
+
+/* 전화 카드와 떠 있는 말풍선이 초록 상자 두 개로 겹쳐 보이던 것을 하나로 합친다.
+   묻는 길은 전화 카드 안에 넣고, 그 카드가 보이는 동안은 떠 있는 단추를 감춘다. */
+.gm-aside .callcard .cc-chat {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; margin-top: 12px; padding: 10px 8px;
+  font: inherit; font-size: 0.85rem; font-weight: 700; color: #fff;
+  background: transparent; border: 1px solid rgba(255,255,255,0.34);
+  border-radius: 10px; cursor: pointer; line-height: 1.4;
+}
+.gm-aside .callcard .cc-chat:hover { background: rgba(255,255,255,0.13); border-color: rgba(255,255,255,0.55); }
+.gm-aside .callcard .cc-chat:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.gm-aside .callcard .cc-chat svg { width: 16px; height: 16px; flex: 0 0 auto; }
+@media (min-width: 1100px) { body.has-aside .gc-root { display: none; } }
