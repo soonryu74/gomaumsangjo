@@ -132,7 +132,7 @@
     if (hs.length >= 2) {
       var toc = '<aside class="gm-aside"><p class="toc-t">이 페이지</p><ul class="toc">';
       hs.forEach(function (h, n) { if (!h.id) h.id = "s" + (n + 1); toc += '<li><a href="#' + h.id + '">' + esc(h.textContent.trim()) + '</a></li>'; });
-      toc += '</ul>' + (raw ? '<div class="callcard"><p>상을 당하셨다면 전화가 가장 빠릅니다. 가입 없이, 미리 내는 돈 없이.</p><a href="tel:' + raw + '">' + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3") + '</a><small>24시간 접수</small><button type="button" class="cc-chat" data-gc-open><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.7L3 21l1.9-4.9A8.3 8.3 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/></svg>급하지 않으시면, 물어보기</button></div>' : "") + '</aside>';
+      toc += '</ul>' + (raw ? '<div class="callcard"><p>상을 당하셨다면 전화가 가장 빠릅니다. 가입 없이, 미리 내는 돈 없이.</p><a href="tel:' + raw + '">' + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3") + '</a><small>급한 전화는 밤에도</small><button type="button" class="cc-chat" data-gc-open><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.7L3 21l1.9-4.9A8.3 8.3 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/></svg>급하지 않으시면, 물어보기</button></div>' : "") + '</aside>';
       wrap.insertAdjacentHTML("beforeend", toc);
       // 초록 상자가 둘로 보이지 않게 한다. 사이드바 전화 카드가 화면에 다 들어오면
       // 떠 있는 말풍선 단추를 감춘다. 사이드바가 화면보다 길면 감추지 않는다.
