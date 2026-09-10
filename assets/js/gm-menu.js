@@ -84,8 +84,47 @@
     var n3 = head.nextElementSibling && head.nextElementSibling.classList.contains("now3") ? head.nextElementSibling : head;
     n3.insertAdjacentHTML("afterend", q);
     document.querySelectorAll(".tier-call").forEach(function (a) { if (raw) a.href = "tel:" + raw; else { a.textContent = "상담 준비 중"; a.removeAttribute("href"); } });
-    // 표 안내
+    // 표: 좁은 화면에서는 옆으로 밀지 않고 한 줄을 한 장으로 세운다.
+    // 칸 이름을 각 칸에 붙여 두면 CSS가 "이름 / 값"으로 펼친다.
+    // 세로로 묶인 칸(rowspan)이 있는 표는 세울 수 없으므로 밀어 보는 그대로 둔다.
+    function colNames(table) {
+      var head = table.querySelector("thead tr");
+      if (!head) return null;
+      var names = [], hs = head.querySelectorAll("th");
+      for (var i = 0; i < hs.length; i++) {
+        var n = hs[i].textContent.trim();
+        for (var s = 0; s < (hs[i].colSpan || 1); s++) names.push(n);
+      }
+      if (names.length < 2) return null;
+      var body = table.querySelectorAll("tbody tr");
+      if (!body.length) return null;
+      for (var r = 0; r < body.length; r++) {
+        var cs = body[r].children;
+        for (var c = 0; c < cs.length; c++) if ((cs[c].rowSpan || 1) > 1) return null;
+      }
+      return names;
+    }
     document.querySelectorAll(".tw").forEach(function (t) {
+      var table = t.querySelector("table");
+      // cmp·wrap 표는 이미 좁은 화면에 맞춰 짜 두었다. 건드리지 않는다.
+      var fixed = t.classList.contains("cmp") || t.classList.contains("wrap");
+      var names = (table && !fixed) ? colNames(table) : null;
+      if (names) {
+        table.querySelectorAll("tbody tr").forEach(function (tr) {
+          var col = 0;
+          [].forEach.call(tr.children, function (td) {
+            var span = td.colSpan || 1;
+            var seen = {}, parts = [];
+            for (var i = col; i < col + span && i < names.length; i++) {
+              if (names[i] && !seen[names[i]]) { seen[names[i]] = 1; parts.push(names[i]); }
+            }
+            if (parts.length) td.setAttribute("data-label", parts.join(" · "));
+            col += span;
+          });
+        });
+        t.classList.add("tw-stack");
+        return;
+      }
       if (t.scrollWidth > t.clientWidth + 4) { t.classList.add("can-scroll"); t.insertAdjacentHTML("afterend", '<p class="tw-hint">표가 넓습니다. 옆으로 밀어 보세요.</p>'); }
     });
     // 차례 (데스크톱)
