@@ -1244,7 +1244,9 @@ tr.sum td { border-top: 1px solid var(--line-strong); font-weight: 600; backgrou
 .gm-menu[hidden] { display: none; }
 body.gm-menu-open { overflow: hidden; }
 .gm-menu-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--paper); }
-.gm-menu-brand { font-family: var(--f-display); font-weight: 700; font-size: 1.05rem; color: var(--accent-deep); }
+/* 메뉴 패널의 상호도 머리글과 같은 로고를 쓴다. 쪽마다 상호 모양이 달라 보이지 않게 한다. */
+.gm-menu-brand { display: inline-flex; align-items: center; }
+.gm-menu-brand img { height: 24px; width: auto; display: block; }
 .gm-menu-close { width: 44px; height: 44px; border: 0; background: transparent; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; margin-right: -10px; }
 .gm-menu-close svg { width: 24px; height: 24px; }
 .gm-menu-body { max-width: var(--maxw); width: 100%; margin: 0 auto; padding: 8px 18px 20px; display: grid; grid-template-columns: 1fr; gap: 6px; }
