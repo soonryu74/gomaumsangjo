@@ -1535,3 +1535,8 @@ section.gm-sec > h3 { margin-top: 34px; }
   .gm-menu-btn .lbl, .gm-menu-btn span { display: none; }
   .gm-menu-btn svg { width: 20px; height: 20px; }
 }
+
+/* 참고용 이미지 고지. AI로 만든 사진을 실제 시설·용품처럼 보이게 두지 않는다. */
+.pic-note { margin: 4px 0 16px; font-size: 0.8rem; line-height: 1.55; color: var(--ink-3);
+  display: flex; align-items: flex-start; gap: 6px; }
+.pic-note::before { content: "※"; flex: 0 0 auto; color: var(--orange-deep); font-size: 0.86em; line-height: 1.75; }

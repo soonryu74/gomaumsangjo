@@ -108,7 +108,21 @@ else {
   else ok(`전화번호 ${tel} — 다른 번호 없음`);
 }
 
-console.log("\n[4] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
+console.log("\n[4] 참고용 이미지 고지가 붙어 있는가");
+// AI로 만든 사진이나 시설·용품 사진을 실은 페이지에는 반드시 고지가 있어야 한다.
+{
+  const NOTE = "pic-note";
+  const missingNote = [];
+  for (const f of pages) {
+    const s = read(f);
+    const hasStockPhoto = /src="assets\/img\/(card-|tier)[^"]*"/.test(s);
+    if (hasStockPhoto && !s.includes(NOTE)) missingNote.push(f);
+  }
+  if (missingNote.length) bad("참고용 이미지 고지가 빠진 페이지: " + missingNote.join(", "));
+  else ok("사진을 실은 페이지에 모두 고지가 있습니다");
+}
+
+console.log("\n[5] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
 const WATCH = [
   ["24시간", /24시간(?!이 지난)/g],
   ["개설 준비 중·개설 시점", /개설 (?:준비|시점|을 준비)/g],
