@@ -1744,3 +1744,26 @@ section.gm-sec > h3 + ol { margin-top: 0; }
   letter-spacing: 0.05em;
   color: var(--ink-3);
 }
+
+/* 본문 바로가기 — 공공기관 홈페이지가 첫 줄에 두는 링크.
+   평소에는 보이지 않다가 탭 키를 누르면 화면 왼쪽 위에 나타난다.
+   화면을 못 보시는 분과 마우스를 못 쓰시는 분이 머리글 메뉴를 건너뛴다. */
+.gm-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 300;
+}
+.gm-skip:focus {
+  left: 8px;
+  top: 8px;
+  display: inline-block;
+  padding: 11px 18px;
+  background: var(--accent-deep);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 4px;
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
