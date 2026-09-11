@@ -421,31 +421,29 @@ li::marker { color: var(--ink-3); }
 
 /* ---------- 표 ---------- */
 .tw { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); margin: 18px 0; }
-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 0.9rem; }
+table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 1rem; line-height: 1.65; }
 caption {
   caption-side: top;
   text-align: left;
-  padding: 14px 16px 0;
-  font-family: var(--f-mono);
-  font-size: 0.73rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  padding: 0 0 9px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
 }
-th, td { padding: 10px 15px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink); }
 thead th {
-  font-family: var(--f-mono);
-  font-size: 0.73rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  border-bottom: 1px solid var(--line-strong);
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  background: var(--surface-2);
+  border-bottom: 1.5px solid var(--line-strong);
   white-space: nowrap;
 }
 tbody tr:last-child td { border-bottom: 0; }
 td.num, th.num { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
-td.k { font-weight: 500; }
+td.k { font-weight: 700; color: var(--ink); }
 tr.sum td { border-top: 1px solid var(--line-strong); font-weight: 600; background: var(--surface-2); }
 .tag-out { color: var(--risk); font-weight: 500; }
 .tag-in { color: var(--accent); font-weight: 500; }
