@@ -1298,6 +1298,7 @@ body.has-tabbar .gm-menu { padding-bottom: 72px; }
 .card.forest .lab { color: #e9a488; } .card.forest p { color: #d9e6df; }
 .card.wide { grid-template-columns: 1fr; }
 .card.wide .pic { width: 100%; height: 150px; border-radius: 14px; }
+.card:hover { text-decoration: none; }
 .card:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 .feed { display: flex; flex-direction: column; gap: 12px; }
 .feed-title { display: flex; align-items: baseline; justify-content: space-between; margin: 26px 0 10px; }
