@@ -1232,7 +1232,8 @@ tr.sum td { border-top: 1px solid var(--line-strong); font-weight: 600; backgrou
 
 /* ---------- 제작 크레딧 (지음 JIEUM) — 푸터 맨 아래, 주변보다 한 단계 연하게 ---------- */
 .gm-credit { font-size: 12px; color: var(--ink-3); opacity: 0.75; margin: 14px 0 0; }
-.gm-credit span { letter-spacing: 0.18em; }
+.gm-credit span { letter-spacing: 0.02em; }
+.gm-credit span::before { content: "·"; margin: 0 7px; }
 .gm-credit a { color: inherit; }
 @media print { .gm-footer, .gm-credit { display: none; } }
 
@@ -1766,4 +1767,11 @@ section.gm-sec > h3 + ol { margin-top: 0; }
   border-radius: 4px;
   outline: 3px solid var(--orange);
   outline-offset: 2px;
+}
+
+/* 대표의 글 — 편지가 본문의 전부인 쪽. 오른쪽 차례 기둥을 접고
+   사진과 글이 폭을 나눠 갖게 한다. 차례가 250px을 가져가면 글이 눌린다. */
+@media (min-width: 1100px) {
+  body.p-yaksok .gm-wrap { display: block; }
+  body.p-yaksok .gm-aside { display: none; }
 }

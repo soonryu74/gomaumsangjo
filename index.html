@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="assets/css/gomaum.css?v=20260910g">
+<link rel="stylesheet" href="assets/css/gomaum.css?v=20260911a">
 <style>
 /* ── 홈: 커버 한 장, 노래 하나, 전화 하나 ─────────────────
    음악 앱의 '지금 재생 중' 화면처럼. 사진, 이름, 재생 막대, 그리고 전화. */
@@ -147,7 +147,7 @@ a { color: inherit; }
 .gm-footer { margin-top: 0; background: var(--paper); border-top: 1px solid var(--line); }
 
 @media (min-width: 860px) {
-  .a-top { padding-left: 34px; padding-right: 34px; }
+  .a-top { padding-left: 34px; padding-right: 34px; width: 100%; max-width: 1068px; margin-left: auto; margin-right: auto; }
   .a-nav > a { display: inline; }
   .a-top .hours { display: inline; }
   .a-brand-logo { height: 32px; }
@@ -156,14 +156,15 @@ a { color: inherit; }
   .a-photo img { width: 100%; left: 0; object-position: 50% 50%; transform: scaleX(-1); }
   .a-photo::after {
     background:
-      linear-gradient(90deg, rgba(22,26,24,0) 42%, rgba(22,26,24,0.72) 70%, rgba(22,26,24,0.9) 100%),
+      linear-gradient(90deg, rgba(22,26,24,0) 30%, rgba(22,26,24,0.5) 46%, rgba(22,26,24,0.88) 62%, rgba(22,26,24,0.94) 100%),
       linear-gradient(180deg, rgba(22,26,24,0.35) 0%, rgba(22,26,24,0) 22%, rgba(22,26,24,0) 60%, rgba(22,26,24,0.7) 100%);
   }
-  .a-head { margin: auto 6% 22px auto; max-width: 520px; padding: 0; text-shadow: none; }
+  .a-head { margin: auto max(34px, calc(50% - 500px)) 22px auto; max-width: 520px; padding: 0;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.5); }
   .a-logo { width: 460px; }
   .a-head p { font-size: 22px; }
   .a-since { font-size: 13px; margin-top: 12px; }
-  .a-body { margin: 0 6% 0 auto; max-width: 520px; gap: 20px; padding: 0 0 56px; }
+  .a-body { margin: 0 max(34px, calc(50% - 500px)) 0 auto; max-width: 520px; gap: 20px; padding: 0 0 56px; }
   .a-play { width: 46px; height: 46px; }
   .a-call { height: 60px; font-size: 18px; }
   .a-line { text-align: left; }
@@ -344,14 +345,14 @@ a { color: inherit; }
       <p class="fright">이 사이트의 글·표·계산 방식은 고마움 상조가 직접 만들었습니다. 옮겨 쓰실 때는 출처를 밝혀 주세요. 실린 사진은 참고용 이미지이며 실제 시설·용품과 다를 수 있습니다. 공공 통계와 요금은 본문에 출처와 확인한 날짜를 적어 두었습니다.</p>
       <p class="fcopy">© 2026 고마움 상조. All rights reserved.</p>
     </div>
-    <p class="gm-credit">기획·제작 — 지음 <span>JIEUM</span></p>
+    <p class="gm-credit">기획·제작: 지움웍스 <a href="https://jieumworks.com" target="_blank" rel="noopener">jieumworks.com</a> <span>2026년 8월</span></p>
   </div>
 </footer>
 
 <script src="assets/js/site-keys.js"></script>
 <script src="assets/js/quiet-horn.js"></script>
 <script src="assets/js/gm-menu.js"></script>
-<script src="assets/js/gm-chat.js?v=20260910g"></script>
+<script src="assets/js/gm-chat.js?v=20260911a"></script>
 <script src="assets/js/petals.js"></script>
 <script>
 /* 떨어지는 백합 꽃잎 — 사진 위, 글자 위로는 옅어진다 */
