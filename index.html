@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="assets/css/gomaum.css?v=20260912a">
+<link rel="stylesheet" href="assets/css/gomaum.css?v=20260912b">
 <style>
 /* ── 홈: 커버 한 장, 노래 하나, 전화 하나 ─────────────────
    음악 앱의 '지금 재생 중' 화면처럼. 사진, 이름, 재생 막대, 그리고 전화. */
@@ -57,9 +57,9 @@ a { color: inherit; }
   background: var(--orange); border-radius: 6px; }
 .a-top .hours:hover { background: var(--orange-deep); text-decoration: none; }
 .a-top .hours svg { width: 15px; height: 15px; flex: 0 0 auto; }
-.a-nav { display: flex; align-items: center; gap: 4px 22px; }
+.a-nav { display: flex; align-items: center; gap: 8px; }
 .a-nav > a { display: none; color: var(--ink-2); font-weight: 600; font-size: 15px; text-decoration: none;
-  padding: 7px 10px; border-radius: var(--radius); white-space: nowrap; }
+  padding: 7px 13px; border-radius: var(--radius); white-space: nowrap; }
 .a-nav > a:hover { background: var(--surface-2); color: var(--ink); text-decoration: none; }
 .a-menu { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 12px 0 10px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; }
 .a-menu:hover { background: var(--surface-2); border-color: var(--accent); }
@@ -87,6 +87,13 @@ a { color: inherit; }
   margin-left: 9px; vertical-align: -1px; background: rgba(255,255,255,0.45); }
 /* 폰에서는 테두리 상자가 꽃을 통째로 가린다. 상자를 벗기고 글씨만 남긴다.
    자리는 가운데, 꽃 아래. 글씨 크기는 그대로 둔다. */
+@media (max-width: 420px) {
+  .a-top { padding-left: 16px; padding-right: 16px; }
+  .a-brand-logo { height: 23px; }
+  .a-bgm { height: 32px; padding: 0 8px; gap: 5px; font-size: 10px; }
+  .a-bgm svg { width: 13px; height: 13px; }
+  .a-menu { height: 34px; padding: 0 10px 0 8px; font-size: 13px; }
+}
 @media (max-width: 859px) {
   .a-head { align-items: flex-start; }
   .a-since { align-self: flex-start; background: none; border: 0; padding: 0; backdrop-filter: none;
@@ -96,8 +103,9 @@ a { color: inherit; }
 }
 
 .a-top { flex-wrap: wrap; }
-.a-bgm-row { flex: 0 0 100%; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-top: 9px; }
-.a-bgm { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 11px;
+/* BGM 토글은 메뉴 단추 왼쪽에 나란히. 소리 안내만 아래 줄로 흘린다. */
+.a-bgm-row { display: inline-flex; align-items: center; }
+.a-bgm { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px;
   border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface);
   color: var(--ink-3); font: inherit; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em;
   cursor: pointer; white-space: nowrap; }
@@ -108,7 +116,7 @@ a { color: inherit; }
 .a-bgm[aria-pressed="true"] { color: var(--ink); border-color: var(--orange); background: var(--orange-soft); }
 .a-bgm[aria-pressed="true"] svg { opacity: 1; color: var(--orange); }
 .a-bgm[aria-pressed="true"] .st::before { content: "ON"; color: var(--orange); }
-.a-hint { font-size: 11px; color: var(--ink-3); margin: 0; min-height: 0; text-align: right; }
+.a-hint { flex: 0 0 100%; font-size: 11px; color: var(--ink-3); margin: 7px 0 0; text-align: right; }
 .a-hint:empty { display: none; }
 
 .a-call {
@@ -239,15 +247,15 @@ a { color: inherit; }
       <a href="sikjang.html">장례식장 찾기</a>
       <a href="hubul.html">후불제 장례</a>
       <a class="hours" id="hours" href="tel:01067830070"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg>급한 전화</a>
+      <span class="a-bgm-row" id="player">
+        <button type="button" class="a-bgm" id="play" aria-pressed="false" aria-label="조용한 음악 켜기">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg>
+          <span class="lbl">BGM</span><span class="st" aria-hidden="true"></span>
+        </button>
+      </span>
       <button type="button" class="a-menu" data-menu-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>메뉴</button>
     </nav>
-    <div class="a-bgm-row" id="player">
-      <button type="button" class="a-bgm" id="play" aria-pressed="false" aria-label="조용한 음악 켜기">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg>
-        <span class="lbl">BGM</span><span class="st" aria-hidden="true"></span>
-      </button>
-      <p class="a-hint" id="hint"></p>
-    </div>
+    <p class="a-hint" id="hint"></p>
   </div>
 
   <div class="a-head">
@@ -401,7 +409,7 @@ a { color: inherit; }
 <script src="assets/js/site-keys.js"></script>
 <script src="assets/js/quiet-horn.js"></script>
 <script src="assets/js/gm-menu.js"></script>
-<script src="assets/js/gm-chat.js?v=20260912a"></script>
+<script src="assets/js/gm-chat.js?v=20260912b"></script>
 <script src="assets/js/petals.js"></script>
 <script>
 /* 떨어지는 백합 꽃잎 — 사진 위, 글자 위로는 옅어진다 */
