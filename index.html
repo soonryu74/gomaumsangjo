@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="assets/css/gomaum.css?v=20260913b">
+<link rel="stylesheet" href="assets/css/gomaum.css?v=20260913c">
 <style>
 /* ── 홈: 커버 한 장, 노래 하나, 전화 하나 ─────────────────
    음악 앱의 '지금 재생 중' 화면처럼. 사진, 이름, 재생 막대, 그리고 전화. */
@@ -75,6 +75,51 @@ a { color: inherit; }
 
 
 .a-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── 꽃 옆 손글씨 한 마디: 써지다가 조용히 사라진다 ──────────────
+   나눔손글씨 붓에서 '고맙습니다' 다섯 글자만 덜어낸 판(10KB).
+   원본 이름은 OFL 이 고친 판에 쓰지 못하게 하므로 다른 이름으로 부른다. */
+@font-face {
+  font-family: "GM Brush";
+  src: url("assets/font/gm-brush-subset.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+.a-cal {
+  position: absolute; z-index: 2; margin: 0; pointer-events: none; user-select: none;
+  font-family: "GM Brush", var(--f-display), serif; font-weight: 400;
+  color: #fff; line-height: 1.05; white-space: nowrap; letter-spacing: 0.01em;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6), 0 0 46px rgba(0,0,0,0.45);
+  opacity: 0;                       /* 글씨체가 준비되기 전에는 비워 둔다 */
+  right: 20px; bottom: 196px; font-size: 46px;
+}
+/* 글자마다 왼쪽 위에서 오른쪽 아래로 붓이 지나간 만큼만 드러난다 */
+.a-cal span {
+  display: inline-block;
+  -webkit-mask-image: linear-gradient(102deg, transparent 28%, rgba(0,0,0,0.45) 39%, #000 50%);
+          mask-image: linear-gradient(102deg, transparent 28%, rgba(0,0,0,0.45) 39%, #000 50%);
+  -webkit-mask-size: 300% 100%;  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: 0% 0;    mask-position: 0% 0;
+}
+@keyframes a-write {
+  from { -webkit-mask-position: 0% 0;   mask-position: 0% 0; }
+  to   { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+}
+@keyframes a-calgo { to { opacity: 0; } }
+/* 창이 너무 낮으면 손글씨가 전화 단추와 부딪친다. 그럴 때는 아예 두지 않는다. */
+@media (min-width: 860px) and (max-height: 580px) { .a-cal { display: none; } }
+.cal-on .a-cal { opacity: 1; animation: a-calgo 2.2s ease-in 4.6s forwards; }
+.cal-on .a-cal span { animation: a-write 0.46s ease-out both; }
+.cal-on .a-cal span:nth-child(1) { animation-delay: 1.50s; }
+.cal-on .a-cal span:nth-child(2) { animation-delay: 1.82s; }
+.cal-on .a-cal span:nth-child(3) { animation-delay: 2.14s; }
+.cal-on .a-cal span:nth-child(4) { animation-delay: 2.46s; }
+.cal-on .a-cal span:nth-child(5) { animation-delay: 2.78s; }
+/* 움직임을 싫어하는 분께는 쓰는 모습 없이 글씨만 조용히 둔다 */
+@media (prefers-reduced-motion: reduce) {
+  .cal-on .a-cal { opacity: 0.88; animation: none; }
+  .cal-on .a-cal span { animation: none; -webkit-mask-image: none; mask-image: none; }
+}
 .a-head p { margin: 0; font-size: 21px; color: #fff; line-height: 1.45;
   font-family: var(--f-display); font-weight: 700; letter-spacing: -0.02em; }
 .a-head p span { white-space: nowrap; }
@@ -193,6 +238,9 @@ a { color: inherit; }
   .a-head { position: absolute; z-index: 2; left: max(34px, calc(50% - 500px)); bottom: 90px;
     margin: 0; max-width: none; width: auto; padding: 0; text-shadow: none; }
 
+  .a-cal { right: max(34px, calc(50% - 500px)); bottom: auto; top: 50%;
+    transform: translateY(-62%); font-size: clamp(52px, 10.5vh, 96px); }
+
   .a-head p { font-size: 30px; }
   .a-since { font-size: 22px; padding: 14px 28px; margin-top: 10px; gap: 13px; }
   .a-since b::after { height: 19px; margin-left: 13px; }
@@ -257,6 +305,8 @@ a { color: inherit; }
     </nav>
     <p class="a-hint" id="hint"></p>
   </div>
+
+  <p class="a-cal" aria-hidden="true"><span>고</span><span>맙</span><span>습</span><span>니</span><span>다</span></p>
 
   <div class="a-head">
     <h1 class="a-sr">고마움 상조 — 미리 받지 않는 후불제 장례</h1>
@@ -409,7 +459,7 @@ a { color: inherit; }
 <script src="assets/js/site-keys.js"></script>
 <script src="assets/js/quiet-horn.js"></script>
 <script src="assets/js/gm-menu.js"></script>
-<script src="assets/js/gm-chat.js?v=20260913b"></script>
+<script src="assets/js/gm-chat.js?v=20260913c"></script>
 <script src="assets/js/petals.js"></script>
 <script>
 /* 떨어지는 백합 꽃잎 — 사진 위, 글자 위로는 옅어진다 */
@@ -434,6 +484,16 @@ if (window.Petals) Petals.mount(document.querySelector(".a-photo"), { z: 1, fade
             : d.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3");
   btn.href = "tel:" + raw;
   label.textContent = shown;
+})();
+
+/* 꽃 옆 손글씨 — 붓글씨체가 실제로 내려온 뒤에만 쓰기 시작한다.
+   글씨체를 못 받으면 명조로 어색하게 나오느니 아예 띄우지 않는다. */
+(function () {
+  var el = document.querySelector(".a-cal");
+  if (!el || !document.fonts || !document.fonts.load) return;
+  document.fonts.load('46px "GM Brush"', "고맙습니다").then(function () {
+    if (document.fonts.check('46px "GM Brush"')) document.documentElement.classList.add("cal-on");
+  }, function () {});
 })();
 
 /* 조용한 음악 — 재생 단추를 누르기 전에는 소리를 내지 않는다.
