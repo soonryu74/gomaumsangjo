@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="assets/css/gomaum.css?v=20260913c">
+<link rel="stylesheet" href="assets/css/gomaum.css?v=20260913d">
 <style>
 /* ── 홈: 커버 한 장, 노래 하나, 전화 하나 ─────────────────
    음악 앱의 '지금 재생 중' 화면처럼. 사진, 이름, 재생 막대, 그리고 전화. */
@@ -101,20 +101,29 @@ a { color: inherit; }
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
   -webkit-mask-position: 0% 0;    mask-position: 0% 0;
 }
-@keyframes a-write {
-  from { -webkit-mask-position: 0% 0;   mask-position: 0% 0; }
-  to   { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+/* 한 바퀴 12초: 0.5초 쓰고, 4.4초 머물고, 2.4초에 걸쳐 사라지고, 5초 쉰다.
+   글자마다 0.32초씩 늦게 시작하므로 쓰는 차례대로 사라진다. */
+@keyframes a-cal-loop {
+  0%   { animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+         -webkit-mask-position: 0% 0;   mask-position: 0% 0;   opacity: 1; }
+  4%   { -webkit-mask-position: 100% 0; mask-position: 100% 0; opacity: 1; }
+  37%  { animation-timing-function: ease-in;
+         -webkit-mask-position: 100% 0; mask-position: 100% 0; opacity: 1; }
+  57%  { -webkit-mask-position: 100% 0; mask-position: 100% 0; opacity: 0; }
+  58%  { -webkit-mask-position: 0% 0;   mask-position: 0% 0;   opacity: 0; }
+  100% { -webkit-mask-position: 0% 0;   mask-position: 0% 0;   opacity: 0; }
 }
-@keyframes a-calgo { to { opacity: 0; } }
 /* 창이 너무 낮으면 손글씨가 전화 단추와 부딪친다. 그럴 때는 아예 두지 않는다. */
 @media (min-width: 860px) and (max-height: 580px) { .a-cal { display: none; } }
-.cal-on .a-cal { opacity: 1; animation: a-calgo 2.2s ease-in 4.6s forwards; }
-.cal-on .a-cal span { animation: a-write 0.46s ease-out both; }
+.cal-on .a-cal { opacity: 1; }
+.cal-on .a-cal span { animation: a-cal-loop 12s linear infinite backwards; }
 .cal-on .a-cal span:nth-child(1) { animation-delay: 1.50s; }
 .cal-on .a-cal span:nth-child(2) { animation-delay: 1.82s; }
 .cal-on .a-cal span:nth-child(3) { animation-delay: 2.14s; }
 .cal-on .a-cal span:nth-child(4) { animation-delay: 2.46s; }
 .cal-on .a-cal span:nth-child(5) { animation-delay: 2.78s; }
+/* 첫 화면이 눈에서 벗어나면 멈춘다. 안 보이는 글씨를 계속 그릴 까닭이 없다. */
+.a-cal.rest span { animation-play-state: paused; }
 /* 움직임을 싫어하는 분께는 쓰는 모습 없이 글씨만 조용히 둔다 */
 @media (prefers-reduced-motion: reduce) {
   .cal-on .a-cal { opacity: 0.88; animation: none; }
@@ -459,7 +468,7 @@ a { color: inherit; }
 <script src="assets/js/site-keys.js"></script>
 <script src="assets/js/quiet-horn.js"></script>
 <script src="assets/js/gm-menu.js"></script>
-<script src="assets/js/gm-chat.js?v=20260913c"></script>
+<script src="assets/js/gm-chat.js?v=20260913d"></script>
 <script src="assets/js/petals.js"></script>
 <script>
 /* 떨어지는 백합 꽃잎 — 사진 위, 글자 위로는 옅어진다 */
@@ -492,7 +501,12 @@ if (window.Petals) Petals.mount(document.querySelector(".a-photo"), { z: 1, fade
   var el = document.querySelector(".a-cal");
   if (!el || !document.fonts || !document.fonts.load) return;
   document.fonts.load('46px "GM Brush"', "고맙습니다").then(function () {
-    if (document.fonts.check('46px "GM Brush"')) document.documentElement.classList.add("cal-on");
+    if (!document.fonts.check('46px "GM Brush"')) return;
+    document.documentElement.classList.add("cal-on");
+    if (!window.IntersectionObserver) return;
+    new IntersectionObserver(function (rows) {
+      el.classList.toggle("rest", !rows[0].isIntersecting);
+    }, { threshold: 0 }).observe(el);
   }, function () {});
 })();
 
