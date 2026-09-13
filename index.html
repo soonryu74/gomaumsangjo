@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="assets/css/gomaum.css?v=20260913d">
+<link rel="stylesheet" href="assets/css/gomaum.css?v=20260913e">
 <style>
 /* ── 홈: 커버 한 장, 노래 하나, 전화 하나 ─────────────────
    음악 앱의 '지금 재생 중' 화면처럼. 사진, 이름, 재생 막대, 그리고 전화. */
@@ -86,49 +86,82 @@ a { color: inherit; }
 }
 .a-cal {
   position: absolute; z-index: 2; margin: 0; pointer-events: none; user-select: none;
-  font-family: "GM Brush", var(--f-display), serif; font-weight: 400;
-  color: #fff; line-height: 1.05; white-space: nowrap; letter-spacing: 0.01em;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.6), 0 0 46px rgba(0,0,0,0.45);
-  opacity: 0;                       /* 글씨체가 준비되기 전에는 비워 둔다 */
-  right: 20px; bottom: 196px; font-size: 46px;
+  color: #fff; filter: drop-shadow(0 2px 16px rgba(0,0,0,0.6)) drop-shadow(0 0 40px rgba(0,0,0,0.45));
+  right: 20px; bottom: 206px; width: 146px;
 }
-/* 글자마다 왼쪽 위에서 오른쪽 아래로 붓이 지나간 만큼만 드러난다 */
-.a-cal span {
-  display: inline-block;
-  -webkit-mask-image: linear-gradient(102deg, transparent 28%, rgba(0,0,0,0.45) 39%, #000 50%);
-          mask-image: linear-gradient(102deg, transparent 28%, rgba(0,0,0,0.45) 39%, #000 50%);
-  -webkit-mask-size: 300% 100%;  mask-size: 300% 100%;
-  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-  -webkit-mask-position: 0% 0;    mask-position: 0% 0;
+.a-cal svg { display: block; width: 100%; height: auto; aspect-ratio: 298 / 96; overflow: visible; }
+.a-cal text { font-family: "GM Brush", var(--f-display), serif; font-size: 100px; fill: currentColor; }
+/* 붓길: 획마다 따로 그어진다. 다 긋기 전에는 그 획의 먹이 보이지 않는다. */
+.a-cal .ink path { fill: none; stroke: #fff; stroke-width: 14; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1 2; stroke-dashoffset: 1.05; }
+/* 글씨체가 준비되기 전에는 비워 둔다 */
+.a-cal { opacity: 0; }
+.cal-on .a-cal { opacity: 1; }
+/* 한 바퀴 12초: 1.2초 뜸 들이고 2.9초 동안 쓰고, 3초 머물고, 2초에 걸쳐 사라지고, 3초 쉰다 */
+@keyframes gm-cal-fade {
+  0%, 58.33% { opacity: 1; animation-timing-function: ease-in; }
+  75%, 100%  { opacity: 0; }
 }
-/* 한 바퀴 12초: 0.5초 쓰고, 4.4초 머물고, 2.4초에 걸쳐 사라지고, 5초 쉰다.
-   글자마다 0.32초씩 늦게 시작하므로 쓰는 차례대로 사라진다. */
-@keyframes a-cal-loop {
-  0%   { animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-         -webkit-mask-position: 0% 0;   mask-position: 0% 0;   opacity: 1; }
-  4%   { -webkit-mask-position: 100% 0; mask-position: 100% 0; opacity: 1; }
-  37%  { animation-timing-function: ease-in;
-         -webkit-mask-position: 100% 0; mask-position: 100% 0; opacity: 1; }
-  57%  { -webkit-mask-position: 100% 0; mask-position: 100% 0; opacity: 0; }
-  58%  { -webkit-mask-position: 0% 0;   mask-position: 0% 0;   opacity: 0; }
-  100% { -webkit-mask-position: 0% 0;   mask-position: 0% 0;   opacity: 0; }
-}
+.cal-on .a-cal text { animation: gm-cal-fade 12s linear infinite; }
+.cal-on .a-cal .ink path { animation-duration: 12s; animation-timing-function: linear;
+  animation-iteration-count: infinite; }
+.gm-w1{animation-name:gm-w1}
+@keyframes gm-w1{0%,10%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}11.11%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w2{animation-name:gm-w2}
+@keyframes gm-w2{0%,11.343%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}11.911%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w3{animation-name:gm-w3}
+@keyframes gm-w3{0%,12.144%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}13.031%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w4{animation-name:gm-w4}
+@keyframes gm-w4{0%,13.865%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}14.384%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w5{animation-name:gm-w5}
+@keyframes gm-w5{0%,14.618%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}15.446%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w6{animation-name:gm-w6}
+@keyframes gm-w6{0%,15.679%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}16.121%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w7{animation-name:gm-w7}
+@keyframes gm-w7{0%,16.354%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}16.972%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w8{animation-name:gm-w8}
+@keyframes gm-w8{0%,17.205%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}17.653%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w9{animation-name:gm-w9}
+@keyframes gm-w9{0%,17.886%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}18.352%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w10{animation-name:gm-w10}
+@keyframes gm-w10{0%,18.586%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}19.435%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w11{animation-name:gm-w11}
+@keyframes gm-w11{0%,19.668%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}20.343%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w12{animation-name:gm-w12}
+@keyframes gm-w12{0%,21.176%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}21.881%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w13{animation-name:gm-w13}
+@keyframes gm-w13{0%,22.114%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}22.641%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w14{animation-name:gm-w14}
+@keyframes gm-w14{0%,22.874%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}23.836%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w15{animation-name:gm-w15}
+@keyframes gm-w15{0%,24.069%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}24.572%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w16{animation-name:gm-w16}
+@keyframes gm-w16{0%,24.805%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}25.591%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w17{animation-name:gm-w17}
+@keyframes gm-w17{0%,25.824%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}26.547%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w18{animation-name:gm-w18}
+@keyframes gm-w18{0%,27.38%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}28.542%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w19{animation-name:gm-w19}
+@keyframes gm-w19{0%,28.775%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}29.553%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w20{animation-name:gm-w20}
+@keyframes gm-w20{0%,30.386%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}30.928%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w21{animation-name:gm-w21}
+@keyframes gm-w21{0%,31.161%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}32.438%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w22{animation-name:gm-w22}
+@keyframes gm-w22{0%,32.671%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}33.598%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+.gm-w23{animation-name:gm-w23}
+@keyframes gm-w23{0%,33.831%{stroke-dashoffset:1.05;animation-timing-function:cubic-bezier(.36,.02,.4,1)}34.167%,75.000%{stroke-dashoffset:0}75.400%,100%{stroke-dashoffset:1.05}}
+/* 첫 화면이 눈에서 벗어나면 멈춘다. 안 보이는 글씨를 계속 그릴 까닭이 없다. */
+.a-cal.rest text, .a-cal.rest .ink path { animation-play-state: paused; }
 /* 창이 너무 낮으면 손글씨가 전화 단추와 부딪친다. 그럴 때는 아예 두지 않는다. */
 @media (min-width: 860px) and (max-height: 580px) { .a-cal { display: none; } }
-.cal-on .a-cal { opacity: 1; }
-.cal-on .a-cal span { animation: a-cal-loop 12s linear infinite backwards; }
-.cal-on .a-cal span:nth-child(1) { animation-delay: 1.50s; }
-.cal-on .a-cal span:nth-child(2) { animation-delay: 1.82s; }
-.cal-on .a-cal span:nth-child(3) { animation-delay: 2.14s; }
-.cal-on .a-cal span:nth-child(4) { animation-delay: 2.46s; }
-.cal-on .a-cal span:nth-child(5) { animation-delay: 2.78s; }
-/* 첫 화면이 눈에서 벗어나면 멈춘다. 안 보이는 글씨를 계속 그릴 까닭이 없다. */
-.a-cal.rest span { animation-play-state: paused; }
-/* 움직임을 싫어하는 분께는 쓰는 모습 없이 글씨만 조용히 둔다 */
+/* 움직임을 싫어하는 분께는 쓰는 모습 없이 다 쓴 글씨만 조용히 둔다 */
 @media (prefers-reduced-motion: reduce) {
-  .cal-on .a-cal { opacity: 0.88; animation: none; }
-  .cal-on .a-cal span { animation: none; -webkit-mask-image: none; mask-image: none; }
+  .cal-on .a-cal { opacity: 0.88; }
+  .cal-on .a-cal text, .cal-on .a-cal .ink path { animation: none; }
+  .cal-on .a-cal .ink path { stroke-dashoffset: 0; }
 }
+
 .a-head p { margin: 0; font-size: 21px; color: #fff; line-height: 1.45;
   font-family: var(--f-display); font-weight: 700; letter-spacing: -0.02em; }
 .a-head p span { white-space: nowrap; }
@@ -248,7 +281,7 @@ a { color: inherit; }
     margin: 0; max-width: none; width: auto; padding: 0; text-shadow: none; }
 
   .a-cal { right: max(34px, calc(50% - 500px)); bottom: auto; top: 50%;
-    transform: translateY(-62%); font-size: clamp(52px, 10.5vh, 96px); }
+    transform: translateY(-58%); width: clamp(160px, 31vh, 290px); }
 
   .a-head p { font-size: 30px; }
   .a-since { font-size: 22px; padding: 14px 28px; margin-top: 10px; gap: 13px; }
@@ -315,7 +348,36 @@ a { color: inherit; }
     <p class="a-hint" id="hint"></p>
   </div>
 
-  <p class="a-cal" aria-hidden="true"><span>고</span><span>맙</span><span>습</span><span>니</span><span>다</span></p>
+  <div class="a-cal" aria-hidden="true">
+    <svg viewBox="16 76 298 96" focusable="false" role="presentation">
+      <defs><mask id="gm-cal-m" maskUnits="userSpaceOnUse" x="4" y="64" width="322" height="120"><g class="ink">
+        <path class="gm-w1" stroke-width="17" pathLength="1" d="M28,102 C36,94 49,90 58,94 C58,103 56,113 55,121"/>
+        <path class="gm-w2" pathLength="1" d="M46,107 C43,116 39,127 36,136"/>
+        <path class="gm-w3" pathLength="1" d="M22,139 C38,142 56,138 69,133"/>
+        <path class="gm-w4" pathLength="1" d="M78,88 C77,97 76,107 76,116"/>
+        <path class="gm-w5" pathLength="1" d="M78,90 C85,90 91,91 94,94 C92,102 88,112 84,120"/>
+        <path class="gm-w6" pathLength="1" d="M84,121 C91,117 98,112 104,108"/>
+        <path class="gm-w7" pathLength="1" d="M119,83 C117,94 115,105 114,116"/>
+        <path class="gm-w8" pathLength="1" d="M115,102 C123,101 132,100 139,99"/>
+        <path class="gm-w9" pathLength="1" d="M104,123 C103,131 102,140 101,148"/>
+        <path class="gm-w10" pathLength="1" d="M123,116 C122,128 121,141 118,152 C117,156 116,159 115,161"/>
+        <path class="gm-w11" pathLength="1" d="M118,132 C112,139 108,145 105,149 C108,154 111,158 114,161"/>
+        <path class="gm-w12" pathLength="1" d="M166,83 C159,94 152,105 147,116"/>
+        <path class="gm-w13" pathLength="1" d="M158,96 C167,99 177,102 185,105"/>
+        <path class="gm-w14" pathLength="1" d="M141,124 C158,121 176,117 192,114"/>
+        <path class="gm-w15" pathLength="1" d="M155,129 C156,138 157,147 158,156"/>
+        <path class="gm-w16" pathLength="1" d="M181,124 C179,138 177,152 175,166"/>
+        <path class="gm-w17" pathLength="1" d="M176,141 C170,144 165,146 161,149 C165,155 170,161 175,166"/>
+        <path class="gm-w18" pathLength="1" d="M201,109 C200,122 202,132 207,137 C216,130 224,121 230,113"/>
+        <path class="gm-w19" pathLength="1" d="M236,101 C236,115 235,129 235,143"/>
+        <path class="gm-w20" pathLength="1" d="M245,106 C255,107 265,109 274,110"/>
+        <path class="gm-w21" pathLength="1" d="M250,109 C250,120 251,132 253,142 C263,135 273,128 282,121"/>
+        <path class="gm-w22" pathLength="1" d="M288,91 C289,108 290,124 291,141"/>
+        <path class="gm-w23" pathLength="1" d="M289,115 C295,114 301,113 307,113"/>
+      </g></mask></defs>
+      <text x="20" y="140" mask="url(#gm-cal-m)">고맙습니다</text>
+    </svg>
+  </div>
 
   <div class="a-head">
     <h1 class="a-sr">고마움 상조 — 미리 받지 않는 후불제 장례</h1>
@@ -468,7 +530,7 @@ a { color: inherit; }
 <script src="assets/js/site-keys.js"></script>
 <script src="assets/js/quiet-horn.js"></script>
 <script src="assets/js/gm-menu.js"></script>
-<script src="assets/js/gm-chat.js?v=20260913d"></script>
+<script src="assets/js/gm-chat.js?v=20260913e"></script>
 <script src="assets/js/petals.js"></script>
 <script>
 /* 떨어지는 백합 꽃잎 — 사진 위, 글자 위로는 옅어진다 */
