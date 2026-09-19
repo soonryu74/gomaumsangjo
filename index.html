@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="assets/css/gomaum.css?v=20260913f">
+<link rel="stylesheet" href="assets/css/gomaum.css?v=20260919a">
 <style>
 /* ── 홈: 커버 한 장, 노래 하나, 전화 하나 ─────────────────
    음악 앱의 '지금 재생 중' 화면처럼. 사진, 이름, 재생 막대, 그리고 전화. */
@@ -61,6 +61,7 @@ a { color: inherit; }
 .a-nav > a { display: none; color: var(--ink-2); font-weight: 600; font-size: 15px; text-decoration: none;
   padding: 7px 13px; border-radius: var(--radius); white-space: nowrap; }
 .a-nav > a:hover { background: var(--surface-2); color: var(--ink); text-decoration: none; }
+@media (max-width: 1150px) { .a-nav .rest { display: none; } }
 .a-menu { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 12px 0 10px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; }
 .a-menu:hover { background: var(--surface-2); border-color: var(--accent); }
 .a-menu svg { width: 18px; height: 18px; }
@@ -332,9 +333,9 @@ a { color: inherit; }
   <div class="a-top">
     <a class="a-brand" href="./" aria-label="고마움 상조 홈"><img class="a-brand-logo" src="assets/img/brand-mark.png" width="1272" height="222" alt="고마움 상조"></a>
     <nav class="a-nav" aria-label="주요">
-      <a href="jeolcha.html">지금 할 일</a>
-      <a href="bugojang.html">부고장 만들기</a>
-      <a href="sikjang.html">장례식장 찾기</a>
+      <a href="jeolcha.html">무엇부터<span class="rest"> 해야 하나</span></a>
+      <a href="sikjang.html">장례식장<span class="rest">·납골당</span> 찾기</a>
+      <a href="bugojang.html"><span class="rest">모바일 </span>부고장</a>
       <a href="hubul.html">후불제 장례</a>
       <a class="hours" id="hours" href="tel:01067830070"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg>급한 전화</a>
       <span class="a-bgm-row" id="player">
@@ -391,8 +392,8 @@ a { color: inherit; }
       <span id="call-label">전화 접수 준비 중</span>
     </a>
     <div class="a-pair">
-      <a href="bugojang.html">부고장 만들기</a>
-      <a href="jeolcha.html">무엇부터 하나</a>
+      <a href="bugojang.html">모바일 부고장</a>
+      <a href="jeolcha.html">무엇부터 해야 하나</a>
     </div>
 
     <a class="a-kakao" data-kakao href="#" hidden target="_blank" rel="noopener">전화가 어려우시면 카카오톡으로 문의하세요</a>
@@ -408,71 +409,95 @@ a { color: inherit; }
       <div class="pillar"><div class="num">03</div><div><h3>함께</h3><p>장례가 끝나도 끝이 아닙니다. 기일 전에 저희가 먼저 연락드립니다. 해마다, 전부 무료.</p></div></div>
     </div>
 
-    <div class="feed-title"><h2>상을 당하셨을 때</h2><a href="jeolcha.html">순서대로 보기</a></div>
+        <div class="feed-title"><h2>지금 상을 당하셨다면</h2><a href="jeolcha.html">순서대로 보기</a></div>
     <div class="feed">
       <a class="card mint" href="jeolcha.html">
         <div><p class="lab">지금</p><h3>무엇부터 해야 하나</h3><p>임종 직후 여섯 시간. 전화 한 통이면 이 여섯 시간을 저희가 대신 뜁니다.</p></div>
         <div class="pic round"><img src="assets/img/card-jeolcha.jpg" alt="" loading="lazy"></div>
       </a>
-      <a class="card cream" href="bugojang.html">
-        <div><p class="lab">오늘 안에</p><h3>부고장 만들기</h3><p>링크 하나에 빈소 지도와 전화까지. 카카오톡으로 보내면 끝입니다.</p></div>
-        <div class="pic"><img src="assets/img/card-bugojang.jpg" alt="" loading="lazy"></div>
-      </a>
       <a class="card grey" href="sikjang.html">
         <div><p class="lab">지금 계신 곳에서</p><h3>장례식장·납골당 찾기</h3><p>가까운 순서로, 전화와 길찾기까지. 지역을 골라 찾을 수도 있습니다.</p></div>
         <div class="pic round"><img src="assets/img/card-sikjang.jpg" alt="" loading="lazy"></div>
       </a>
+      <a class="card cream" href="bugojang.html">
+        <div><p class="lab">오늘 안에</p><h3>모바일 부고장</h3><p>링크 하나에 빈소 지도와 전화까지. 카카오톡으로 보내면 끝입니다.</p></div>
+        <div class="pic"><img src="assets/img/card-bugojang.jpg" alt="" loading="lazy"></div>
+      </a>
+      <a class="card grey" href="bugo.html">
+        <div><p class="lab">문자로</p><h3>부고 문안</h3><p>무엇을 적고 무엇을 빼는가. 그대로 옮겨 쓰실 짧은 글 몇 가지.</p></div>
+        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H8l-4 3v-4.6A8 8 0 0 1 11 4h2a8 8 0 0 1 8 8z"/><path d="M9 10h6M9 14h4"/></svg></div>
+      </a>
+    </div>
+
+    <div class="feed-title"><h2>후불제 장례</h2><a href="danga.html">단가표 보기</a></div>
+    <div class="feed">
       <a class="card mint" href="hubul.html">
-        <div><p class="lab">사흘</p><h3>후불제 장례, <b>미리 받지 않습니다</b></h3><p>단가표를 먼저 드리고, 장례가 끝난 뒤 쓰신 만큼만 한 번 정산합니다.</p></div>
+        <div><p class="lab">사흘</p><h3>후불제 장례</h3><p><b>미리 받지 않습니다.</b> 단가표를 먼저 드리고, 장례가 끝난 뒤 쓰신 만큼만 한 번 정산합니다.</p></div>
         <div class="pic"><img src="assets/img/card-hubul.jpg" alt="" loading="lazy"></div>
       </a>
       <a class="card grey" href="sangpum.html">
         <div><p class="lab">다섯 가지 묶음</p><h3>상품 안내</h3><p>가장 작은 무빈소부터 정성껏 모시는 3일장까지. 묶음은 출발점, 정산은 쓰신 항목대로.</p></div>
         <div class="pic round"><img src="assets/img/card-sangpum.jpg" alt="" loading="lazy"></div>
       </a>
+      <a class="card cream" href="danga.html">
+        <div><p class="lab">먼저 드립니다</p><h3>품목별 단가표</h3><p>출발하기 전에 항목마다 값을 적어 드립니다. 정산서에 없는 항목은 청구하지 않습니다.</p></div>
+        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9.5 8h5M9.5 12h5M9.5 16h3"/></svg></div>
+      </a>
+    </div>
+
+    <div class="feed-title"><h2>이런 장례도 있습니다</h2></div>
+    <div class="feed">
       <a class="card cream" href="mubinso.html">
         <div><p class="lab">NEW</p><h3>무빈소 장례</h3><p>빈소 없이 가족끼리 조용히. 빠지는 것과 남는 것, 비용은 절반 아래.</p></div>
         <div class="pic round"><img src="assets/img/card-mubinso.jpg" alt="" loading="lazy"></div>
+      </a>
+      <a class="card grey" href="christian.html">
+        <div><p class="lab">네 번의 예배</p><h3>기독교 장례</h3><p>임종·입관·발인·하관 예배로 흐릅니다. 교회와 상조가 나누는 일.</p></div>
+        <div class="pic"><img src="assets/img/card-christian.jpg" alt="" loading="lazy"></div>
+      </a>
+    </div>
+
+    <div class="feed-title"><h2>재보고 따져보기</h2></div>
+    <div class="feed">
+      <a class="card grey" href="gaeum.html">
+        <div><p class="lab">계산기</p><h3>장례비 가늠</h3><p>조건을 넣으면 대략의 액수가 나옵니다. 장례비가 대체로 얼마나 드는지.</p></div>
+        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M8 7h8M8 11h2M12 11h2M16 11h.01M8 15h2M12 15h2M16 15v4"/></svg></div>
+      </a>
+      <a class="card cream" href="jeoul.html">
+        <div><p class="lab">점검</p><h3>내 상조 점검</h3><p>지금 붓는 상조가 괜찮은지. 해약환급금을 계산해 보면 대략 드러납니다.</p></div>
+        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.4-3.2 8-8 9-4.8-1-8-4.6-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      </a>
+      <a class="card grey" href="gyeolhap.html">
+        <div><p class="lab">여덟 문항</p><h3>결합상품 판별</h3><p>적금인 줄 알았는데 상조 결합상품이었다면. 여덟 가지만 짚어 보면 압니다.</p></div>
+        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></div>
       </a>
     </div>
 
     <div class="feed-title"><h2>장례가 끝난 뒤</h2><a href="kiil.html">자세히</a></div>
     <div class="feed">
       <a class="card forest wide" href="kiil.html">
-        <div><p class="lab">해마다, 전부 무료</p><h3>기일 전에 저희가 먼저 연락드립니다</h3><p>첫 기일 전 짧은 추모 영상, 해마다 잊지 않는 안부. 원치 않으시면 보내지 않습니다.</p></div>
+        <div><p class="lab">해마다, 전부 무료</p><h3>기일 리마인드</h3><p>기일 전에 저희가 먼저 연락드립니다. 첫 기일 전 짧은 추모 영상, 해마다 잊지 않는 안부. 원치 않으시면 보내지 않습니다.</p></div>
         <div class="pic"><img src="assets/img/card-kiil.jpg" alt="" loading="lazy"></div>
+      </a>
+      <a class="card grey" href="hyeopryeok.html">
+        <div><p class="lab">소개</p><h3>함께하는 곳</h3><p>화환·답례품·영정사진·유품정리. 저희가 직접 하지 않는 일은 소개의 원칙과 함께. 소개료가 있으면 있다고 적습니다.</p></div>
+        <div class="pic"><img src="assets/img/card-hyeopryeok.jpg" alt="" loading="lazy"></div>
+      </a>
+    </div>
+
+    <div class="feed-title"><h2>고마움 상조</h2></div>
+    <div class="feed">
+      <a class="card mint" href="yaksok.html">
+        <div><p class="lab">김병호 · Since 2006</p><h3>대표의 글</h3><p>장례가 돈 걱정이 아니라, 고마움으로 남도록. 왜 이 일을 시작했는지.</p></div>
+        <div class="pic round"><img src="assets/img/card-daepyo.jpg" alt="고마움 상조 대표 김병호" loading="lazy"></div>
       </a>
       <a class="card cream" href="girok.html">
         <div><p class="lab">저희가 모신 장례</p><h3>장례 기록</h3><p>어느 장례식장에서 며칠, 무엇이 어려웠는지. 유족 동의를 받고 적습니다.</p></div>
         <div class="pic round"><img src="assets/img/card-girok.jpg" alt="" loading="lazy"></div>
       </a>
-      <a class="card grey" href="hyeopryeok.html">
-        <div><p class="lab">함께하는 곳</p><h3>화환·답례품·영정사진</h3><p>저희가 직접 하지 않는 일은 소개의 원칙과 함께. 소개료가 있으면 있다고 적습니다.</p></div>
-        <div class="pic"><img src="assets/img/card-hyeopryeok.jpg" alt="" loading="lazy"></div>
-      </a>
-    </div>
-
-    <div class="feed-title"><h2>미리 알아두기</h2></div>
-    <div class="feed">
-      <a class="card grey" href="gaeum.html">
-        <div><p class="lab">계산기</p><h3>장례비는 대체로 얼마나 드나</h3><p>조건을 넣으면 대략의 액수가 나옵니다.</p></div>
-        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M8 7h8M8 11h2M12 11h2M16 11h.01M8 15h2M12 15h2M16 15v4"/></svg></div>
-            </a>
-      <a class="card cream" href="jeoul.html">
-        <div><p class="lab">점검</p><h3>지금 붓는 상조, 괜찮은가</h3><p>해약환급금을 계산해 보면 대략 드러납니다. 결합상품 판별도 여기서.</p></div>
-        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.4-3.2 8-8 9-4.8-1-8-4.6-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
-            </a>
-      <a class="card mint" href="yaksok.html">
-        <div><p class="lab">대표의 글</p><h3>김병호 · Since 2006</h3><p>장례가 돈 걱정이 아니라, 고마움으로 남도록. 왜 이 일을 시작했는지.</p></div>
-        <div class="pic round"><img src="assets/img/card-daepyo.jpg" alt="고마움 상조 대표 김병호" loading="lazy"></div>
-      </a>
-      <a class="card cream" href="faq.html">
-        <div><p class="lab">자주 묻는 질문</p><h3>가입 없이 지금 바로 되나요?</h3><p>추가 비용은, 장례식장 비용은, 몇 시간 안에 오나. 열세 가지 답.</p></div>
+      <a class="card grey" href="faq.html">
+        <div><p class="lab">열세 가지</p><h3>자주 묻는 질문</h3><p>가입 없이 지금 바로 되나요. 추가 비용은, 장례식장 비용은, 몇 시간 안에 오나.</p></div>
         <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.2a2.7 2.7 0 0 1 5.2.9c0 1.8-2.6 2.2-2.6 3.9"/><path d="M12 17.4h.01"/></svg></div>
-            </a>
-      <a class="card grey" href="christian.html">
-        <div><p class="lab">기독교</p><h3>네 번의 예배로 흐르는 장례</h3><p>임종·입관·발인·하관 예배. 교회와 상조가 나누는 일.</p></div>
-        <div class="pic"><img src="assets/img/card-christian.jpg" alt="" loading="lazy"></div>
       </a>
     </div>
     <p class="pic-note">카드의 사진은 참고용 이미지입니다. 실제 시설·용품·현장과 다를 수 있습니다.</p>
@@ -491,10 +516,20 @@ a { color: inherit; }
       </div>
       <div class="fcol">
         <p class="ft">후불제 장례</p>
+        <a href="hubul.html">후불제 장례</a>
         <a href="sangpum.html">상품 안내</a>
-        <a href="hubul.html">어떻게 진행되나</a>
-        <a href="mubinso.html">무빈소 장례</a>
         <a href="danga.html">품목별 단가표</a>
+      </div>
+      <div class="fcol">
+        <p class="ft">이런 장례도 있습니다</p>
+        <a href="mubinso.html">무빈소 장례</a>
+        <a href="christian.html">기독교 장례</a>
+      </div>
+      <div class="fcol">
+        <p class="ft">재보고 따져보기</p>
+        <a href="gaeum.html">장례비 가늠</a>
+        <a href="jeoul.html">내 상조 점검</a>
+        <a href="gyeolhap.html">결합상품 판별</a>
       </div>
       <div class="fcol">
         <p class="ft">장례가 끝난 뒤</p>
@@ -502,18 +537,10 @@ a { color: inherit; }
         <a href="hyeopryeok.html">함께하는 곳</a>
       </div>
       <div class="fcol">
-        <p class="ft">미리 알아두기</p>
-        <a href="gaeum.html">장례비 가늠</a>
-        <a href="jeoul.html">내 상조 점검</a>
-        <a href="gyeolhap.html">결합상품 판별</a>
-        <a href="faq.html">자주 묻는 질문</a>
-        <a href="christian.html">기독교 장례</a>
-      </div>
-      <div class="fcol">
         <p class="ft">고마움 상조</p>
-        <a href="./">홈</a>
-        <a href="girok.html">장례 기록</a>
         <a href="yaksok.html">대표의 글</a>
+        <a href="girok.html">장례 기록</a>
+        <a href="faq.html">자주 묻는 질문</a>
       </div>
     </nav>
     <p class="sig">사랑하는 이와 이별하는 순간,<br>고마움 상조가 함께하겠습니다.</p>
@@ -530,7 +557,7 @@ a { color: inherit; }
 <script src="assets/js/site-keys.js"></script>
 <script src="assets/js/quiet-horn.js"></script>
 <script src="assets/js/gm-menu.js"></script>
-<script src="assets/js/gm-chat.js?v=20260913f"></script>
+<script src="assets/js/gm-chat.js?v=20260919a"></script>
 <script src="assets/js/petals.js"></script>
 <script>
 /* 떨어지는 백합 꽃잎 — 사진 위, 글자 위로는 옅어진다 */

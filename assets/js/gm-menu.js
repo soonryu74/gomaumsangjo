@@ -1,6 +1,9 @@
 /* 전체 메뉴 — 모든 페이지 공통.
    [data-menu-open] 단추를 누르면 묶음별 전체 목록이 화면을 덮는다. */
 (function () {
+  // 쪽 이름은 여기 하나뿐이다. 차림표·바닥글·홈 카드가 모두 이 이름을 쓴다.
+  // 칸이 좁은 곳(폰 아래 딱지, 넓은 화면 위 차림표)은 줄여 쓸 수 있지만
+  // 줄이는 것만 되고 다른 말로 바꾸지 않는다. SHORT 에 그 줄인 꼴을 적어 둔다.
   var GROUPS = [
     { t: "지금 상을 당하셨다면", items: [
       ["jeolcha.html", "무엇부터 해야 하나", "임종 직후 여섯 시간, 3일장"],
@@ -9,28 +12,36 @@
       ["bugo.html", "부고 문안", "문자로 보낼 짧은 글"]
     ]},
     { t: "후불제 장례", items: [
+      ["hubul.html", "후불제 장례", "접수부터 정산까지 다섯 단계"],
       ["sangpum.html", "상품 안내", "다섯 가지 묶음, 정산은 쓰신 대로"],
-      ["hubul.html", "어떻게 진행되나", "접수부터 정산까지 다섯 단계"],
-      ["mubinso.html", "무빈소 장례", "빈소 없이 가족끼리, 비용은 절반 아래"],
       ["danga.html", "품목별 단가표", "먼저 드리고, 없는 항목은 청구 안 함"]
+    ]},
+    { t: "이런 장례도 있습니다", items: [
+      ["mubinso.html", "무빈소 장례", "빈소 없이 가족끼리, 비용은 절반 아래"],
+      ["christian.html", "기독교 장례", "네 번의 예배"]
+    ]},
+    { t: "재보고 따져보기", items: [
+      ["gaeum.html", "장례비 가늠", "조건을 넣으면 대략의 액수"],
+      ["jeoul.html", "내 상조 점검", "해약환급금 계산"],
+      ["gyeolhap.html", "결합상품 판별", "여덟 문항"]
     ]},
     { t: "장례가 끝난 뒤", items: [
       ["kiil.html", "기일 리마인드", "해마다 먼저 연락, 전부 무료"],
       ["hyeopryeok.html", "함께하는 곳", "화환·답례품·영정사진·유품정리"]
     ]},
-    { t: "미리 알아두기", items: [
-      ["gaeum.html", "장례비 가늠", "조건을 넣으면 대략의 액수"],
-      ["jeoul.html", "내 상조 점검", "해약환급금 계산"],
-      ["gyeolhap.html", "결합상품 판별", "여덟 문항"],
-      ["faq.html", "자주 묻는 질문", "추가 비용, 도착 시간, 열세 가지"],
-      ["christian.html", "기독교 장례", "네 번의 예배"]
-    ]},
     { t: "고마움 상조", items: [
-      ["girok.html", "장례 기록", "저희가 모신 장례, 유족 동의를 받고"],
       ["yaksok.html", "대표의 글", "김병호 · Since 2006"],
-      ["./", "홈", ""]
+      ["girok.html", "장례 기록", "저희가 모신 장례, 유족 동의를 받고"],
+      ["faq.html", "자주 묻는 질문", "추가 비용, 도착 시간, 열세 가지"]
     ]}
   ];
+  // 칸이 좁은 자리에서 쓰는 줄인 이름. 없으면 본이름 그대로.
+  var SHORT = {
+    "jeolcha.html": "무엇부터",
+    "bugojang.html": "부고장",
+    "sikjang.html": "찾기"
+  };
+  window.GM_GROUPS = GROUPS; window.GM_SHORT = SHORT;
   var here = location.pathname.split("/").pop() || "index.html";
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
@@ -53,7 +64,7 @@
     '<a class="gm-menu-kakao" data-kakao href="#" hidden target="_blank" rel="noopener">카카오톡으로 문의</a>' +
     '<span>미리 받지 않습니다 · 쓰신 만큼만 · 해마다 곁에</span></div></div>';
 
-  // 하단 탭 (폰): 홈 · 지금 할 일 · 부고장 · 찾기 · 전화. 메뉴는 오른쪽 위 단추가 맡는다.
+  // 하단 탭 (폰): 홈 · 무엇부터 · 부고장 · 찾기 · 전화. 메뉴는 오른쪽 위 단추가 맡는다.
   var I = {
     home: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>',
     now: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
@@ -61,7 +72,16 @@
     map: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
     call: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg>'
   };
-  var TABS = [["./", "홈", I.home, "index.html"], ["jeolcha.html", "지금 할 일", I.now, "jeolcha.html"], ["bugojang.html", "부고장", I.bugo, "bugojang.html"], ["sikjang.html", "찾기", I.map, "sikjang.html"]];
+  // 딱지 이름은 GROUPS 의 본이름을 SHORT 로 줄인 것. 따로 짓지 않는다.
+  function nameOf(href, short) {
+    for (var g = 0; g < GROUPS.length; g++) for (var i = 0; i < GROUPS[g].items.length; i++)
+      if (GROUPS[g].items[i][0] === href) return (short && SHORT[href]) || GROUPS[g].items[i][1];
+    return "";
+  }
+  var TABS = [["./", "홈", I.home, "index.html"],
+    ["jeolcha.html", nameOf("jeolcha.html", 1), I.now, "jeolcha.html"],
+    ["bugojang.html", nameOf("bugojang.html", 1), I.bugo, "bugojang.html"],
+    ["sikjang.html", nameOf("sikjang.html", 1), I.map, "sikjang.html"]];
   var tab = '<nav class="gm-tabbar" aria-label="하단 메뉴">';
   for (var t = 0; t < TABS.length; t++) tab += '<a href="' + TABS[t][0] + '" class="' + (TABS[t][3] === here ? "on" : "") + '">' + TABS[t][2] + TABS[t][1] + '</a>';
   tab += '<a class="call" data-phone href="#">' + I.call + '전화</a></nav>';

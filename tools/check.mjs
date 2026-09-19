@@ -122,7 +122,42 @@ console.log("\n[4] 참고용 이미지 고지가 붙어 있는가");
   else ok("사진을 실은 페이지에 모두 고지가 있습니다");
 }
 
-console.log("\n[5] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
+console.log("\n[5] 쪽 이름이 한 가지로 불리는가");
+{
+  const { groups, footerNav } = await import("./nav.mjs");
+  const G = groups();
+  const flat = G.flatMap((g) => g.items);
+  // 5-1 바닥 메뉴가 GROUPS 와 같은가
+  const want = footerNav();
+  const drift = pages.filter((f) => f !== "404.html")
+    .filter((f) => (read(f).match(/<nav class="fnav"[\s\S]*?<\/nav>/) || [""])[0] !== want);
+  drift.length
+    ? bad(`바닥 메뉴가 차림표와 다름: ${drift.join(" ")} — node tools/nav.mjs --write`)
+    : ok(`바닥 메뉴 ${pages.length - 1}쪽 — 차림표 한 곳에서 나옴 (묶음 ${G.length}, 쪽 ${flat.length})`);
+  // 5-2 쪽 제목이 그 이름으로 시작하는가
+  const off = flat.filter(([href, name]) => {
+    const t = (read(href).match(/<title>([^<]*)<\/title>/) || [])[1] || "";
+    return !t.startsWith(name);
+  }).map(([href, name]) => `${href}(${name})`);
+  off.length ? bad("쪽 제목이 이름으로 시작하지 않음: " + off.join(" "))
+             : ok(`쪽 제목 ${flat.length}개 — 모두 차림표 이름으로 시작`);
+  // 5-3 홈 카드가 차림표와 같은 이름·같은 차례인가
+  const home = read("index.html");
+  const cards = [...home.matchAll(/<a class="card[^"]*" href="([^"]+)"[\s\S]*?<h3>([\s\S]*?)<\/h3>/g)]
+    .map((m) => [m[1], m[2].replace(/<[^>]+>/g, "").trim()]);
+  const wantCards = flat.map(([h, n]) => `${h}|${n}`).join(" ");
+  const gotCards = cards.map(([h, n]) => `${h}|${n}`).join(" ");
+  // 5-4 줄임 표시는 머리 차림표에만 있어야 한다 (쪽마다 세 군데)
+  const restOff = pages.filter((f) => f !== "404.html")
+    .filter((f) => (read(f).match(/class="rest"/g) || []).length !== 3);
+  restOff.length ? bad("줄임 표시가 머리 차림표 밖에 새어 나감: " + restOff.join(" "))
+                 : ok("줄임 표시 — 머리 차림표에만, 쪽마다 세 군데");
+  gotCards === wantCards
+    ? ok(`홈 카드 ${cards.length}장 — 차림표와 같은 이름, 같은 차례`)
+    : bad(`홈 카드가 차림표와 어긋남\n       차림표: ${wantCards}\n       홈    : ${gotCards}`);
+}
+
+console.log("\n[6] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
 const WATCH = [
   ["24시간", /24시간(?!이 지난)/g],
   ["개설 준비 중·개설 시점", /개설 (?:준비|시점|을 준비)/g],
