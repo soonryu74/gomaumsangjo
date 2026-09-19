@@ -1820,3 +1820,11 @@ section.gm-sec > h3 + ol { margin-top: 0; }
 /* 아직 채우지 않아 잠긴 단추 */
 .bj-btn[disabled] { opacity: .45; cursor: not-allowed; }
 .linkbox .need { margin: 8px 0 0; font-size: .88rem; color: var(--ink-3); }
+
+/* 문자로 보낼 문안 칸 */
+.linkbox .lbl2 { margin: 0 0 4px; font-family: var(--f-display); font-weight: 700; font-size: 1.02rem; color: var(--ink); }
+.linkbox textarea { width: 100%; box-sizing: border-box; border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--accent); border-radius: 0; background: var(--surface);
+  color: var(--ink); font-family: var(--f-mono); font-size: 0.9rem; line-height: 1.7;
+  padding: 12px 14px; resize: vertical; margin: 0 0 10px; }
+.linkbox textarea:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
