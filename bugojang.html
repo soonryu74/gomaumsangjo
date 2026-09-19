@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="assets/css/gomaum.css?v=20260919a">
+<link rel="stylesheet" href="assets/css/gomaum.css?v=20260919b">
 <script src="assets/js/site-keys.js"></script>
 <script src="assets/js/quiet-horn.js" defer></script>
 <script src="assets/js/petals.js"></script>
@@ -170,13 +170,15 @@
     <h2>만들어진 링크</h2>
     <p class="sec-lead">이 주소를 문자나 카카오톡으로 보내시면 됩니다. 항목을 고치면 링크도 함께 바뀝니다.</p>
     <div class="linkbox">
-      <input type="text" id="link" readonly aria-label="만들어진 부고장 주소">
+      <input type="text" id="link" readonly aria-label="만들어진 부고장 주소" placeholder="고인 성함을 적으시면 여기에 주소가 만들어집니다">
       <div class="row">
         <button type="button" class="bj-btn solid" style="width:auto" id="copyLink">링크 복사</button>
+        <button type="button" class="bj-btn" style="width:auto" id="shareLink">보내기</button>
         <button type="button" class="bj-btn" style="width:auto" id="openLink">미리 보기</button>
         <span class="len" id="len"></span>
         <span class="msg" id="msg" style="font-size:.86rem;color:var(--accent);font-weight:500"></span>
       </div>
+      <p class="need" id="needName" hidden>고인 성함을 적으셔야 링크가 만들어집니다. 위 <b>고인 성함</b> 칸을 채워 주세요.</p>
     </div>
 
     <div class="note">
@@ -350,7 +352,7 @@
   function join(a, b) { return [a, b].filter(Boolean).join(" "); }
 
   /* ── 부고장 화면 만들기 ───────────────────────────────── */
-  function render(d) {
+  function render(d, opts) {
     var rel = d.r || "general";
     var w = WORD[rel] || WORD.general;
     var honor = d.h || "님";
@@ -396,7 +398,9 @@
         '<a class="bj-btn" href="https://map.naver.com/p/search/' + q + '" target="_blank" rel="noopener">네이버 지도</a>' +
         '<a class="bj-btn" href="https://map.kakao.com/?q=' + q + '" target="_blank" rel="noopener">카카오맵</a></div>';
     }
-    actions += '<button type="button" class="bj-btn" id="shareBtn">부고 전하기</button>';
+    // '부고 전하기' 는 받는 분 화면에만. 상주의 미리보기에는 넣지 않는다.
+    // 미리보기 안에 있으면 부고장의 일부인지 도구 단추인지 헷갈린다.
+    if (!opts || !opts.preview) actions += '<button type="button" class="bj-btn" id="shareBtn">부고 전하기</button>';
     // 근조화환: site-keys.js에 협력 화환 업체 주소가 있을 때만. 빈소 이름을 함께 넘긴다.
     var wreath = (window.WREATH_URL || "").trim();
     if (wreath && place) {
@@ -566,15 +570,25 @@
     $("wtField").hidden = !isChristian;
 
     var d = collect();
-    var url = location.origin + location.pathname + "#" + encode(d);
+    // 고인 성함이 없으면 링크를 만들지 않는다. 예전에는 빈 부고장 주소가 그대로
+    // 복사되어, 화면에는 예시가 보이는데 받는 분은 '故 ○○○님'을 보았다.
+    var ready = !!d.n;
+    var url = ready ? location.origin + location.pathname + "#" + encode(d) : "";
     $("link").value = url;
-    $("len").textContent = url.length + "자";
+    $("len").textContent = ready ? url.length + "자" : "";
+    ["copyLink", "openLink", "shareLink"].forEach(function (id) {
+      var b = $(id); if (!b) return;
+      b.disabled = !ready;
+      b.setAttribute("aria-disabled", ready ? "false" : "true");
+    });
+    var need = $("needName");
+    if (need) need.hidden = ready;
 
     var pv = $("preview");
-    // 아무것도 안 적었을 때는 예시로 보여 준다. 적기 시작하면 바로 실제 값으로 바뀐다.
+    // 아직 안 적었을 때는 예시를 보여 준다. 적기 시작하면 바로 실제 값으로 바뀐다.
     var empty = !d.n && !d.sn && !d.fh;
     var shown = empty ? SAMPLE : d;
-    pv.innerHTML = render(shown);
+    pv.innerHTML = render(shown, { preview: true });
     var note = $("pvNote");
     if (note) note.innerHTML = empty
       ? '받는 분에게는 이렇게 보입니다. 아래 칸을 채우면 바로 바뀝니다. <span class="tbd">지금은 예시</span>'
@@ -605,7 +619,19 @@
     }
   });
   $("openLink").addEventListener("click", function () {
-    window.open($("link").value, "_blank", "noopener");
+    if ($("link").value) window.open($("link").value, "_blank", "noopener");
+  });
+  // 폰의 공유판을 연다. 카카오톡·문자·메일 어디로든 한 번에 보낼 수 있다.
+  $("shareLink").addEventListener("click", function () {
+    var url = $("link").value;
+    if (!url) return;
+    var title = "[부고] 故 " + F.name.value.trim() + (F.honor.value.trim() || "님");
+    if (navigator.share) {
+      navigator.share({ title: title, text: title, url: url }).catch(function () {});
+    } else {
+      $("copyLink").click();
+      flash("이 기기는 바로 보내기가 없습니다. 주소를 복사했으니 붙여 넣어 주세요.");
+    }
   });
 
   update();
@@ -614,6 +640,6 @@
 
 <script src="assets/js/gm-chrome.js"></script>
 <script src="assets/js/gm-menu.js"></script>
-<script src="assets/js/gm-chat.js?v=20260919a"></script>
+<script src="assets/js/gm-chat.js?v=20260919b"></script>
 </body>
 </html>

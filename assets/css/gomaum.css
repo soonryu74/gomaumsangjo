@@ -1816,3 +1816,7 @@ section.gm-sec > h3 + ol { margin-top: 0; }
   .feed > .card:last-child:nth-child(odd),
   .feed > .card.wide + .card:last-child { grid-column: 1 / -1; }
 }
+
+/* 아직 채우지 않아 잠긴 단추 */
+.bj-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.linkbox .need { margin: 8px 0 0; font-size: .88rem; color: var(--ink-3); }
