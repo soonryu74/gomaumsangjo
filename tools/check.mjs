@@ -157,7 +157,24 @@ console.log("\n[5] 쪽 이름이 한 가지로 불리는가");
     : bad(`홈 카드가 차림표와 어긋남\n       차림표: ${wantCards}\n       홈    : ${gotCards}`);
 }
 
-console.log("\n[6] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
+console.log("\n[6] 장례 기록이 목록과 맞는가");
+{
+  const g = await import("./girok.mjs");
+  let recs = null;
+  try { recs = g.records(); } catch (e) { bad(e.message.split("\n")[0]); }
+  if (recs) {
+    const page = read("girok.html");
+    const m = page.match(/<!-- 기록 목록 시작[\s\S]*?<!-- 기록 목록 끝 -->/);
+    if (!m) bad("girok.html 에 목록 자리 표시가 없습니다");
+    else if (m[0] !== g.listHtml(recs)) bad("목록이 기록 파일과 다릅니다 — node tools/girok.mjs --write");
+    else ok(`장례 기록 ${recs.length}건 — 파일과 목록이 같고, 모두 유족 동의가 적혀 있습니다`);
+    const map = read("sitemap.xml");
+    const miss = recs.filter((r) => !map.includes(`/girok/${r.slug}.html`)).map((r) => r.slug);
+    miss.length ? bad("사이트맵에 빠진 기록: " + miss.join(" ")) : ok("사이트맵 — 기록이 모두 실려 있습니다");
+  }
+}
+
+console.log("\n[7] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
 const WATCH = [
   ["24시간", /24시간(?!이 지난)/g],
   ["개설 준비 중·개설 시점", /개설 (?:준비|시점|을 준비)/g],
