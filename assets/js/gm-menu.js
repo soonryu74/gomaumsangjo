@@ -32,6 +32,7 @@
     { t: "고마움 상조", items: [
       ["yaksok.html", "대표의 글", "김병호 · Since 2006"],
       ["girok.html", "장례 기록", "저희가 모신 장례, 유족 동의를 받고"],
+      ["sosik.html", "소식", "장례를 앞두고 알아 두실 것"],
       ["faq.html", "자주 묻는 질문", "추가 비용, 도착 시간, 열세 가지"]
     ]}
   ];
@@ -104,6 +105,42 @@
     var n3 = head.nextElementSibling && head.nextElementSibling.classList.contains("now3") ? head.nextElementSibling : head;
     n3.insertAdjacentHTML("afterend", q);
     document.querySelectorAll(".tier-call").forEach(function (a) { if (raw) a.href = "tel:" + raw; else { a.textContent = "상담 준비 중"; a.removeAttribute("href"); } });
+    // 차례 (데스크톱)
+    var hs = wrap.querySelectorAll("section.gm-sec > h2");
+    if (hs.length >= 2) {
+      var toc = '<aside class="gm-aside"><p class="toc-t">이 페이지</p><ul class="toc">';
+      hs.forEach(function (h, n) { if (!h.id) h.id = "s" + (n + 1); toc += '<li><a href="#' + h.id + '">' + esc(h.textContent.trim()) + '</a></li>'; });
+      toc += '</ul>' + (raw ? '<div class="callcard"><p>상을 당하셨다면 전화가 가장 빠릅니다. 가입 없이, 미리 내는 돈 없이.</p><a href="tel:' + raw + '">' + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3") + '</a><small>급한 전화는 밤에도</small><button type="button" class="cc-chat" data-gc-open><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.7L3 21l1.9-4.9A8.3 8.3 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/></svg>급하지 않으시면, 물어보기</button></div>' : "") + '</aside>';
+      wrap.insertAdjacentHTML("beforeend", toc);
+      // 초록 상자가 둘로 보이지 않게 한다. 사이드바 전화 카드가 화면에 다 들어오면
+      // 떠 있는 말풍선 단추를 감춘다. 사이드바가 화면보다 길면 감추지 않는다.
+      var aside = wrap.querySelector(".gm-aside");
+      var fitAside = function () {
+        var h = aside ? aside.getBoundingClientRect().height : 0;
+        document.body.classList.toggle("has-aside", !!h && h <= window.innerHeight - 96);
+      };
+      fitAside();
+      window.addEventListener("resize", fitAside);
+      window.addEventListener("load", fitAside);
+      var links = wrap.querySelectorAll(".gm-aside .toc a");
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id); }); } }); }, { rootMargin: "-20% 0px -70% 0px" });
+        hs.forEach(function (h) { io.observe(h); });
+      }
+    }
+    // 다음으로
+    var nxt = sib.slice(0, 2);
+    if (nxt.length) {
+      var nb = '<section class="gm-next" aria-label="다음으로"><h2>다음으로 보실 것</h2><div class="row">';
+      nxt.forEach(function (x) { nb += '<a href="' + x[0] + '"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></a>'; });
+      nb += '</div></section>';
+      var sig = wrap.querySelector(".gm-signature");
+      if (sig) sig.insertAdjacentHTML("beforebegin", nb); else wrap.insertAdjacentHTML("beforeend", nb);
+    }
+  }
+  /* 표 다루기 — 쪽 머리글이 있든 없든 모든 쪽에서 돈다.
+     소식·장례 기록처럼 머리글이 없는 쪽에도 표가 들어가기 때문이다. */
+  function tables() {
     // 표: 좁은 화면에서는 옆으로 밀지 않고 한 줄을 한 장으로 세운다.
     // 칸 이름을 각 칸에 붙여 두면 CSS가 "이름 / 값"으로 펼친다.
     // 세로로 묶인 칸(rowspan)이 있는 표는 세울 수 없으므로 밀어 보는 그대로 둔다.
@@ -147,45 +184,15 @@
       }
       if (t.scrollWidth > t.clientWidth + 4) { t.classList.add("can-scroll"); t.insertAdjacentHTML("afterend", '<p class="tw-hint">표가 넓습니다. 옆으로 밀어 보세요.</p>'); }
     });
-    // 차례 (데스크톱)
-    var hs = wrap.querySelectorAll("section.gm-sec > h2");
-    if (hs.length >= 2) {
-      var toc = '<aside class="gm-aside"><p class="toc-t">이 페이지</p><ul class="toc">';
-      hs.forEach(function (h, n) { if (!h.id) h.id = "s" + (n + 1); toc += '<li><a href="#' + h.id + '">' + esc(h.textContent.trim()) + '</a></li>'; });
-      toc += '</ul>' + (raw ? '<div class="callcard"><p>상을 당하셨다면 전화가 가장 빠릅니다. 가입 없이, 미리 내는 돈 없이.</p><a href="tel:' + raw + '">' + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3") + '</a><small>급한 전화는 밤에도</small><button type="button" class="cc-chat" data-gc-open><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.7L3 21l1.9-4.9A8.3 8.3 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/></svg>급하지 않으시면, 물어보기</button></div>' : "") + '</aside>';
-      wrap.insertAdjacentHTML("beforeend", toc);
-      // 초록 상자가 둘로 보이지 않게 한다. 사이드바 전화 카드가 화면에 다 들어오면
-      // 떠 있는 말풍선 단추를 감춘다. 사이드바가 화면보다 길면 감추지 않는다.
-      var aside = wrap.querySelector(".gm-aside");
-      var fitAside = function () {
-        var h = aside ? aside.getBoundingClientRect().height : 0;
-        document.body.classList.toggle("has-aside", !!h && h <= window.innerHeight - 96);
-      };
-      fitAside();
-      window.addEventListener("resize", fitAside);
-      window.addEventListener("load", fitAside);
-      var links = wrap.querySelectorAll(".gm-aside .toc a");
-      if ("IntersectionObserver" in window) {
-        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id); }); } }); }, { rootMargin: "-20% 0px -70% 0px" });
-        hs.forEach(function (h) { io.observe(h); });
-      }
-    }
-    // 다음으로
-    var nxt = sib.slice(0, 2);
-    if (nxt.length) {
-      var nb = '<section class="gm-next" aria-label="다음으로"><h2>다음으로 보실 것</h2><div class="row">';
-      nxt.forEach(function (x) { nb += '<a href="' + x[0] + '"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></a>'; });
-      nb += '</div></section>';
-      var sig = wrap.querySelector(".gm-signature");
-      if (sig) sig.insertAdjacentHTML("beforebegin", nb); else wrap.insertAdjacentHTML("beforeend", nb);
-    }
   }
+
   function ready(fn) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn); else fn(); }
   ready(function () {
     document.body.insertAdjacentHTML("beforeend", html + tab);
     document.body.classList.add("has-tabbar");
     document.body.classList.add("p-" + here.replace(/\.html$/, "").replace(/[^a-z0-9]/g, "") || "p-index");
     enrich();
+    tables();
     var tc = document.querySelector(".gm-tabbar .call");
     if (tc) { var r2 = (window.PHONE || "").replace(/[^\d+]/g, ""); if (r2) tc.href = "tel:" + r2; else { tc.removeAttribute("href"); tc.textContent = ""; tc.innerHTML = I.call + "준비 중"; } }
     var menu = document.getElementById("gmMenu"), lastFocus = null;

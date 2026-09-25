@@ -128,12 +128,13 @@ console.log("\n[5] 쪽 이름이 한 가지로 불리는가");
   const G = groups();
   const flat = G.flatMap((g) => g.items);
   // 5-1 바닥 메뉴가 GROUPS 와 같은가
-  const want = footerNav();
-  const drift = pages.filter((f) => f !== "404.html")
-    .filter((f) => (read(f).match(/<nav class="fnav"[\s\S]*?<\/nav>/) || [""])[0] !== want);
+  const { allPages } = await import("./nav.mjs");
+  const all = allPages().filter(({ f }) => f !== "404.html");
+  const drift = all.filter(({ f, up }) =>
+    (read(f).match(/<nav class="fnav"[\s\S]*?<\/nav>/) || [""])[0] !== footerNav(up)).map(({ f }) => f);
   drift.length
     ? bad(`바닥 메뉴가 차림표와 다름: ${drift.join(" ")} — node tools/nav.mjs --write`)
-    : ok(`바닥 메뉴 ${pages.length - 1}쪽 — 차림표 한 곳에서 나옴 (묶음 ${G.length}, 쪽 ${flat.length})`);
+    : ok(`바닥 메뉴 ${all.length}쪽 — 차림표 한 곳에서 나옴 (묶음 ${G.length}, 쪽 ${flat.length})`);
   // 5-2 쪽 제목이 그 이름으로 시작하는가
   const off = flat.filter(([href, name]) => {
     const t = (read(href).match(/<title>([^<]*)<\/title>/) || [])[1] || "";
@@ -174,7 +175,24 @@ console.log("\n[6] 장례 기록이 목록과 맞는가");
   }
 }
 
-console.log("\n[7] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
+console.log("\n[7] 소식이 목록과 맞는가");
+{
+  const g = await import("./sosik.mjs");
+  let recs = null;
+  try { recs = g.records(); } catch (e) { bad(e.message.split("\n")[0]); }
+  if (recs) {
+    const page = read("sosik.html");
+    const m = page.match(/<!-- 소식 목록 시작[\s\S]*?<!-- 소식 목록 끝 -->/);
+    if (!m) bad("sosik.html 에 목록 자리 표시가 없습니다");
+    else if (m[0] !== g.listHtml(recs)) bad("목록이 글 파일과 다릅니다 — node tools/sosik.mjs --write");
+    else ok(`소식 ${recs.length}편 — 파일과 목록이 같습니다`);
+    const map = read("sitemap.xml");
+    const miss = recs.filter((r) => !map.includes(`/sosik/${r.slug}.html`)).map((r) => r.slug);
+    miss.length ? bad("사이트맵에 빠진 글: " + miss.join(" ")) : ok("사이트맵 — 소식이 모두 실려 있습니다");
+  }
+}
+
+console.log("\n[8] 운영자가 확정해야 하는 문구가 어디에 있는가  (판정하지 않고 세기만 함)");
 const WATCH = [
   ["24시간", /24시간(?!이 지난)/g],
   ["개설 준비 중·개설 시점", /개설 (?:준비|시점|을 준비)/g],

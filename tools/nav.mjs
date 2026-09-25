@@ -14,21 +14,33 @@ export function groups() {
 
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-export function footerNav() {
+// up: 하위 폴더(girok/, sosik/)의 쪽은 주소를 한 단계 올려야 한다
+export function footerNav(up = "") {
   const cols = groups().map(g =>
     `      <div class="fcol">\n        <p class="ft">${esc(g.t)}</p>\n` +
-    g.items.map(([h, n]) => `        <a href="${h}">${esc(n)}</a>`).join("\n") +
+    g.items.map(([h, n]) => `        <a href="${up}${h}">${esc(n)}</a>`).join("\n") +
     `\n      </div>`).join("\n");
   return `<nav class="fnav" aria-label="전체 메뉴">\n${cols}\n    </nav>`;
+}
+
+// 뒤져야 할 쪽들: 뿌리와 글 폴더
+export function allPages() {
+  const out = readdirSync(".").filter((f) => f.endsWith(".html")).map((f) => ({ f, up: "" }));
+  for (const d of ["girok", "sosik"]) {
+    let fs2 = [];
+    try { fs2 = readdirSync(d); } catch (e) { continue; }
+    for (const f of fs2.filter((f) => f.endsWith(".html"))) out.push({ f: `${d}/${f}`, up: "../" });
+  }
+  return out;
 }
 
 const RE = /<nav class="fnav"[\s\S]*?<\/nav>/;
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const write = process.argv.includes("--write");
-  const want = footerNav();
   let same = 0, fixed = [], missing = [];
-  for (const f of readdirSync(".").filter(f => f.endsWith(".html"))) {
+  for (const { f, up } of allPages()) {
+    const want = footerNav(up);
     const s = readFileSync(f, "utf8");
     if (!RE.test(s)) { missing.push(f); continue; }
     if (s.match(RE)[0] === want) { same++; continue; }
