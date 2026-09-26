@@ -70,6 +70,42 @@ export function listHtml(recs) {
   return `${BEGIN}\n    <div class="rec-list">\n${items}\n    </div>\n    ${END}`;
 }
 
+// 검색엔진이 읽는 정보 덩어리(JSON-LD)를 글 파일마다 다시 써 넣는다.
+// 값은 그 글의 gm-sosik 과 제목에서만 가져온다. 손으로 고치지 않는다.
+const LD_BEGIN = '<script type="application/ld+json" id="gm-sosik-ld">';
+const LD_END = "</script>";
+
+function ldBlock(r) {
+  const o = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: r.title,
+    description: r.summary,
+    datePublished: r.date,
+    dateModified: r.date,
+    inLanguage: "ko",
+    mainEntityOfPage: `https://gomaumsangjo.com/sosik/${r.slug}.html`,
+    author: { "@type": "Organization", name: "고마움 상조", url: "https://gomaumsangjo.com/" },
+    publisher: { "@type": "Organization", name: "고마움 상조", url: "https://gomaumsangjo.com/" },
+    image: "https://gomaumsangjo.com/assets/img/cover-lily-color.jpg",
+  };
+  return LD_BEGIN + "\n" + JSON.stringify(o, null, 2) + "\n" + LD_END;
+}
+
+// 글마다 덩어리를 맞춘다. 이미 있으면 갈아 끼우고, 없으면 </head> 앞에 넣는다.
+function syncLd(recs, write) {
+  let off = 0;
+  for (const r of recs) {
+    const f = path.join(DIR, r.file);
+    const cur = readFileSync(f, "utf8");
+    const want = cur.includes(LD_BEGIN)
+      ? cur.replace(new RegExp(LD_BEGIN.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[\\s\\S]*?" + LD_END), ldBlock(r))
+      : cur.replace("</head>", ldBlock(r) + "\n</head>");
+    if (want !== cur) { off++; if (write) writeFileSync(f, want); }
+  }
+  return off;
+}
+
 function sitemap(recs, write) {
   const f = path.join(ROOT, "sitemap.xml");
   let s = readFileSync(f, "utf8");
@@ -127,8 +163,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const listSame = want === page;
   if (!listSame && write) writeFileSync(LIST, want);
   const mapSame = sitemap(recs, write);
+  const ldOff = syncLd(recs, write);
 
-  console.log(`소식 ${recs.length}건 · 목록 ${listSame ? "같음" : (write ? "고침" : "어긋남")} · 사이트맵 ${mapSame ? "같음" : (write ? "고침" : "어긋남")}`);
+  const ldWord = ldOff === 0 ? "같음" : (write ? `${ldOff}건 고침` : `${ldOff}건 어긋남`);
+  console.log(`소식 ${recs.length}건 · 목록 ${listSame ? "같음" : (write ? "고침" : "어긋남")} · 사이트맵 ${mapSame ? "같음" : (write ? "고침" : "어긋남")} · 검색정보 ${ldWord}`);
   recs.forEach((r) => console.log(`  ${r.date}  ${r.reader}  ${r.title}`));
-  if (!write && (!listSame || !mapSame)) process.exitCode = 1;
+  if (!write && (!listSame || !mapSame || ldOff)) process.exitCode = 1;
 }
