@@ -28,7 +28,7 @@ const dayLabel = (d) => {
 export function records() {
   if (!existsSync(DIR)) return [];
   const out = [], bad = [];
-  for (const f of readdirSync(DIR).filter((f) => f.endsWith(".html")).sort().reverse()) {
+  for (const f of readdirSync(DIR).filter((f) => f.endsWith(".html")).sort()) {
     const s = readFileSync(path.join(DIR, f), "utf8");
     const m = s.match(/<script type="application\/json" id="gm-sosik">([\s\S]*?)<\/script>/);
     if (!m) { bad.push(`${f}: 정보 덩어리(gm-sosik)가 없습니다`); continue; }
@@ -40,7 +40,23 @@ export function records() {
     out.push({ file: f, slug: f.replace(/\.html$/, ""), title: t[1].replace(/<[^>]+>/g, "").trim(), ...d });
   }
   if (bad.length) { const e = new Error("소식 파일에 문제가 있습니다:\n  - " + bad.join("\n  - ")); e.bad = bad; throw e; }
+  // 새 글이 위로 온다. 날짜가 같으면 파일이름 역순으로 갈라 늘 같은 차례가 되게 한다.
+  out.sort((a, b) => (a.date === b.date ? b.file.localeCompare(a.file) : b.date.localeCompare(a.date)));
   return out;
+}
+
+// 틀을 본뜰 파일: 날짜가 가장 늦은 소식. 날짜를 읽을 수 없으면 파일이름 마지막.
+function newestFile() {
+  const files = readdirSync(DIR).filter((f) => f.endsWith(".html")).sort();
+  let best = null, bestDate = "";
+  for (const f of files) {
+    const m = readFileSync(path.join(DIR, f), "utf8")
+      .match(/<script type="application\/json" id="gm-sosik">([\s\S]*?)<\/script>/);
+    let d = "";
+    try { d = m ? (JSON.parse(m[1]).date || "") : ""; } catch { d = ""; }
+    if (d >= bestDate) { bestDate = d; best = f; }
+  }
+  return best || files[files.length - 1];
 }
 
 export function listHtml(recs) {
@@ -73,7 +89,7 @@ function scaffold(slug) {
     throw new Error("이름은 2026-09-sangjo-garip 꼴로 지어 주세요 (연-월-영문)");
   const target = path.join(DIR, slug + ".html");
   if (existsSync(target)) throw new Error(slug + ".html 이 이미 있습니다");
-  const base = readdirSync(DIR).filter((f) => f.endsWith(".html")).sort().pop();
+  const base = newestFile();
   if (!base) throw new Error("본뜰 소식이 없습니다");
   let s = readFileSync(path.join(DIR, base), "utf8");
   const today = new Date().toISOString().slice(0, 10);
