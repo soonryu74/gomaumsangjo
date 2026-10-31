@@ -1768,6 +1768,13 @@ section.gm-sec > h3 + ol { margin-top: 0; }
   line-height: 1.78;
   color: var(--ink-3);
 }
+.gm-footer-inner .fbiz {
+  margin: 0 0 9px;
+  font-size: 0.76rem;
+  line-height: 1.7;
+  color: var(--ink-3);
+  word-break: keep-all;
+}
 .gm-footer-inner .fcopy {
   margin: 0;
   font-family: var(--f-mono);
