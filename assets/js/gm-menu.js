@@ -44,10 +44,14 @@
   };
   window.GM_GROUPS = GROUPS; window.GM_SHORT = SHORT;
   var here = location.pathname.split("/").pop() || "index.html";
+  // 쪽 주소는 사이트 뿌리 기준으로 만든다. sosik/·girok/ 안의 쪽에서 상대 주소를 쓰면
+  // "sosik/jeolcha.html" 처럼 없는 주소가 되기 때문이다.
+  function u(f) { return /^(https?:|\/|#|tel:|sms:|mailto:)/.test(f) ? f : "/" + (f === "./" ? "" : f); }
+  window.GM_URL = u;
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
   var html = '<div class="gm-menu" id="gmMenu" hidden role="dialog" aria-modal="true" aria-label="전체 메뉴">' +
-    '<div class="gm-menu-top"><a class="gm-menu-brand" href="./" aria-label="고마움 상조 홈으로"><img src="assets/img/brand-mark.png" width="1272" height="222" alt="고마움 상조"></a>' +
+    '<div class="gm-menu-top"><a class="gm-menu-brand" href="/" aria-label="고마움 상조 홈으로"><img src="/assets/img/brand-mark.png" width="1272" height="222" alt="고마움 상조"></a>' +
     '<button type="button" class="gm-menu-close" data-menu-close aria-label="메뉴 닫기">' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
     '<div class="gm-menu-body">';
@@ -56,7 +60,7 @@
     var items = GROUPS[g].items;
     for (var i = 0; i < items.length; i++) {
       var f = items[i][0], cur = (f === here) || (f === "./" && here === "index.html");
-      html += '<li><a href="' + esc(f) + '"' + (cur ? ' aria-current="page"' : '') + '><b>' + esc(items[i][1]) + '</b>' +
+      html += '<li><a href="' + esc(u(f)) + '"' + (cur ? ' aria-current="page"' : '') + '><b>' + esc(items[i][1]) + '</b>' +
         (items[i][2] ? '<small>' + esc(items[i][2]) + '</small>' : '') + '</a></li>';
     }
     html += '</ul></section>';
@@ -84,7 +88,7 @@
     ["bugojang.html", nameOf("bugojang.html", 1), I.bugo, "bugojang.html"],
     ["sikjang.html", nameOf("sikjang.html", 1), I.map, "sikjang.html"]];
   var tab = '<nav class="gm-tabbar" aria-label="하단 메뉴">';
-  for (var t = 0; t < TABS.length; t++) tab += '<a href="' + TABS[t][0] + '" class="' + (TABS[t][3] === here ? "on" : "") + '">' + TABS[t][2] + TABS[t][1] + '</a>';
+  for (var t = 0; t < TABS.length; t++) tab += '<a href="' + u(TABS[t][0]) + '" class="' + (TABS[t][3] === here ? "on" : "") + '">' + TABS[t][2] + TABS[t][1] + '</a>';
   tab += '<a class="call" data-phone href="#">' + I.call + '전화</a></nav>';
 
   var PHONE_ICON = '<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>';
@@ -100,7 +104,7 @@
     if (!sib.length) sib = flat.slice(0, 3);
     // 바로가기
     var q = '<nav class="gm-quick" aria-label="바로가기">' + (raw ? '<a class="call" href="tel:' + raw + '">' + PHONE_ICON + '지금 전화</a>' : "");
-    sib.slice(0, 4).forEach(function (x) { q += '<a href="' + x[0] + '">' + esc(x[1]) + '</a>'; });
+    sib.slice(0, 4).forEach(function (x) { q += '<a href="' + u(x[0]) + '">' + esc(x[1]) + '</a>'; });
     q += '</nav>';
     var n3 = head.nextElementSibling && head.nextElementSibling.classList.contains("now3") ? head.nextElementSibling : head;
     n3.insertAdjacentHTML("afterend", q);
@@ -132,7 +136,7 @@
     var nxt = sib.slice(0, 2);
     if (nxt.length) {
       var nb = '<section class="gm-next" aria-label="다음으로"><h2>다음으로 보실 것</h2><div class="row">';
-      nxt.forEach(function (x) { nb += '<a href="' + x[0] + '"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></a>'; });
+      nxt.forEach(function (x) { nb += '<a href="' + u(x[0]) + '"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></a>'; });
       nb += '</div></section>';
       var sig = wrap.querySelector(".gm-signature");
       if (sig) sig.insertAdjacentHTML("beforebegin", nb); else wrap.insertAdjacentHTML("beforeend", nb);

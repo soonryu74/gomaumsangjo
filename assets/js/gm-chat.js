@@ -207,7 +207,7 @@
     var wrap = el("div", "gc-links");
     pairs.forEach(function (p) {
       var a = el("a", "gc-link", p[0]);
-      a.href = p[1];
+      a.href = /^(https?:|\/|#)/.test(p[1]) ? p[1] : "/" + p[1];
       wrap.appendChild(a);
     });
     body.appendChild(wrap);
