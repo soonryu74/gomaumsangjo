@@ -12,12 +12,12 @@
       ["bugo.html", "부고 쓰는 법", "무엇을 적고 무엇을 빼는가"]
     ]},
     { t: "후불제 장례", items: [
-      ["hubul.html", "후불제 장례", "접수부터 정산까지 다섯 단계"],
-      ["sangpum.html", "상품 안내", "다섯 가지 묶음, 정산은 쓰신 대로"],
-      ["danga.html", "품목별 단가표", "먼저 드리고, 없는 항목은 청구 안 함"]
+      ["hubul.html", "후불제 장례", "미리 받지 않는 장례, 선불과 무엇이 다른가"],
+      ["sangpum.html", "장례 방식 안내", "무빈소부터 3일장까지, 무엇이 다른가"],
+      ["danga.html", "견적서 읽는 법", "무엇이 저희 몫이고 무엇이 시설 몫인가"]
     ]},
     { t: "이런 장례도 있습니다", items: [
-      ["mubinso.html", "무빈소 장례", "빈소 없이 가족끼리, 비용은 절반 아래"],
+      ["mubinso.html", "무빈소 장례", "빈소 없이 가족끼리, 무엇이 빠지고 남는가"],
       ["christian.html", "기독교 장례", "네 번의 예배"]
     ]},
     { t: "재보고 따져보기", items: [
@@ -26,14 +26,14 @@
       ["gyeolhap.html", "결합상품 판별", "여덟 문항"]
     ]},
     { t: "장례가 끝난 뒤", items: [
-      ["kiil.html", "기일 리마인드", "해마다 먼저 연락, 전부 무료"],
+      ["kiil.html", "기일 리마인드", "준비 중 · 기일 전에 먼저 연락"],
       ["hyeopryeok.html", "함께하는 곳", "화환·답례품·영정사진·유품정리"]
     ]},
     { t: "고마움 상조", items: [
-      ["yaksok.html", "대표의 글", "김병호 · Since 2006"],
+      ["yaksok.html", "대표의 글", "김병호 · 장례 현장 2006년부터"],
       ["girok.html", "장례 기록", "저희가 모신 장례, 유족 동의를 받고"],
       ["sosik.html", "소식", "장례를 앞두고 알아 두실 것"],
-      ["faq.html", "자주 묻는 질문", "추가 비용, 도착 시간, 열세 가지"]
+      ["faq.html", "자주 묻는 질문", "지금 이용할 수 있는지, 비용, 정산"]
     ]}
   ];
   // 칸이 좁은 자리에서 쓰는 줄인 이름. 없으면 본이름 그대로.
@@ -43,6 +43,29 @@
     "sikjang.html": "찾기"
   };
   window.GM_GROUPS = GROUPS; window.GM_SHORT = SHORT;
+
+  // 운영 상태는 여기 한 곳에서 정한다. "prelaunch" 이면 모든 쪽 머리글 위에 공지 띠가 뜬다.
+  // 정식으로 문을 열면 "open" 으로 바꾸고, 쪽마다 남은 "개설 준비 중" 문구를 함께 거둔다.
+  var PHASE = "prelaunch";
+  window.GM_PHASE = PHASE;
+  function notice() {
+    if (PHASE !== "prelaunch" || document.querySelector(".gm-notice")) return;
+    var KEY = "gm-notice-prelaunch";
+    try { if (sessionStorage.getItem(KEY) === "x") return; } catch (e) {}
+    var el = document.createElement("div");
+    el.className = "gm-notice";
+    el.setAttribute("role", "note");
+    el.innerHTML = '<p><b>개설 준비 중</b> 고마움상조는 후불제 장례 서비스 개설을 준비하고 있습니다. 장례 정보와 무료 도구는 지금 이용하실 수 있습니다. <a href="/faq.html#now">자세히</a></p>' +
+      '<button type="button" aria-label="공지 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
+    el.querySelector("button").addEventListener("click", function () {
+      el.remove();
+      try { sessionStorage.setItem(KEY, "x"); } catch (e) {}
+    });
+    var anchor = document.querySelector("header.gm-top") || document.querySelector(".a-screen");
+    if (anchor) anchor.parentNode.insertBefore(el, anchor);
+    else document.body.insertBefore(el, document.body.firstChild);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", notice); else notice();
   var here = location.pathname.split("/").pop() || "index.html";
   // 쪽 주소는 사이트 뿌리 기준으로 만든다. sosik/·girok/ 안의 쪽에서 상대 주소를 쓰면
   // "sosik/jeolcha.html" 처럼 없는 주소가 되기 때문이다.
@@ -67,7 +90,7 @@
   }
   html += '</div><div class="gm-menu-foot"><a class="gm-menu-call" data-phone href="#">전화</a>' +
     '<a class="gm-menu-kakao" data-kakao href="#" hidden target="_blank" rel="noopener">카카오톡으로 문의</a>' +
-    '<span>미리 받지 않습니다 · 쓰신 만큼만 · 해마다 곁에</span></div></div>';
+    '<span>미리 받지 않습니다 · 쓰신 만큼만 · 개설 준비 중</span></div></div>';
 
   // 하단 탭 (폰): 홈 · 무엇부터 · 부고장 · 찾기 · 전화. 메뉴는 오른쪽 위 단추가 맡는다.
   var I = {
@@ -103,7 +126,7 @@
     var sib = group ? group.items.filter(function (x) { return x[0] !== here && x[0] !== "./"; }) : [];
     if (!sib.length) sib = flat.slice(0, 3);
     // 바로가기
-    var q = '<nav class="gm-quick" aria-label="바로가기">' + (raw ? '<a class="call" href="tel:' + raw + '">' + PHONE_ICON + '지금 전화</a>' : "");
+    var q = '<nav class="gm-quick" aria-label="바로가기">' + (raw ? '<a class="call" href="tel:' + raw + '">' + PHONE_ICON + '전화 문의</a>' : "");
     sib.slice(0, 4).forEach(function (x) { q += '<a href="' + u(x[0]) + '">' + esc(x[1]) + '</a>'; });
     q += '</nav>';
     var n3 = head.nextElementSibling && head.nextElementSibling.classList.contains("now3") ? head.nextElementSibling : head;
@@ -114,7 +137,7 @@
     if (hs.length >= 2) {
       var toc = '<aside class="gm-aside"><p class="toc-t">이 페이지</p><ul class="toc">';
       hs.forEach(function (h, n) { if (!h.id) h.id = "s" + (n + 1); toc += '<li><a href="#' + h.id + '">' + esc(h.textContent.trim()) + '</a></li>'; });
-      toc += '</ul>' + (raw ? '<div class="callcard"><p>상을 당하셨다면 전화가 가장 빠릅니다. 가입 없이, 미리 내는 돈 없이.</p><a href="tel:' + raw + '">' + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3") + '</a><small>급한 전화는 밤에도</small><button type="button" class="cc-chat" data-gc-open><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.7L3 21l1.9-4.9A8.3 8.3 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/></svg>급하지 않으시면, 물어보기</button></div>' : "") + '</aside>';
+      toc += '</ul>' + (raw ? '<div class="callcard"><p>후불제 장례 서비스 개설을 준비하고 있습니다. 궁금하신 것은 전화로 먼저 여쭤보셔도 됩니다.</p><a href="tel:' + raw + '">' + raw.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, "$1-$2-$3") + '</a><small>사전 문의 전화</small><button type="button" class="cc-chat" data-gc-open><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.7L3 21l1.9-4.9A8.3 8.3 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/></svg>급하지 않으시면, 물어보기</button></div>' : "") + '</aside>';
       wrap.insertAdjacentHTML("beforeend", toc);
       // 초록 상자가 둘로 보이지 않게 한다. 사이드바 전화 카드가 화면에 다 들어오면
       // 떠 있는 말풍선 단추를 감춘다. 사이드바가 화면보다 길면 감추지 않는다.
