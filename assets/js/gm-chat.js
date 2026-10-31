@@ -366,6 +366,7 @@
     body.appendChild(wrap);
   }
 
+  var opener = null;
   function toggle() {
     open = !open;
     panel.hidden = !open;
@@ -382,7 +383,8 @@
       var x = panel.querySelector(".gc-x");
       if (x) x.focus();
     } else {
-      launcher.focus();
+      var back = opener && opener.offsetParent !== null ? opener : launcher;
+      back.focus();
     }
   }
 
@@ -391,6 +393,7 @@
     var t = e.target && e.target.closest ? e.target.closest("[data-gc-open]") : null;
     if (!t) return;
     e.preventDefault();
+    opener = t;
     if (!open) toggle();
   });
 

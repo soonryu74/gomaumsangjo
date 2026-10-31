@@ -1581,7 +1581,9 @@ section.gm-sec > h3 { margin-top: 34px; }
 .gm-aside .callcard .cc-chat:hover { background: rgba(255,255,255,0.13); border-color: rgba(255,255,255,0.55); }
 .gm-aside .callcard .cc-chat:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
 .gm-aside .callcard .cc-chat svg { width: 16px; height: 16px; flex: 0 0 auto; }
-@media (min-width: 1100px) { body.has-aside .gc-root { display: none; } }
+/* 옆 칸 전화 카드에 여는 단추가 있으므로 떠 있는 단추만 숨긴다.
+   .gc-root 전체를 숨기면 그 안의 상자도 높이 0으로 열려 아무것도 보이지 않는다. */
+@media (min-width: 1100px) { body.has-aside .gc-launcher { display: none; } }
 
 /* =========================================================
    제목 체계 — 대제목과 소제목이 한눈에 갈라져 보이도록
