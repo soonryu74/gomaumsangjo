@@ -1894,3 +1894,8 @@ section.gm-sec > h3 + ol { margin-top: 0; }
 .gm-notice button:hover, .gm-notice button:focus-visible { opacity: 1; }
 .gm-notice button svg { width: 16px; height: 16px; }
 @media print { .gm-notice { display: none; } }
+
+/* 상품 카드의 포함·별도 목록 */
+.tier-incl { margin: 14px 0 4px; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 0.9rem; line-height: 1.65; }
+.tier-incl dt { font-weight: 700; color: var(--accent-deep); white-space: nowrap; }
+.tier-incl dd { margin: 0; color: var(--ink-2); min-width: 0; word-break: keep-all; }
