@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>장례비 가늠 — 진짜 장례비 계산기 — 고마움 상조</title>
-<meta name="description" content="장례식장 유형, 조문객 수, 장지 방식을 고르면 3일장 실제 총비용이 나옵니다. 상조 상품이 덮는 부분과 따로 내야 하는 부분을 나눠 보여줍니다. 공표 평균값 기반 무료 계산기.">
+<meta name="description" content="장례식장 유형, 조문객 수, 장지 방식을 고르면 3일장 실제 총비용이 나옵니다. 상조 상품으로 해결되는 돈과 따로 내야 하는 돈을 나눠 보여줍니다. 공표 평균값 기반 무료 계산기.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/img/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
@@ -13,7 +13,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta property="og:type" content="article">
 <meta property="og:title" content="진짜 장례비 계산기 — 고마움 상조">
-<meta property="og:description" content="상조에 들어도 장례비의 20~40%만 덮입니다. 나머지가 얼마인지 미리 계산해 보세요.">
+<meta property="og:description" content="상조에 들어도 상품으로 해결되는 건 장례비의 20~40%뿐입니다. 따로 낼 돈이 얼마인지 미리 계산해 보세요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
@@ -44,7 +44,7 @@
   <div class="gm-page-head">
     <p class="kicker">무료 도구 · 누구나</p>
     <h1>진짜 장례비 계산기</h1>
-    <p class="lead">상조 상품은 장례비의 일부만 덮습니다. 장례식장 사용료, 접객 음식, 장지는 대부분 별도입니다. 몇 가지만 고르면 총액과 함께 <strong>상조가 덮지 않는 몫</strong>이 얼마인지 나옵니다.</p>
+    <p class="lead">상조 상품으로 해결되는 건 장례비의 일부뿐입니다. 장례식장 사용료, 접객 음식, 장지는 대부분 별도입니다. 몇 가지만 고르면 총액과 함께 <strong>상조 상품과 별도로 따로 내야 하는 돈</strong>이 얼마인지 나옵니다.</p>
   </div>
 
   <div class="now3"><p class="t">지금 이것만</p><ol><li>조건을 넣으면 대략의 액수가 나옵니다.</li><li>저희 몫과 시설 몫이 색으로 갈립니다.</li><li>확정 금액이 아니라 가늠입니다.</li></ol></div>
@@ -147,8 +147,8 @@
       <span class="uncovered" id="barOut" style="flex-basis:100%"></span>
     </div>
     <div class="cover-legend">
-      <span><i class="c1"></i>상조가 덮는 몫 <b id="legIn">0%</b></span>
-      <span><i class="c2"></i>따로 내야 하는 몫 <b id="legOut">100%</b></span>
+      <span><i class="c1"></i>상조 상품으로 해결 <b id="legIn">0%</b></span>
+      <span><i class="c2"></i>따로 내는 돈 <b id="legOut">100%</b></span>
     </div>
   </div>
 
@@ -452,13 +452,14 @@
     els.legIn.textContent = pctIn + "%";
     els.legOut.textContent = pctOut + "%";
 
-    var tipHtml;
+    var tipHtml, sjVal = document.getElementById("sangjo").value;
+    var sjName = /^\d+$/.test(sjVal) ? "선불 상조 " + sjVal + "만 원 상품" : "상조 상품";
     if (pctIn === 0) {
       tipHtml = "<p class=\"lbl\">상조 미가입 · 후불제</p><p>전액을 장례 시점에 부담하게 됩니다. 대신 미리 납입해 둔 돈이 묶여 있지 않고, 폐업 위험도 지지 않습니다.</p>";
     } else if (pctIn < 30) {
-      tipHtml = "<p class=\"lbl\">확인하세요</p><p>상조 상품이 덮는 몫은 <strong>" + pctIn + "%</strong>뿐입니다. 나머지 <strong>" + fmt(outMid) + "만 원</strong>은 상을 당한 뒤 현장에서 결제해야 합니다. 이 금액을 어디서 마련할지 미리 정해두는 편이 좋습니다.</p>";
+      tipHtml = "<p class=\"lbl\">확인하세요</p><p>" + sjName + "으로 해결되는 돈은 전체 장례비의 <strong>" + pctIn + "%</strong>뿐입니다. 나머지 <strong>" + fmt(outMid) + "만 원</strong>은 상을 당한 뒤 현장에서 결제해야 합니다. 이 금액을 어디서 마련할지 미리 정해두는 편이 좋습니다.</p>";
     } else {
-      tipHtml = "<p class=\"lbl\">확인하세요</p><p>상조가 <strong>" + pctIn + "%</strong>를 덮습니다. 별도 부담은 <strong>" + fmt(outMid) + "만 원</strong>입니다. 상품에 포함된 용품 등급이 무엇인지 계약서에서 미리 확인해 두세요.</p>";
+      tipHtml = "<p class=\"lbl\">확인하세요</p><p>" + sjName + "으로 해결되는 돈은 전체 장례비의 <strong>" + pctIn + "%</strong>입니다. 나머지 <strong>" + fmt(outMid) + "만 원</strong>은 따로 내셔야 합니다. 상품에 포함된 용품 등급이 무엇인지 계약서에서 미리 확인해 두세요.</p>";
     }
     els.tip.innerHTML = tipHtml;
     els.tip.className = pctIn < 30 ? "note warn" : "note";
