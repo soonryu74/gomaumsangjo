@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>고마움 상조 — 당신이 있어 고마움을 배웠습니다</title>
-<meta name="description" content="미리 돈을 받지 않는 후불제 상조입니다. 상품과 품목별 가격을 공개하고, 발인 전에 쓰신 만큼만 정산합니다. 임종 직후 순서, 장례식장 찾기, 장례비 가늠 같은 무료 도구도 있습니다.">
+<meta name="description" content="미리 돈을 받지 않는 후불제 상조입니다. 상품과 항목별 가격을 공개하고, 발인 전에 쓰신 만큼만 정산합니다. 임종 직후 순서, 장례식장 찾기, 장례비 가늠 같은 무료 도구도 있습니다.">
 <meta name="theme-color" content="#161a18">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/img/icon-192.png" type="image/png" sizes="192x192">
@@ -243,6 +243,11 @@ a { color: inherit; }
 .h-prices .pr { font-weight: 700; font-size: 17px; color: var(--orange-deep); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .h-prices-note { margin: 0; padding: 12px 18px 14px; font-size: 13px; line-height: 1.55; color: var(--ink-3); background: var(--paper); word-break: keep-all; }
 
+.h-review { margin: 0 0 12px; padding: 18px; border: 1px dashed var(--line-strong); border-radius: 18px; background: #fff;
+  font-family: var(--f-display); font-weight: 700; font-size: 17px; text-align: center; word-break: keep-all; }
+.h-review span { display: block; margin-top: 6px; font-family: var(--f-body); font-weight: 400; font-size: 13px; color: var(--ink-3); line-height: 1.55; }
+.pillars.short .pillar { padding: 14px 16px; }
+
 /* ── 첫 화면 아래: 후불제 장례와 가격부터, 급한 절차와 기준은 맨 아래 ── */
 .s { background: var(--paper); color: var(--ink); }
 .s-inner { max-width: 1000px; margin: 0 auto; padding: 40px 20px 36px; }
@@ -332,7 +337,7 @@ a { color: inherit; }
   "name": "고마움 상조",
   "url": "https://gomaumsangjo.com/",
   "telephone": "+82-10-6783-0070",
-  "description": "미리 받지 않는 후불제 상조. 상품과 품목별 가격을 공개합니다.",
+  "description": "미리 받지 않는 후불제 상조. 상품과 항목별 가격을 공개합니다.",
   "inLanguage": "ko"
 }
 </script>
@@ -438,8 +443,8 @@ a { color: inherit; }
     <div class="h-prices" aria-label="상품 가격">
       <a href="sangpum.html#tier1"><span class="nm">조용히 <small>(무빈소 장례)</small></span><span class="pr">119만 원</span></a>
       <a href="sangpum.html#tier2"><span class="nm">가족장</span><span class="pr">260만 원</span></a>
-      <a href="sangpum.html#tier3"><span class="nm">따뜻이 <small>(3일장)</small></span><span class="pr">350만 원</span></a>
-      <a href="sangpum.html#tier4"><span class="nm">정성껏 <small>(3일장)</small></span><span class="pr">490만 원</span></a>
+      <a href="sangpum.html#tier3"><span class="nm">따뜻이</span><span class="pr">350만 원</span></a>
+      <a href="sangpum.html#tier4"><span class="nm">정성껏</span><span class="pr">490만 원</span></a>
       <p class="h-prices-note">미리 받지 않고 발인 전에 한 번 정산합니다. 장례식장 사용료·식대, 화장료, 장지 비용은 별도로 각 시설에 직접 내십니다.</p>
     </div>
     <div class="feed">
@@ -452,34 +457,14 @@ a { color: inherit; }
         <div class="pic"><img src="assets/img/card-hubul.jpg" alt="" loading="lazy"></div>
       </a>
       <a class="card cream" href="danga.html">
-        <div><p class="lab">공개합니다</p><h3>품목별 단가표</h3><p>장례지도사·도우미·차량·수의·관까지 품목마다 값을 적었습니다.</p></div>
+        <div><p class="lab">공개합니다</p><h3>항목별 가격</h3><p>인력·차량·수의와 관·유골함·용품, 다섯 묶음으로 가격을 적었습니다.</p></div>
         <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9.5 8h5M9.5 12h5M9.5 16h3"/></svg></div>
-      </a>
-    </div>
-
-    <div class="feed-title"><h2>비용·장소 알아보기</h2></div>
-    <div class="feed">
-      <a class="card mint" href="sikjang.html">
-        <div><p class="lab">지금 계신 곳에서</p><h3>장례식장·납골당 찾기</h3><p>가까운 순서로, 전화와 길찾기까지. 지역을 골라 찾을 수도 있습니다.</p></div>
-        <div class="pic round"><img src="assets/img/card-sikjang.jpg" alt="" loading="lazy"></div>
-      </a>
-      <a class="card grey" href="gaeum.html">
-        <div><p class="lab">계산기</p><h3>장례비 가늠</h3><p>조건을 넣으면 대략의 액수가 나옵니다. 장례비가 대체로 얼마나 드는지.</p></div>
-        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M8 7h8M8 11h2M12 11h2M16 11h.01M8 15h2M12 15h2M16 15v4"/></svg></div>
-      </a>
-      <a class="card cream" href="jeoul.html">
-        <div><p class="lab">점검</p><h3>내 상조 점검</h3><p>지금 붓는 상조가 괜찮은지. 해약환급금을 계산해 보면 대략 드러납니다.</p></div>
-        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.4-3.2 8-8 9-4.8-1-8-4.6-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
-      </a>
-      <a class="card grey" href="gyeolhap.html">
-        <div><p class="lab">여덟 문항</p><h3>결합상품 판별</h3><p>적금인 줄 알았는데 상조 결합상품이었다면. 여덟 가지만 짚어 보면 압니다.</p></div>
-        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></div>
       </a>
     </div>
 
     <div class="feed-title"><h2>이런 장례도 있습니다</h2></div>
     <div class="feed">
-      <a class="card cream" href="mubinso.html">
+      <a class="card mint" href="mubinso.html">
         <div><p class="lab">무빈소 장례</p><h3>프라이빗 장례</h3><p>빈소 없이 가족만. 접객 대신 고인 곁에 머무는 시간.</p></div>
         <div class="pic round"><img src="assets/img/card-mubinso.jpg" alt="" loading="lazy"></div>
       </a>
@@ -489,27 +474,28 @@ a { color: inherit; }
       </a>
     </div>
 
-    <div class="feed-title"><h2>고마움 상조</h2></div>
+    <div class="feed-title"><h2>찾고 가늠하기</h2></div>
+    <div class="feed">
+      <a class="card grey" href="sikjang.html">
+        <div><p class="lab">지금 계신 곳에서</p><h3>장례식장·납골당 찾기</h3><p>가까운 순서로, 전화와 길찾기까지. 지역을 골라 찾을 수도 있습니다.</p></div>
+        <div class="pic round"><img src="assets/img/card-sikjang.jpg" alt="" loading="lazy"></div>
+      </a>
+      <a class="card cream" href="gaeum.html">
+        <div><p class="lab">계산기</p><h3>장례비 가늠</h3><p>조건을 넣으면 대략의 액수가 나옵니다. 장례비가 대체로 얼마나 드는지.</p></div>
+        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M8 7h8M8 11h2M12 11h2M16 11h.01M8 15h2M12 15h2M16 15v4"/></svg></div>
+      </a>
+    </div>
+
+    <div class="feed-title"><h2>후기</h2><a href="girok.html">장례 모습</a></div>
+    <p class="h-review">여러분의 이야기가 후기로 채워집니다.<span>장례를 마친 뒤 가족께 후기 링크를 보내 드리고, 게시에 동의하신 글만 올립니다.</span></p>
     <div class="feed">
       <a class="card cream" href="girok.html">
-        <div><p class="lab">저희가 모신 장례</p><h3>장례 기록</h3><p>어느 장례식장에서 며칠, 무엇이 어려웠는지. 유족 동의를 받은 기록만 한 건씩 올립니다.</p></div>
+        <div><p class="lab">미리 보는 장례</p><h3>장례 모습</h3><p>장례식장과 고별 공간, 네 가지 상품의 모습을 미리 보세요.</p></div>
         <div class="pic round"><img src="assets/img/card-girok.jpg" alt="" loading="lazy"></div>
-      </a>
-      <a class="card mint" href="sosik.html">
-        <div><p class="lab">읽고 가시는 글</p><h3>소식</h3><p>상조 가입 전에 확인할 것, 해약환급금, 무빈소 장례. 저희가 현장에서 본 대로 적습니다.</p></div>
-        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2z"/><path d="M19 8h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h3.5"/></svg></div>
       </a>
       <a class="card grey" href="faq.html">
         <div><p class="lab">열다섯 가지</p><h3>자주 묻는 질문</h3><p>가입 없이 지금 되나요. 상품 가격은, 추가 비용은, 정산은 언제.</p></div>
         <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.2a2.7 2.7 0 0 1 5.2.9c0 1.8-2.6 2.2-2.6 3.9"/><path d="M12 17.4h.01"/></svg></div>
-      </a>
-    </div>
-
-    <div class="feed-title"><h2>장례가 끝난 뒤</h2><a href="kiil.html">자세히</a></div>
-    <div class="feed">
-      <a class="card forest wide" href="kiil.html">
-        <div><p class="lab">준비 중</p><h3>기일 리마인드</h3><p>기일 전에 먼저 안부를 전하는 서비스를 준비하고 있습니다. 제공 범위와 신청 방법은 출시할 때 안내합니다.</p></div>
-        <div class="pic"><img src="assets/img/card-kiil.jpg" alt="" loading="lazy"></div>
       </a>
     </div>
 
@@ -519,23 +505,13 @@ a { color: inherit; }
         <div><p class="lab">지금</p><h3>무엇부터 해야 하나</h3><p>임종 직후 무엇을 어떤 순서로 하는지. 콜센터로 연락 주시면 함께 짚어 드립니다.</p></div>
         <div class="pic round"><img src="assets/img/card-jeolcha.jpg" alt="" loading="lazy"></div>
       </a>
-      <a class="card grey" href="bugo.html">
-        <div><p class="lab">읽고 가시는 글</p><h3>부고 쓰는 법</h3><p>무엇을 적고 무엇을 빼는가. 종교에 따라 달라지는 표현과 조문 답장까지.</p></div>
-        <div class="pic ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H8l-4 3v-4.6A8 8 0 0 1 11 4h2a8 8 0 0 1 8 8z"/><path d="M9 10h6M9 14h4"/></svg></div>
-      </a>
     </div>
 
     <div class="feed-title"><h2>고마움 상조의 기준</h2><a href="yaksok.html">대표의 글</a></div>
-    <div class="pillars">
-      <div class="pillar"><div class="num">01</div><div><h3>정직</h3><p>미리 받지 않습니다. 가격은 홈페이지에 공개하고, 정산서에 없는 돈은 요구하지 않습니다. 요구하면 저희 몫은 0원입니다.</p></div></div>
-      <div class="pillar"><div class="num">02</div><div><h3>전문</h3><p>대표가 2006년부터 장례 현장에서 일했습니다. 임종부터 발인까지 사흘 동안 가족 곁에서 무엇이 필요한지 압니다.</p></div></div>
-      <div class="pillar"><div class="num">03</div><div><h3>함께</h3><p>장례가 끝나도 끝이 아닙니다. 기일 전에 먼저 안부를 전하는 일을 준비하고 있습니다.</p></div></div>
-    </div>
-    <div class="feed" style="margin-top:12px">
-      <a class="card mint" href="yaksok.html">
-        <div><p class="lab">김병호 · 장례 현장 2006년부터</p><h3>대표의 글</h3><p>장례가 돈 걱정이 아니라, 고마움으로 남도록. 왜 이 일을 시작했는지.</p></div>
-        <div class="pic round"><img src="assets/img/card-daepyo.jpg" alt="고마움 상조 대표 김병호" loading="lazy"></div>
-      </a>
+    <div class="pillars short">
+      <div class="pillar"><div class="num">01</div><div><h3>정직</h3><p>미리 받지 않고, 가격을 공개합니다.</p></div></div>
+      <div class="pillar"><div class="num">02</div><div><h3>전문</h3><p>대표가 2006년부터 장례 현장에서 일했습니다.</p></div></div>
+      <div class="pillar"><div class="num">03</div><div><h3>함께</h3><p>장례가 끝나도 기일에 먼저 안부를 전하려 합니다.</p></div></div>
     </div>
     <p class="pic-note">카드의 사진은 참고용 이미지입니다. 실제 시설·용품·현장과 다를 수 있습니다.</p>
   </div>
@@ -548,7 +524,12 @@ a { color: inherit; }
         <p class="ft">후불제 장례</p>
         <a href="sangpum.html">상품 안내</a>
         <a href="hubul.html">후불제 장례</a>
-        <a href="danga.html">품목별 단가표</a>
+        <a href="danga.html">항목별 가격</a>
+      </div>
+      <div class="fcol">
+        <p class="ft">이런 장례도 있습니다</p>
+        <a href="mubinso.html">프라이빗 장례</a>
+        <a href="christian.html">기독교 장례</a>
       </div>
       <div class="fcol">
         <p class="ft">비용·장소 알아보기</p>
@@ -558,15 +539,10 @@ a { color: inherit; }
         <a href="gyeolhap.html">결합상품 판별</a>
       </div>
       <div class="fcol">
-        <p class="ft">이런 장례도 있습니다</p>
-        <a href="mubinso.html">프라이빗 장례</a>
-        <a href="christian.html">기독교 장례</a>
-      </div>
-      <div class="fcol">
-        <p class="ft">고마움 상조</p>
-        <a href="girok.html">장례 기록</a>
-        <a href="sosik.html">소식</a>
+        <p class="ft">후기와 질문</p>
+        <a href="girok.html">장례 모습</a>
         <a href="faq.html">자주 묻는 질문</a>
+        <a href="sosik.html">소식</a>
       </div>
       <div class="fcol">
         <p class="ft">장례가 끝난 뒤</p>

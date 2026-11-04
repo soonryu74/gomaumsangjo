@@ -13,7 +13,8 @@ const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
 const read = (f) => fs.readFileSync(path.join(ROOT, f), "utf8");
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"));
 // 내린 쪽: 옛 주소로 오는 분을 홈으로 보내는 안내만 남았다. 메뉴·바닥글 검사에서 뺀다.
-const GONE = new Set(["404.html", "hyeopryeok.html"]);
+const GONE_SET = new Set(["404.html", "hyeopryeok.html"]);
+const GONE = { has: (f) => GONE_SET.has(f) || fs.readFileSync(path.join(ROOT, f), "utf8").includes("data-gm-retired") };
 
 let fail = 0;
 const ok = (m) => console.log("  OK   " + m);
@@ -155,8 +156,11 @@ console.log("\n[5] 쪽 이름이 한 가지로 불리는가");
     .filter((f) => (read(f).match(/class="rest"/g) || []).length !== 3);
   restOff.length ? bad("줄임 표시가 머리 차림표 밖에 새어 나감: " + restOff.join(" "))
                  : ok("줄임 표시 — 머리 차림표에만, 쪽마다 세 군데");
-  gotCards === wantCards
-    ? ok(`홈 카드 ${cards.length}장 — 차림표와 같은 이름, 같은 차례`)
+  // 홈은 차림표의 일부만 싣는다. 실린 카드는 차림표와 같은 이름, 같은 차례여야 한다.
+  const flatKeys = flat.map(([h, n]) => `${h}|${n}`); let at = -1;
+  const inOrder = cards.every(([h, n]) => { const k = flatKeys.indexOf(`${h}|${n}`, at + 1); if (k < 0) return false; at = k; return true; });
+  inOrder
+    ? ok(`홈 카드 ${cards.length}장 — 차림표에서 골라 같은 이름, 같은 차례`)
     : bad(`홈 카드가 차림표와 어긋남\n       차림표: ${wantCards}\n       홈    : ${gotCards}`);
 }
 

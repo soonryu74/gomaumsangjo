@@ -30,6 +30,7 @@ export function records() {
   const out = [], bad = [];
   for (const f of readdirSync(DIR).filter((f) => f.endsWith(".html")).sort().reverse()) {
     const s = readFileSync(path.join(DIR, f), "utf8");
+    if (s.includes("data-gm-retired")) continue; // 내린 기록: 옛 주소 안내만 남음
     const m = s.match(/<script type="application\/json" id="gm-girok">([\s\S]*?)<\/script>/);
     if (!m) { bad.push(`${f}: 정보 덩어리(gm-girok)가 없습니다`); continue; }
     let d;
@@ -46,7 +47,7 @@ export function records() {
 }
 
 export function listHtml(recs) {
-  if (!recs.length) return BEGIN + "\n    <p>아직 올린 기록이 없습니다.</p>\n    " + END;
+  if (!recs.length) return BEGIN + "\n    <p class=\"rec-empty\">여러분의 이야기가 후기로 채워집니다.</p>\n    " + END;
   const items = recs.map((r) =>
     `      <a class="rec-card" href="girok/${r.slug}.html">\n` +
     `        <p class="rec-meta"><span class="d">${esc(ymLabel(r.date))}</span><span class="p">${esc(r.place)}</span><span class="t">${esc(r.days)}</span></p>\n` +
@@ -75,7 +76,7 @@ function scaffold(slug) {
     throw new Error("이름은 2026-09-anyang-metro 꼴로 지어 주세요 (연-월-영문)");
   const target = path.join(DIR, slug + ".html");
   if (existsSync(target)) throw new Error(slug + ".html 이 이미 있습니다");
-  const base = readdirSync(DIR).filter((f) => f.endsWith(".html")).sort().pop();
+  const base = readdirSync(DIR).filter((f) => f.endsWith(".html") && !readFileSync(path.join(DIR, f), "utf8").includes("data-gm-retired")).sort().pop();
   if (!base) throw new Error("본뜰 기록이 없습니다");
   let s = readFileSync(path.join(DIR, base), "utf8");
   const ym = slug.slice(0, 7);
