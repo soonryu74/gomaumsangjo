@@ -1911,3 +1911,18 @@ section.gm-sec > h3 + ol { margin-top: 0; }
 .gal figcaption b a { color: inherit; }
 .gal figcaption span { font-size: 0.9rem; color: var(--ink-2); line-height: 1.55; word-break: keep-all; }
 .rec-empty { margin: 0 0 10px; padding: 18px; border: 1px dashed var(--line-strong); border-radius: 14px; color: var(--ink-3); text-align: center; }
+
+/* 후기 남기기 양식 */
+.hg { display: grid; gap: 8px; max-width: 640px; }
+.hg label { font-weight: 700; margin-top: 10px; }
+.hg label .hint, .hg .hint { font-weight: 400; color: var(--ink-3); font-size: 0.88rem; }
+.hg input[type=text], .hg textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: 12px; background: #fff; color: var(--ink); }
+.hg textarea { resize: vertical; line-height: 1.6; }
+.hg fieldset { border: 0; padding: 0; margin: 12px 0 0; display: grid; gap: 6px; }
+.hg legend { font-weight: 700; margin-bottom: 4px; }
+.hg .opt { font-weight: 400; margin: 0; display: flex; gap: 8px; align-items: flex-start; line-height: 1.55; }
+.hg .opt input { margin-top: 4px; width: 18px; height: 18px; flex: none; }
+.hg .agree { margin-top: 12px; padding: 12px 14px; background: var(--paper); border-radius: 12px; }
+.hg .need { color: var(--orange-deep); margin: 4px 0 0; }
+.hg-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.hg-btns .cta { border: 0; cursor: pointer; font: inherit; }
