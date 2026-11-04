@@ -5,33 +5,35 @@
   // 칸이 좁은 곳(폰 아래 딱지, 넓은 화면 위 차림표)은 줄여 쓸 수 있지만
   // 줄이는 것만 되고 다른 말로 바꾸지 않는다. SHORT 에 그 줄인 꼴을 적어 둔다.
   var GROUPS = [
-    { t: "지금 상을 당하셨다면", items: [
-      ["jeolcha.html", "무엇부터 해야 하나", "임종 직후 여섯 시간, 3일장"],
-      ["sikjang.html", "장례식장·납골당 찾기", "지금 계신 곳에서 가까운 순"],
-      ["bugo.html", "부고 쓰는 법", "무엇을 적고 무엇을 빼는가"]
-    ]},
     { t: "후불제 장례", items: [
-      ["hubul.html", "후불제 장례", "미리 받지 않는 장례, 선불과 무엇이 다른가"],
       ["sangpum.html", "상품 안내", "네 가지 상품과 가격, 포함 품목"],
+      ["hubul.html", "후불제 장례", "미리 받지 않는 장례, 선불과 무엇이 다른가"],
       ["danga.html", "품목별 단가표", "인력·차량·장례용품 가격"]
+    ]},
+    { t: "비용·장소 알아보기", items: [
+      ["sikjang.html", "장례식장·납골당 찾기", "지금 계신 곳에서 가까운 순"],
+      ["gaeum.html", "장례비 가늠", "조건을 넣으면 대략의 액수"],
+      ["jeoul.html", "내 상조 점검", "해약환급금 계산"],
+      ["gyeolhap.html", "결합상품 판별", "여덟 문항"]
     ]},
     { t: "이런 장례도 있습니다", items: [
       ["mubinso.html", "무빈소 장례", "빈소 없이 가족끼리, 무엇이 빠지고 남는가"],
       ["christian.html", "기독교 장례", "네 번의 예배"]
     ]},
-    { t: "재보고 따져보기", items: [
-      ["gaeum.html", "장례비 가늠", "조건을 넣으면 대략의 액수"],
-      ["jeoul.html", "내 상조 점검", "해약환급금 계산"],
-      ["gyeolhap.html", "결합상품 판별", "여덟 문항"]
+    { t: "고마움 상조", items: [
+      ["girok.html", "장례 기록", "저희가 모신 장례, 유족 동의를 받고"],
+      ["sosik.html", "소식", "장례를 앞두고 알아 두실 것"],
+      ["faq.html", "자주 묻는 질문", "비용, 정산, 도착 시간"]
     ]},
     { t: "장례가 끝난 뒤", items: [
       ["kiil.html", "기일 리마인드", "준비 중 · 기일 전에 먼저 연락"]
     ]},
-    { t: "고마움 상조", items: [
-      ["yaksok.html", "대표의 글", "김병호 · 장례 현장 2006년부터"],
-      ["girok.html", "장례 기록", "저희가 모신 장례, 유족 동의를 받고"],
-      ["sosik.html", "소식", "장례를 앞두고 알아 두실 것"],
-      ["faq.html", "자주 묻는 질문", "비용, 정산, 도착 시간"]
+    { t: "지금 상을 당하셨다면", items: [
+      ["jeolcha.html", "무엇부터 해야 하나", "임종 직후 여섯 시간, 3일장"],
+      ["bugo.html", "부고 쓰는 법", "무엇을 적고 무엇을 빼는가"]
+    ]},
+    { t: "고마움 상조의 기준", items: [
+      ["yaksok.html", "대표의 글", "김병호 · 장례 현장 2006년부터"]
     ]}
   ];
   // 칸이 좁은 자리에서 쓰는 줄인 이름. 없으면 본이름 그대로.
@@ -90,7 +92,7 @@
     '<a class="gm-menu-kakao" data-kakao href="#" hidden target="_blank" rel="noopener">카카오톡으로 문의</a>' +
     '<span>미리 받지 않습니다 · 가격 공개 · 쓰신 만큼만</span></div></div>';
 
-  // 하단 탭 (폰): 홈 · 무엇부터 · 상품 · 찾기 · 전화. 메뉴는 오른쪽 위 단추가 맡는다.
+  // 하단 탭 (폰): 홈 · 상품 · 무엇부터 · 찾기 · 전화. 메뉴는 오른쪽 위 단추가 맡는다.
   var I = {
     home: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>',
     now: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
@@ -105,8 +107,8 @@
     return "";
   }
   var TABS = [["./", "홈", I.home, "index.html"],
-    ["jeolcha.html", nameOf("jeolcha.html", 1), I.now, "jeolcha.html"],
     ["sangpum.html", nameOf("sangpum.html", 1), I.bugo, "sangpum.html"],
+    ["jeolcha.html", nameOf("jeolcha.html", 1), I.now, "jeolcha.html"],
     ["sikjang.html", nameOf("sikjang.html", 1), I.map, "sikjang.html"]];
   var tab = '<nav class="gm-tabbar" aria-label="하단 메뉴">';
   for (var t = 0; t < TABS.length; t++) tab += '<a href="' + u(TABS[t][0]) + '" class="' + (TABS[t][3] === here ? "on" : "") + '">' + TABS[t][2] + TABS[t][1] + '</a>';
