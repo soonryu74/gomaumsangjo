@@ -12,6 +12,8 @@ import path from "node:path";
 const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
 const read = (f) => fs.readFileSync(path.join(ROOT, f), "utf8");
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"));
+// 내린 쪽: 옛 주소로 오는 분을 홈으로 보내는 안내만 남았다. 메뉴·바닥글 검사에서 뺀다.
+const GONE = new Set(["404.html", "hyeopryeok.html"]);
 
 let fail = 0;
 const ok = (m) => console.log("  OK   " + m);
@@ -129,7 +131,7 @@ console.log("\n[5] 쪽 이름이 한 가지로 불리는가");
   const flat = G.flatMap((g) => g.items);
   // 5-1 바닥 메뉴가 GROUPS 와 같은가
   const { allPages } = await import("./nav.mjs");
-  const all = allPages().filter(({ f }) => f !== "404.html");
+  const all = allPages().filter(({ f }) => !GONE.has(f));
   const drift = all.filter(({ f, up }) =>
     (read(f).match(/<nav class="fnav"[\s\S]*?<\/nav>/) || [""])[0] !== footerNav(up)).map(({ f }) => f);
   drift.length
@@ -149,7 +151,7 @@ console.log("\n[5] 쪽 이름이 한 가지로 불리는가");
   const wantCards = flat.map(([h, n]) => `${h}|${n}`).join(" ");
   const gotCards = cards.map(([h, n]) => `${h}|${n}`).join(" ");
   // 5-4 줄임 표시는 머리 차림표에만 있어야 한다 (쪽마다 세 군데)
-  const restOff = pages.filter((f) => f !== "404.html")
+  const restOff = pages.filter((f) => !GONE.has(f))
     .filter((f) => (read(f).match(/class="rest"/g) || []).length !== 3);
   restOff.length ? bad("줄임 표시가 머리 차림표 밖에 새어 나감: " + restOff.join(" "))
                  : ok("줄임 표시 — 머리 차림표에만, 쪽마다 세 군데");
